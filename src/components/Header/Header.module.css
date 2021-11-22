@@ -1,0 +1,12 @@
+.header {
+    height: 50px;
+    background-color: #08152c;
+    display: flex;
+}
+
+.link {
+    padding-top: 10px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: gray;
+}
