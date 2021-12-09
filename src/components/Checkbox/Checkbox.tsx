@@ -1,5 +1,5 @@
 import React, { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from "react"
-import style                                                          from "./Checkbox.module.css"
+import style from "./Checkbox.module.css"
 
 // тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>

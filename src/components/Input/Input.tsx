@@ -1,5 +1,5 @@
 import React, { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent } from "react"
-import style                                                                         from "./Input.module.css"
+import style from "./Input.module.css"
 
 // тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>

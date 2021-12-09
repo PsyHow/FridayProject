@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import { Login }         from "./Login";
-import { Profile }       from "./Profile/Profile";
-import { SingUp }        from "./SIngUp/SingUp";
-import { Restore }       from "./PasswordRestore/Restore";
-import { NewPassword }   from "./NewPassword/NewPassword";
-import { Test }          from "./Test/Test";
-import { Error }         from "./Error"
+import { Login } from "./Login";
+import { Profile } from "./Profile/Profile";
+import { SingUp } from "./SIngUp/SingUp";
+import { Restore } from "./PasswordRestore/Restore";
+import { NewPassword } from "./NewPassword/NewPassword";
+import { Test } from "./Test/Test";
+import { Error } from "./Error"
 
 export const PATH = {
     LOGIN: "login",
