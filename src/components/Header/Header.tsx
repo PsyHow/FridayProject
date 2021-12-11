@@ -9,6 +9,7 @@ export const Header = () => {
             <NavLink className={ style.link } to={ PATH.LOGIN }>Login</NavLink>
             <NavLink className={ style.link } to={ PATH.SIGN_UP }>Sign Up</NavLink>
             <NavLink className={ style.link } to={ PATH.TEST }>Test</NavLink>
+            <NavLink className={ style.link } to={ PATH.PASSWORD_RESTORE }>Restore</NavLink>
         </div>
     )
 }
