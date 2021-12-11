@@ -1,5 +1,5 @@
-import Input from "../../../../components/Input/Input";
-import Button from "../../../../components/Button/Button";
+import Input from "../../../../../components/Input/Input";
+import Button from "../../../../../components/Button/Button";
 import style from "./Restore.module.css"
 
 
@@ -16,7 +16,6 @@ export const Restore = (props: PropsType) => {
                            onChangeText={ onChangeText }
                            value={ email }
                            error={ error }/>
-                    { error !== null ? <span>{ error }</span> : null }
                     <Button onClick={ onClickHandler }>Send</Button>
                 </div>
             }
