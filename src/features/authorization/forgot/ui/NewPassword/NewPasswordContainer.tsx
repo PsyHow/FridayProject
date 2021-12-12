@@ -8,12 +8,13 @@ import { NewPassword } from "./NewPassword";
 
 export const NewPasswordContainer = () => {
 
-    const { token } = useParams<"token">()
-    const [pass, setPass] = useState<string>('')
-    const [confirmPass, setConfirmPass] = useState<string>('')
+    const { token } = useParams<"token">();
+    const [pass, setPass] = useState<string>('');
+    const [confirmPass, setConfirmPass] = useState<string>('');
     const dispatch = useDispatch();
-    const error = useSelector<AppRootStoreType, string | null>(state => state.recovery.error)
-    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.recovery.isFetching)
+    const error = useSelector<AppRootStoreType, string | null>(state => state.recovery.error);
+    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.recovery.isFetching);
+    const setNewPassword = useSelector<AppRootStoreType, boolean>(state => state.recovery.setNewPassword);
 
     const onSubmit = () => {
         if(pass !== confirmPass) {
@@ -36,5 +37,6 @@ export const NewPasswordContainer = () => {
                         error={ error }
                         onSubmit={ onSubmit }
                         isFetching={ isFetching }
-                        onChangeConfirmPass={ onChangeConfirmPass }/>
+                        onChangeConfirmPass={ onChangeConfirmPass }
+                        setNewPassword={setNewPassword}/>
 }

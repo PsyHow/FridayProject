@@ -10,6 +10,7 @@ export const PasswordRestoreContainer = () => {
 
     const error = useSelector<AppRootStoreType, null | string>(state => state.recovery.error)
     const isFetching = useSelector<AppRootStoreType, boolean>(state => state.recovery.isFetching)
+    const sendEmail = useSelector<AppRootStoreType, boolean>(state => state.recovery.sendEmail)
     const dispatch = useDispatch()
 
     const onChangeEmail = (value: string) => {
@@ -35,6 +36,7 @@ export const PasswordRestoreContainer = () => {
                  onChangeText={ onChangeEmail }
                  onClickHandler={ onClickHandler }
                  error={ error }
-                 isFetching={ isFetching }/>
+                 isFetching={ isFetching }
+                 sendEmail={sendEmail}/>
     )
 }
