@@ -1,10 +1,10 @@
 import { Restore } from "./Restore";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppRootStoreType } from "../../../../bll/Store";
-import { recoverTC, setError } from "../../../../bll/passwordRecoverReducer";
+import { AppRootStoreType } from "../../../../../bll/Store";
+import { recoverTC, setError } from "../../../../../bll/passwordRecoverReducer";
 
-export const PasswordRecoverContainer = () => {
+export const PasswordRestoreContainer = () => {
 
     const [email, setEmail] = useState<string>('')
 
