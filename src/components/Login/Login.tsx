@@ -1,13 +1,14 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, { ChangeEvent, useState } from "react";
 import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
-import {loginTC} from "../../bll/loginReducer";
-import {AppRootStoreType} from "../../bll/Store";
-import {Navigate, NavLink} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginTC } from "../../bll/loginReducer";
+import { AppRootStoreType } from "../../bll/Store";
+import { Navigate, NavLink } from "react-router-dom";
 import styles from "./Login.module.css"
 
 const instance = axios.create({
-    baseURL: "https://neko-back.herokuapp.com/2.0"// "http://localhost:7542/2.0/"
+    baseURL: "http://localhost:7542/2.0/"
+    // "https://neko-back.herokuapp.com/2.0"
 })
 
 export const authAPI = {
