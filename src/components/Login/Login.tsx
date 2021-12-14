@@ -7,8 +7,8 @@ import { Navigate, NavLink } from "react-router-dom";
 import styles from "./Login.module.css"
 
 const instance = axios.create({
-    baseURL: "http://localhost:7542/2.0/"
-    // "https://neko-back.herokuapp.com/2.0"
+    baseURL: "https://neko-back.herokuapp.com/2.0"
+    // "http://localhost:7542/2.0/"
 })
 
 export const authAPI = {
@@ -67,7 +67,7 @@ export const Login = () => {
                 {/*password*/}
 
 
-                <NavLink to={"#"} className={styles.forgot}>Forgot Password</NavLink>
+                <NavLink to={"/restore"} className={styles.forgot}>Forgot Password</NavLink>
 
                 {errorShow ? <>
                         {error && <span className={styles.error}>{error}</span>}

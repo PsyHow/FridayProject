@@ -1,17 +1,15 @@
 let initialState : InitialStateType = {
     user: {
-        _id: "This is my id",
+        _id: "fake_ID",
         email: "here is my email",
         name: "What for do i need a name , i have id",
         publicCardPacksCount: 0,
         created: null,
-
         updated: null,
         isAdmin: false,
         verified: false,
         rememberMe: false,
         error: "no errors",
-
         avatar: "some link will be here"
     },
 

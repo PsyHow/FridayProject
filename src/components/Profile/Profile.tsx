@@ -4,17 +4,25 @@ import {AppRootStoreType} from "../../bll/Store";
 import {UserType} from "../../bll/profileReducer";
 
 export const Profile = () => {
-    let user = useSelector<AppRootStoreType,UserType>( state => state.profileReducer.user)
+    let user = useSelector<AppRootStoreType, UserType>(state => state.profileReducer.user)
 
 
     const style = {
-        width : "200px",
-        height : "200px"
+        width: "200px",
+        height: "200px"
     }
     return (
         <div>
-            <span>{user.name}</span>
-            <img style={style} src={user.avatar} alt="user avatar"/>
+            {
+                user._id === "fake_ID"
+                    ? <span>You need to login first</span>
+                    : <>
+                        <span>{user.name}</span>
+                        <img style={style} src={user.avatar} alt="user avatar"/>
+                    </>
+            }
+
+
         </div>
     )
 }
