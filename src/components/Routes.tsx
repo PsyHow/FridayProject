@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./Login";
 import { Profile } from "./Profile/Profile";
-import { SignUp } from "./SIgnUp/SignUp";
+import { SignUpContainer} from "../features/authorization/signUp/SignUpContainer";
 import { Test } from "./Test/Test";
 import { Error } from "./Error"
 import { PasswordRestoreContainer } from "../features/authorization/forgot/ui/PasswordRestore/PasswordRestoreContainer";
@@ -21,7 +21,7 @@ export const Routing = () => {
         <Routes>
             <Route path={ "/" } element={ <Login/> }/>
             <Route path={ PATH.PROFILE } element={ <Profile/> }/>
-            <Route path={ PATH.SIGN_UP } element={ <SignUp/> }/>
+            <Route path={ PATH.SIGN_UP } element={ <SignUpContainer/> }/>
             <Route path={ PATH.PASSWORD_RESTORE } element={ <PasswordRestoreContainer/> }/>
             <Route path={ PATH.NEW_PASSWORD } element={ <NewPasswordContainer/> }/>
             <Route path={ PATH.TEST } element={ <Test/> }/>

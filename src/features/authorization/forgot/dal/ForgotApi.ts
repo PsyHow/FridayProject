@@ -23,6 +23,9 @@ export const registrationAPI = {
     newPassword(data: NewPasswordRequestType) {
         return instance.post(`auth/set-new-password/`, data)
     },
+    signUp(email: string, password: string){
+        return instance.post(`auth/register`, {email, password})
+    }
 }
 
 //types
