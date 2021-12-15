@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
 import { Routing } from "./components/Routes";
-import { Header } from "./components/Header/Header";
-// testing push to GH
+import { Navbar } from "./components/Navbar/Navbar";
+
+
 export const App = () => {
     return (
         <div className="App">
-            <Header/>
+            <Navbar/>
             <Routing/>
         </div>
     );
