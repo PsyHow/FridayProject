@@ -30,7 +30,7 @@ export const NewPassword = (props: PropsType) => {
                        placeholder={ "Confirm new password" }
                        onChangeText={ onChangeConfirmPass }
                        value={ confirmPass } error={ error }/>
-                <Button onClick={ onSubmit }>Create new password</Button>
+                <Button onClick={ onSubmit } disabled={ isFetching }>Create new password</Button>
             </div>
         </div>
     )

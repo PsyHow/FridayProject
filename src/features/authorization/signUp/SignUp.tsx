@@ -23,7 +23,7 @@ export const SignUp = (props: PropsType) => {
                            onChangeText={ onChangePassword }
                            value={ password }
                            error={ passwordError }/>
-                    <Button onClick={ onClickHandler }>Register</Button>
+                    <Button onClick={ onClickHandler } disabled={ isFetching }>Register</Button>
                 </div>
             }
         </div>

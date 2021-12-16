@@ -7,7 +7,7 @@ import { Navigate, NavLink } from "react-router-dom";
 import styles from "./Login.module.css"
 
 const instance = axios.create({
-    baseURL: "https://neko-back.herokuapp.com/2.0"
+    baseURL: "http://localhost:7542/2.0/"
     // "http://localhost:7542/2.0/"
 })
 

@@ -6,7 +6,14 @@ import { SendEmail } from "../SendEmail/SendEmail";
 
 export const Restore = (props: PropsType) => {
 
-    const { email, error, onChangeText, onClickHandler, isFetching, sendEmail } = props
+    const {
+        email,
+        error,
+        onChangeText,
+        onClickHandler,
+        isFetching,
+        sendEmail,
+    } = props
 
     return (
         <div>
@@ -21,8 +28,9 @@ export const Restore = (props: PropsType) => {
                            onChangeText={ onChangeText }
                            value={ email }
                            error={ error }/>
-                    <h5>Enter your email address and we will send you further instructions</h5>
-                    <Button onClick={ onClickHandler }>Send</Button>
+                    <h5>Enter your email address and we will send you further
+                        instructions</h5>
+                    <Button onClick={ onClickHandler } disabled={ isFetching }>Send</Button>
                 </div>
                 : <SendEmail/>
             }
