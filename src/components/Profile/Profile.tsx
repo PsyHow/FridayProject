@@ -1,11 +1,12 @@
 import React from "react";
-import {useSelector} from "react-redux";
-import {AppRootStoreType} from "../../bll/Store";
-import {UserType} from "../../bll/profileReducer";
+import { useSelector } from "react-redux";
+import { AppRootStoreType } from "../../bll/Store";
+import { UserType } from "../../bll/profileReducer";
 
 export const Profile = () => {
-    let user = useSelector<AppRootStoreType, UserType>(state => state.profileReducer.user)
 
+    let user = useSelector<AppRootStoreType, UserType>(state => state.profileReducer.user)
+    const loggedIn = useSelector<AppRootStoreType,boolean>(state=> state.loginReducer.isLogged)
 
     const style = {
         width: "200px",
@@ -14,7 +15,7 @@ export const Profile = () => {
     return (
         <div>
             {
-                user._id === "fake_ID"
+                !loggedIn
                     ? <span>You need to login first</span>
                     : <>
                         <span>{user.name}</span>

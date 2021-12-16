@@ -35,6 +35,24 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
     }
 }
 
+export const authMe = () => (dispatch:Dispatch) => {
+    authAPI.me()
+        .then(res=> {
+            dispatch(loggingInAC(true))
+            dispatch(setUser(res.data.data))
+        })
+        .catch(()=> {
+            dispatch(loggingInAC(false))
+        })
+}
+
+export const logout = () => (dispatch:Dispatch) => {
+    authAPI.logout()
+        .then((res)=> {
+            dispatch(loggingInAC(false))
+        })
+}
+
 // ACTION CREATORS
 const loginFailAC = (error: string) => ({
     type: "LOGIN_FAILED",
