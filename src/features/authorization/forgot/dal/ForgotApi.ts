@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 
 const instanceDev = axios.create({
     withCredentials: true,
-    baseURL: "https://back-from-friday-project.herokuapp.com/2.0/",
+    baseURL: "https://neko-back.herokuapp.com/2.0",
 })
 
 const instance = axios.create({
@@ -10,7 +10,7 @@ const instance = axios.create({
     baseURL: "http://localhost:7542/2.0/",
 })
 
-const from = "test-front-admin <ai73a@yandex.by>"
+const from = "test-front-admin <viktorburnyshev@gmail.com"
 
 const message = "\n<div style=\"background-color: #520a27; padding: 15px\">\npassword recovery link: \n<a href='http://localhost:3000/#/set-new-password/$token$'>link</a>\n</div>\n"
 

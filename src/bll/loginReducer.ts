@@ -39,7 +39,7 @@ export const authMe = () => (dispatch:Dispatch) => {
     authAPI.me()
         .then(res=> {
             dispatch(loggingInAC(true))
-            dispatch(setUser(res.data.data))
+            dispatch(setUser(res.data))
         })
         .catch(()=> {
             dispatch(loggingInAC(false))
