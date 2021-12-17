@@ -26,6 +26,7 @@ export const NewPasswordContainer = () => {
 
     const onChangePass = (value: string) => {
         setPass(value)
+        dispatch(setError(null))
     }
     const onChangeConfirmPass = (value: string) => {
         setConfirmPass(value)

@@ -69,7 +69,8 @@ export const newPassword = (password: string, token: string) => (dispatch: Dispa
 //types
 type InitialStateType = typeof initialState
 
+export type SetErrorType = ReturnType<typeof setError>
 type passwordRecoverActionTypes = ReturnType<typeof isFetching>
-    | ReturnType<typeof setError>
     | ReturnType<typeof setNewPassword>
     | ReturnType<typeof sendEmail>
+    | SetErrorType

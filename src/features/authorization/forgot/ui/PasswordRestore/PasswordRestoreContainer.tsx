@@ -18,12 +18,14 @@ export const PasswordRestoreContainer = () => {
         if(error !== null) {
             dispatch(setError(error))
         }
+        dispatch(setError(null))
     }
 
     const onClickHandler = () => {
         if(email === '') {
             dispatch(setError('Required'))
-        } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+        }
+        if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
             dispatch(setError('Invalid email address'))
         } else {
             dispatch(recoverTC(email))
@@ -37,6 +39,6 @@ export const PasswordRestoreContainer = () => {
                  onClickHandler={ onClickHandler }
                  error={ error }
                  isFetching={ isFetching }
-                 sendEmail={sendEmail}/>
+                 sendEmail={ sendEmail }/>
     )
 }

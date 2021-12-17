@@ -1,29 +1,31 @@
 import style from "../forgot/ui/PasswordRestore/Restore.module.css";
-import Input from "../../../components/Input/Input";
+import SuperInputText from "../../../components/Input/Input";
 import Button from "../../../components/Button/Button";
 
 export const SignUp = (props: PropsType) => {
 
-    const { email, onChangeEmail, emailError,
-        password,onChangePassword,passwordError,
-        onClickHandler, isFetching } = props
+    const {
+        email, onChangeEmail, error,
+        password, onChangePassword,
+        onClickHandler, isFetching,
+    } = props
 
     return (
         <div>
             { isFetching ? <span className={ style.loading }>loading</span>
                 : <div className={ style.container }>
                     <h1>Sign Up</h1>
-                    <Input type={ "email" }
-                           placeholder={ "Enter Email" }
-                           onChangeText={ onChangeEmail }
-                           value={ email }
-                           error={ emailError }/>
-                    <Input type={ "password" }
-                           placeholder={ "Enter Password" }
-                           onChangeText={ onChangePassword }
-                           value={ password }
-                           error={ passwordError }/>
-                    <Button onClick={ onClickHandler } disabled={ isFetching }>Register</Button>
+                    <SuperInputText type={ "email" }
+                                    placeholder={ "Enter Email" }
+                                    onChangeText={ onChangeEmail }
+                                    value={ email }/>
+                    <SuperInputText type={ "password" }
+                                    placeholder={ "Enter Password" }
+                                    onChangeText={ onChangePassword }
+                                    value={ password }
+                                    error={ error }/>
+                    <Button onClick={ onClickHandler }
+                            disabled={ isFetching }>Register</Button>
                 </div>
             }
         </div>
@@ -33,10 +35,11 @@ export const SignUp = (props: PropsType) => {
 type PropsType = {
     email: string
     onChangeEmail: (value: string) => void
-    emailError: null | string
+    // emailError: null | string
     password: string
     onChangePassword: (value: string) => void
-    passwordError: null | string
+    // passwordError: null | string
     isFetching: boolean
     onClickHandler: () => void
+    error: null | string
 }
