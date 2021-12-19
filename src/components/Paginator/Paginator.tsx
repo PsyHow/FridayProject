@@ -2,13 +2,14 @@ import style from "./Paginator.module.css";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { AppRootStoreType } from "../../bll/Store";
+import { setCurrentPageAC } from "../../bll/paginator_reducer/paginator_reducer";
 
 export const Paginator = () => {
     const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.pageReducer.totalItemsCount)
+    const currentPage = useSelector<AppRootStoreType, number>(state => state.pageReducer.currentPage)
+    const pageSize = useSelector<AppRootStoreType, number>(state => state.pageReducer.pageSize)
 
     const [portionNumber, setPortionNumber] = useState<number>(1)
-    const [currentPage, setCurrentPage] = useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(10)
 
     const pagesCount = Math.ceil(totalItemsCount / pageSize)
     const pages = []
@@ -21,9 +22,8 @@ export const Paginator = () => {
     const leftPortionPageNumber = ( portionNumber - 1 ) * portionSize + 1
     const rightPortionPageNumber = portionNumber * portionSize
 
-    const onPageChanged = (page: number, pageSize?: number | undefined) => {
-        setPageSize(pageSize as number)
-        setCurrentPage(page)
+    const onPageChanged = (page: number) => {
+        setCurrentPageAC(page)
     }
 
     return (
@@ -36,7 +36,7 @@ export const Paginator = () => {
                 .map(m =>
                     <span
                         className={ currentPage === m ? style.selectedPage : style.pageNumber }
-                        onClick={()=> {onPageChanged(m)} }>
+                        onClick={ () => {onPageChanged(m)} }>
                 { m }
             </span>)
             }

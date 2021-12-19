@@ -1,8 +1,8 @@
-import Input from "../../../../../components/Input/Input";
+import SuperInputText from "../../../../../components/Input/Input";
 import Button from "../../../../../components/Button/Button";
 import style from "./NewPassword.module.css"
 import { Navigate } from "react-router-dom";
-import SuperInputText from "../../../../../components/Input/Input";
+import React from "react";
 
 export const NewPassword = (props: PropsType) => {
 
@@ -24,14 +24,15 @@ export const NewPassword = (props: PropsType) => {
             <div className={ style.container }>
                 <h1>Create new Password</h1>
                 <SuperInputText type={ "password" }
-                       placeholder={ "Enter new password" }
-                       onChangeText={ onChange }
-                       value={ password }/>
+                                placeholder={ "Enter new password" }
+                                onChangeText={ onChange }
+                                value={ password }/>
                 <SuperInputText type={ "password" }
-                       placeholder={ "Confirm new password" }
-                       onChangeText={ onChangeConfirmPass }
-                       value={ confirmPass } error={ error }/>
-                <Button onClick={ onSubmit } disabled={ isFetching }>Create new password</Button>
+                                placeholder={ "Confirm new password" }
+                                onChangeText={ onChangeConfirmPass }
+                                value={ confirmPass } error={ error }/>
+                <Button onClick={ onSubmit } disabled={ isFetching }>Create new
+                    password</Button>
             </div>
         </div>
     )
