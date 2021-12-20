@@ -13,15 +13,15 @@ export const Profile = () => {
         width: "200px",
         height: "200px",
     }
+
+    if(!loggedIn) {
+        return <Navigate to={ "/login" }/>
+    }
+
     return (
         <div>
-            {
-                !loggedIn ? <Navigate to="/login"/>
-                    : <>
-                        <span>{ user.name }</span>
-                        <img style={ style } src={ user.avatar } alt="user avatar"/>
-                    </>
-            }
+            <span>{ user.name }</span>
+            <img style={ style } src={ user.avatar } alt="user avatar"/>
         </div>
     )
 }

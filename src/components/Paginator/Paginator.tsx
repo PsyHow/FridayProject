@@ -7,10 +7,11 @@ import { SuperSelect } from "../Select/SuperSelect";
 import Button from "../Button/Button";
 
 export const Paginator = () => {
+    const dispatch = useDispatch();
+
     const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.cards.cardPacksTotalCount)
     const currentPage = useSelector<AppRootStoreType, number>(state => state.cards.page)
     const pageSize = useSelector<AppRootStoreType, number>(state => state.cards.pageCount)
-    const dispatch = useDispatch();
     const pageItems = [3, 5, 10];
 
     const [portionNumber, setPortionNumber] = useState<number>(1)
@@ -22,7 +23,7 @@ export const Paginator = () => {
         pages.push(i)
 
     }
-    const portionSize = 10
+    const portionSize = 5
     const portionCount = Math.ceil(pagesCount / portionSize)
     const leftPortionPageNumber = ( portionNumber - 1 ) * portionSize + 1
     const rightPortionPageNumber = portionNumber * portionSize
@@ -36,32 +37,30 @@ export const Paginator = () => {
         setValue(items)
     }
 
-    return (<div className={style.mainBlock}>
+    return (
+        <div className={ style.paginator }>
+
+            { portionNumber > 1 &&
+            <Button
+                onClick={ () => {setPortionNumber(portionNumber - 1)} }>Left</Button> }
             <SuperSelect options={ pageItems }
                          value={ value }
                          onChangeOption={ onChangeSelect }
-            /> select PageCount
-            <div className={ style.paginator }>
+            />
 
-                { portionNumber > 1 &&
-                <Button
-                    onClick={ () => {setPortionNumber(portionNumber - 1)} }>Left</Button> }
-                { pages
-                    .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-                    .map(m =>
-                        <span
-                            className={ currentPage === m ? style.selectedPage : style.pageNumber }
-                            onClick={ () => {onPageChanged(m)} }>
+            { pages
+                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+                .map(m =>
+                    <span
+                        className={ currentPage === m ? style.selectedPage : style.pageNumber }
+                        onClick={ () => {onPageChanged(m)} }>
                 { m }
             </span>)
-                }
+            }
 
-                { portionCount > portionNumber &&
-                <Button
-                    onClick={ () => {setPortionNumber(portionNumber + 1)} }>Right</Button> }
-            </div>
-
-    </div>
-
+            { portionCount > portionNumber &&
+            <Button
+                onClick={ () => {setPortionNumber(portionNumber + 1)} }>Right</Button> }
+        </div>
     )
 }

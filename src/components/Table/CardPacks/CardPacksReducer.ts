@@ -26,6 +26,7 @@ const initialState = {
     minCardsCount: 0,
     page: 1,
     pageCount: 5,
+    sortPacks: '0cardsCount',
 }
 
 export const cardPacksReducer =
@@ -39,6 +40,8 @@ export const cardPacksReducer =
             return { ...state, page: action.page}
         case "PAGINATOR/SET_PAGE_COUNT":
             return {...state, pageCount: action.pageCount}
+        case "SORTING":
+            return {...state, sortPacks: action.sortPack}
         default:
             return state
     }
@@ -47,11 +50,12 @@ export const cardPacksReducer =
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
         const state = getState();
-        const { pageCount, page } = state.cards
-        cardPacksAPI.getCardPacks(pageCount, page)
+        const { pageCount, page, sortPacks } = state.cards
+        cardPacksAPI.getCardPacks(pageCount, page, sortPacks)
             .then(res => {
                 dispatch(setCardPacks(res.data.cardPacks))
                 dispatch(setTotalItemsCount(res.data.cardPacksTotalCount))
+                // dispatch(loggingInAC(true))
             })
             .catch((error) => {
             })
@@ -111,10 +115,16 @@ export const setPageCount = (pageCount: number) => ( {
     pageCount,
 } as const )
 
+export const getSorting = (sortPack:any) => ( {
+    type: "SORTING",
+    sortPack
+} as const)
+
 type SetCardPacksActionType = ReturnType<typeof setCardPacks>
     | ReturnType<typeof setTotalItemsCount>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setPageCount>
+    | ReturnType<typeof getSorting>
 
 export type CardPacksActionsType = SetCardPacksActionType
 
