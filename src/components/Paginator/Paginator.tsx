@@ -1,15 +1,20 @@
 import style from "./Paginator.module.css";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "../../bll/Store";
-import { setCurrentPageAC } from "../../bll/paginator_reducer/paginator_reducer";
+import { setCurrentPageAC, setPageCount } from "../Table/CardPacks/CardPacksReducer";
+import { SuperSelect } from "../Select/SuperSelect";
+import Button from "../Button/Button";
 
 export const Paginator = () => {
-    const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.pageReducer.totalItemsCount)
-    const currentPage = useSelector<AppRootStoreType, number>(state => state.pageReducer.currentPage)
-    const pageSize = useSelector<AppRootStoreType, number>(state => state.pageReducer.pageSize)
+    const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.cards.cardPacksTotalCount)
+    const currentPage = useSelector<AppRootStoreType, number>(state => state.cards.page)
+    const pageSize = useSelector<AppRootStoreType, number>(state => state.cards.pageCount)
+    const dispatch = useDispatch();
+    const pageItems = [3, 5, 10];
 
     const [portionNumber, setPortionNumber] = useState<number>(1)
+    const [value, setValue] = useState(pageItems[1])
 
     const pagesCount = Math.ceil(totalItemsCount / pageSize)
     const pages = []
@@ -23,27 +28,40 @@ export const Paginator = () => {
     const rightPortionPageNumber = portionNumber * portionSize
 
     const onPageChanged = (page: number) => {
-        setCurrentPageAC(page)
+        dispatch(setCurrentPageAC(page))
     }
 
-    return (
-        <div className={ style.paginator }>
-            { portionNumber > 1 &&
-            <button
-                onClick={ () => {setPortionNumber(portionNumber - 1)} }>Left</button> }
-            { pages
-                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-                .map(m =>
-                    <span
-                        className={ currentPage === m ? style.selectedPage : style.pageNumber }
-                        onClick={ () => {onPageChanged(m)} }>
+    const onChangeSelect = (items: 3 | 5 | 10) => {
+        dispatch(setPageCount(items))
+        setValue(items)
+    }
+
+    return (<div className={style.mainBlock}>
+            <SuperSelect options={ pageItems }
+                         value={ value }
+                         onChangeOption={ onChangeSelect }
+            /> select PageCount
+            <div className={ style.paginator }>
+
+                { portionNumber > 1 &&
+                <Button
+                    onClick={ () => {setPortionNumber(portionNumber - 1)} }>Left</Button> }
+                { pages
+                    .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+                    .map(m =>
+                        <span
+                            className={ currentPage === m ? style.selectedPage : style.pageNumber }
+                            onClick={ () => {onPageChanged(m)} }>
                 { m }
             </span>)
-            }
+                }
 
-            { portionCount > portionNumber &&
-            <button
-                onClick={ () => {setPortionNumber(portionNumber + 1)} }>Right</button> }
-        </div>
+                { portionCount > portionNumber &&
+                <Button
+                    onClick={ () => {setPortionNumber(portionNumber + 1)} }>Right</Button> }
+            </div>
+
+    </div>
+
     )
 }

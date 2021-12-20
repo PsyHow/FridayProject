@@ -12,18 +12,21 @@ import {
 } from "./CardPacks/CardPacksReducer";
 import Button from "../Button/Button";
 import {CardPack} from "./CardPacks/CardPack/CardPack";
+import { Paginator } from "../Paginator/Paginator";
 
 export const Table = () => {
     const loggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
     const dispatch = useDispatch()
-    const cardPacks = useSelector<AppRootStoreType, Array<CardPackType>>(state => state.cards)
+    const cardPacks = useSelector<AppRootStoreType, Array<CardPackType>>(state => state.cards.cardPacks)
+    const page = useSelector<AppRootStoreType, number>(state => state.cards.page)
+    const pageCount = useSelector<AppRootStoreType, number>(state => state.cards.pageCount)
 
     useEffect(() => {
         if (!loggedIn) {
             return;
         }
         dispatch(getCardPacksTC())
-    }, [])
+    }, [page, pageCount])
 
     if (!loggedIn) {
         return <Navigate to={"/login"}/>
@@ -64,5 +67,6 @@ export const Table = () => {
                 })}
                 </tbody>
             </table>
+        <Paginator/>
     </>)
 }

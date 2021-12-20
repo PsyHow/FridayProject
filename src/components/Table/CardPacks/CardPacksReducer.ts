@@ -1,8 +1,8 @@
-import {cardPacksAPI} from "./CardPacksAPI";
-import {AppRootStoreType, AppThunkType} from "../../../bll/Store";
+import { cardPacksAPI } from "./CardPacksAPI";
+import { AppRootStoreType, AppThunkType } from "../../../bll/Store";
 
 export type CardPackType = {
-    cardsCount:number
+    cardsCount: number
     created: string
     grade: number
     more_id: string
@@ -19,30 +19,46 @@ export type CardPackType = {
     _id: string
 }
 
-const initialState:Array<CardPackType>=[]
+const initialState = {
+    cardPacks: [] as CardPackType[],
+    cardPacksTotalCount: 0,
+    maxCardsCount: 1,
+    minCardsCount: 0,
+    page: 1,
+    pageCount: 5,
+}
 
-export const cardPacksReducer = (state = initialState, action: CardPacksActionsType) => {
+export const cardPacksReducer =
+    (state = initialState, action: CardPacksActionsType): InitStateType => {
     switch (action.type) {
         case "SET-CARD-PACKS":
-            return [...action.cards]
+            return {...state, cardPacks: action.cards}
+        case "PAGINATOR/SET_TOTAL_ITEMS_COUNT":
+            return {...state, cardPacksTotalCount: action.totalItemsCount}
+        case "PAGINATOR/SET_CURRENT_PAGE":
+            return { ...state, page: action.page}
+        case "PAGINATOR/SET_PAGE_COUNT":
+            return {...state, pageCount: action.pageCount}
         default:
             return state
     }
 }
 
-export const getCardPacksTC = ():AppThunkType => {
-    return (dispatch, getState: ()=>AppRootStoreType) => {
-
-        cardPacksAPI.getCardPacks()
+export const getCardPacksTC = (): AppThunkType => {
+    return (dispatch, getState: () => AppRootStoreType) => {
+        const state = getState();
+        const { pageCount, page } = state.cards
+        cardPacksAPI.getCardPacks(pageCount, page)
             .then(res => {
-                    dispatch(setCardPacks(res.data.cardPacks))
-                })
+                dispatch(setCardPacks(res.data.cardPacks))
+                dispatch(setTotalItemsCount(res.data.cardPacksTotalCount))
+            })
             .catch((error) => {
             })
     }
 }
 
-export const deleteCardPackTC = (id: string):AppThunkType => {
+export const deleteCardPackTC = (id: string): AppThunkType => {
     return (dispatch) => {
         cardPacksAPI.deleteCardPack(id)
             .then(() => {
@@ -52,7 +68,7 @@ export const deleteCardPackTC = (id: string):AppThunkType => {
             })
     }
 }
-export const createCardPackTC = ():AppThunkType => {
+export const createCardPackTC = (): AppThunkType => {
     return (dispatch) => {
         cardPacksAPI.createCardPack()
             .then(() => {
@@ -63,7 +79,7 @@ export const createCardPackTC = ():AppThunkType => {
     }
 }
 
-export const updateCardPackTC = (id: string, name: string):AppThunkType => {
+export const updateCardPackTC = (id: string, name: string): AppThunkType => {
     return (dispatch) => {
         cardPacksAPI.updateCardPack(id, name)
             .then(() => {
@@ -75,11 +91,31 @@ export const updateCardPackTC = (id: string, name: string):AppThunkType => {
 }
 
 
-const setCardPacks = (cards: Array<CardPackType>) => ({
+const setCardPacks = (cards: Array<CardPackType>) => ( {
     type: "SET-CARD-PACKS",
-    cards
-}as const)
+    cards,
+} as const )
+
+export const setTotalItemsCount = (totalItemsCount: number) => ( {
+    type: "PAGINATOR/SET_TOTAL_ITEMS_COUNT",
+    totalItemsCount,
+} as const )
+
+export const setCurrentPageAC = (page: number) => ( {
+    type: "PAGINATOR/SET_CURRENT_PAGE",
+    page,
+} as const )
+
+export const setPageCount = (pageCount: number) => ( {
+    type: "PAGINATOR/SET_PAGE_COUNT",
+    pageCount,
+} as const )
 
 type SetCardPacksActionType = ReturnType<typeof setCardPacks>
+    | ReturnType<typeof setTotalItemsCount>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setPageCount>
 
-export type CardPacksActionsType=SetCardPacksActionType
+export type CardPacksActionsType = SetCardPacksActionType
+
+type InitStateType = typeof initialState
