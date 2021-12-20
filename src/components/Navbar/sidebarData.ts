@@ -21,4 +21,8 @@ export const sidebarData = [
         title: "Test",
         path:  PATH.TEST,
     },
+    {
+        title: "CardPacks",
+        path:  PATH.CARD_PACKS,
+    },
 ]

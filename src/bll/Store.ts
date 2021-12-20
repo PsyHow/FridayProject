@@ -5,13 +5,11 @@ import { loginReducer } from "./loginReducer";
 import { profileReducer } from "./profileReducer";
 import { passwordRecoverReducer } from "./passwordRecoverReducer";
 import { signUpReducer } from "./signUpReducer";
-import { pageReducer } from "./paginator_reducer/paginator_reducer";
 
 const reducers = combineReducers({
     firstReducer,
     loginReducer,
     profileReducer,
-    pageReducer,
     recovery: passwordRecoverReducer,
     registration: signUpReducer,
 })
