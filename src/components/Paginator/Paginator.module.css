@@ -1,9 +1,11 @@
 .paginator {
-    padding: 2px
+    padding: 2px;
 }
 
 .pageNumber {
     padding: 2px;
+    border: 1px solid #08152c;
+    color: #282850;
 }
 
 .selectedPage {
