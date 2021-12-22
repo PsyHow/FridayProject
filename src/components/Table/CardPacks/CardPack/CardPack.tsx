@@ -1,6 +1,7 @@
 import Button from "../../../Button/Button";
 import React from "react";
-import {CardPackType} from "../CardPacksReducer";
+import { CardPackType } from "../CardPacksReducer";
+import { NavLink } from "react-router-dom";
 
 type CardPackPropsType = {
     cardPack: CardPackType
@@ -20,9 +21,9 @@ export const CardPack = (props: CardPackPropsType) => {
         props.editCardPack(cardPack._id, 'ssssss')
     }
 
-    const learnCardPack = () => {
-
-    }
+    // const learnCardPack = () => {
+    //     console.log(cardPack._id);
+    // }
 
 
     return <tr>
@@ -33,7 +34,10 @@ export const CardPack = (props: CardPackPropsType) => {
         <td>
             <Button onClick={deleteCardPack}>Delete</Button>
             <Button onClick={editCardPack}>Edit</Button>
-            <Button onClick={learnCardPack}>Learn</Button>
+            <NavLink to={`/card/${cardPack._id}`}>
+                <Button>Learn</Button>
+            </NavLink>
+
         </td>
     </tr>
 }

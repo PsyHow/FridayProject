@@ -14,6 +14,7 @@ import { CardPack } from "./CardPacks/CardPack/CardPack";
 import { Paginator } from "../Paginator/Paginator";
 import { Sorting } from "../Sorting/Sorting";
 import { Search } from "../Search/Search";
+import { Navigate } from "react-router-dom";
 
 export const Table = () => {
     const dispatch = useDispatch()
@@ -26,11 +27,13 @@ export const Table = () => {
     const min = useSelector<AppRootStoreType, string>(state => state.cards.min)
 
     useEffect(() => {
-        if (!loggedIn) {
-            return
-        }
+
         dispatch(getCardPacksTC())
-    }, [page, pageCount, sortPacks,loggedIn, packName, min])
+    }, [page, pageCount, sortPacks, loggedIn, packName, min])
+
+    if(!loggedIn) {
+        return <Navigate to='/login'/>
+    }
 
 
     const deleteCardPack = (id: string) => {
@@ -40,35 +43,35 @@ export const Table = () => {
     const editCardPack = (id: string, name: string) => {
         dispatch(updateCardPackTC(id, name))
     }
-    const LearnCardPack = () => {
-
-    }
+    // const LearnCardPack = () => {
+    //
+    // }
     const createCardPack = () => {
         dispatch(createCardPackTC())
     }
 
-    return (<>
-            <Button onClick={createCardPack}> add cardpack</Button>
-            <Search/>
-            <table className={s.table}>
-                <thead>
-                <tr>
-                    <td>Name<Sorting sortName={'name'}/></td>
-                    <td>CardsCount<Sorting sortName={'cardsCount'}/></td>
-                    <td>Last Updated<Sorting sortName={'updated'}/></td>
-                    <td>Created by<Sorting sortName={'created'}/></td>
-                    <td>Actions</td>
-                </tr>
-                </thead>
-                <tbody>
-                {cardPacks.map(cardPack => {
-                    return <CardPack cardPack={cardPack}
-                                     deleteCardPack={deleteCardPack}
-                                     editCardPack={editCardPack}
-                    />
-                })}
-                </tbody>
-            </table>
+    return ( <>
+        <Button onClick={ createCardPack }> add cardpack</Button>
+        <Search/>
+        <table className={ s.table }>
+            <thead>
+            <tr>
+                <td>Name<Sorting sortName={ 'name' }/></td>
+                <td>CardsCount<Sorting sortName={ 'cardsCount' }/></td>
+                <td>Last Updated<Sorting sortName={ 'updated' }/></td>
+                <td>Created by<Sorting sortName={ 'created' }/></td>
+                <td>Actions</td>
+            </tr>
+            </thead>
+            <tbody>
+            { cardPacks.map(cardPack => {
+                return <CardPack cardPack={ cardPack }
+                                 deleteCardPack={ deleteCardPack }
+                                 editCardPack={ editCardPack }
+                />
+            }) }
+            </tbody>
+        </table>
         <Paginator/>
-    </>)
+    </> )
 }

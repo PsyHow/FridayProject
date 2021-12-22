@@ -90,7 +90,6 @@ export const createCardPackTC = (): AppThunkType => {
             })
     }
 }
-
 export const updateCardPackTC = (id: string, name: string): AppThunkType => {
     return (dispatch) => {
         cardPacksAPI.updateCardPack(id, name)
@@ -135,7 +134,7 @@ export const getSearch = (packName: string) => ( {
 
 export const setMinCardsCount = (min: string) => ( {
     type: "SET_MIN_CARDS_COUNT",
-    min
+    min,
 } as const )
 
 export const setMaxCardsCount = (max: string) => ( {
