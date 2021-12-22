@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import s from './Table.module.css'
+import s from "./Table.module.css"
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "../../bll/Store";
 import {
@@ -23,13 +23,14 @@ export const Table = () => {
     const pageCount = useSelector<AppRootStoreType, number>(state => state.cards.pageCount)
     const sortPacks = useSelector<AppRootStoreType, string>(state => state.cards.sortPacks)
     const packName = useSelector<AppRootStoreType, string>(state => state.cards.packName)
+    const min = useSelector<AppRootStoreType, string>(state => state.cards.min)
 
     useEffect(() => {
         if (!loggedIn) {
             return
         }
         dispatch(getCardPacksTC())
-    }, [page, pageCount, sortPacks,loggedIn, packName])
+    }, [page, pageCount, sortPacks,loggedIn, packName, min])
 
 
     const deleteCardPack = (id: string) => {

@@ -22,43 +22,48 @@ export type CardPackType = {
 const initialState = {
     cardPacks: [] as CardPackType[],
     cardPacksTotalCount: 0,
-    maxCardsCount: 1,
+    maxCardsCount: 103,
     minCardsCount: 0,
     page: 1,
     pageCount: 5,
-    sortPacks: '',
-    packName: ''
+    sortPacks: "",
+    packName: "",
+    min: "5",
+    max: "30",
 }
 
 export const cardPacksReducer =
     (state = initialState, action: CardPacksActionsType): InitStateType => {
-    switch (action.type) {
-        case "SET-CARD-PACKS":
-            return {...state, cardPacks: action.cards}
-        case "PAGINATOR/SET_TOTAL_ITEMS_COUNT":
-            return {...state, cardPacksTotalCount: action.totalItemsCount}
-        case "PAGINATOR/SET_CURRENT_PAGE":
-            return { ...state, page: action.page}
-        case "PAGINATOR/SET_PAGE_COUNT":
-            return {...state, pageCount: action.pageCount}
-        case "SORTING":
-            return {...state, sortPacks: action.sortPack}
-        case "SEARCH":
-            return {...state, packName: action.packName}
-        default:
-            return state
+        switch (action.type) {
+            case "SET-CARD-PACKS":
+                return { ...state, cardPacks: action.cards }
+            case "PAGINATOR/SET_TOTAL_ITEMS_COUNT":
+                return { ...state, cardPacksTotalCount: action.totalItemsCount }
+            case "PAGINATOR/SET_CURRENT_PAGE":
+                return { ...state, page: action.page }
+            case "PAGINATOR/SET_PAGE_COUNT":
+                return { ...state, pageCount: action.pageCount }
+            case "SORTING":
+                return { ...state, sortPacks: action.sortPack }
+            case "SEARCH":
+                return { ...state, packName: action.packName }
+            case "SET_MAX_CARDS_COUNT":
+                return { ...state, max: action.max }
+            case "SET_MIN_CARDS_COUNT":
+                return { ...state, min: action.min }
+            default:
+                return state
+        }
     }
-}
 
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
         const state = getState();
-        const { pageCount, page, sortPacks, packName } = state.cards
-        cardPacksAPI.getCardPacks(pageCount, page, sortPacks, packName)
+        const { pageCount, page, sortPacks, packName, min, max } = state.cards
+        cardPacksAPI.getCardPacks(pageCount, page, sortPacks, packName, min, max)
             .then(res => {
                 dispatch(setCardPacks(res.data.cardPacks))
                 dispatch(setTotalItemsCount(res.data.cardPacksTotalCount))
-                // dispatch(loggingInAC(true))
             })
             .catch((error) => {
             })
@@ -118,15 +123,25 @@ export const setPageCount = (pageCount: number) => ( {
     pageCount,
 } as const )
 
-export const getSorting = (sortPack:any) => ( {
+export const getSorting = (sortPack: any) => ( {
     type: "SORTING",
-    sortPack
-} as const)
+    sortPack,
+} as const )
 
-export const getSearch = (packName:string) => ({
+export const getSearch = (packName: string) => ( {
     type: "SEARCH",
-    packName
-} as const)
+    packName,
+} as const )
+
+export const setMinCardsCount = (min: string) => ( {
+    type: "SET_MIN_CARDS_COUNT",
+    min
+} as const )
+
+export const setMaxCardsCount = (max: string) => ( {
+    type: "SET_MAX_CARDS_COUNT",
+    max,
+} as const )
 
 type SetCardPacksActionType = ReturnType<typeof setCardPacks>
     | ReturnType<typeof setTotalItemsCount>
@@ -134,6 +149,8 @@ type SetCardPacksActionType = ReturnType<typeof setCardPacks>
     | ReturnType<typeof setPageCount>
     | ReturnType<typeof getSorting>
     | ReturnType<typeof getSearch>
+    | ReturnType<typeof setMinCardsCount>
+    | ReturnType<typeof setMaxCardsCount>
 
 export type CardPacksActionsType = SetCardPacksActionType
 

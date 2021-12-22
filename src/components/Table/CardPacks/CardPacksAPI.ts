@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CardPackType } from "../CardPacks/CardPacksReducer";
+import { CardPackType } from "./CardPacksReducer";
 
 
 const instance = axios.create({
@@ -8,9 +8,9 @@ const instance = axios.create({
 })
 
 export const cardPacksAPI = {
-    getCardPacks(pageCount:number, page:number, sortPacks:any, packName:string){
+    getCardPacks(pageCount:number, page:number, sortPacks:any, packName:string, min:string, max:string){
        return instance.get<CardsResponseType>
-       (`cards/pack`, {params: {pageCount, page, sortPacks, packName}})
+       (`cards/pack`, {params: {pageCount, page, sortPacks, packName, min, max}})
     },
     deleteCardPack(id:string){
         return instance.delete(`cards/pack?id=${id}`)
