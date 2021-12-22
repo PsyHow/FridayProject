@@ -28,8 +28,8 @@ const initialState = {
     pageCount: 5,
     sortPacks: "",
     packName: "",
-    min: "5",
-    max: "30",
+    min: "0",
+    max: "103",
 }
 
 export const cardPacksReducer =
