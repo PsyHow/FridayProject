@@ -26,7 +26,8 @@ const initialState = {
     minCardsCount: 0,
     page: 1,
     pageCount: 5,
-    sortPacks: '0cardsCount',
+    sortPacks: '',
+    packName: ''
 }
 
 export const cardPacksReducer =
@@ -42,6 +43,8 @@ export const cardPacksReducer =
             return {...state, pageCount: action.pageCount}
         case "SORTING":
             return {...state, sortPacks: action.sortPack}
+        case "SEARCH":
+            return {...state, packName: action.packName}
         default:
             return state
     }
@@ -50,8 +53,8 @@ export const cardPacksReducer =
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
         const state = getState();
-        const { pageCount, page, sortPacks } = state.cards
-        cardPacksAPI.getCardPacks(pageCount, page, sortPacks)
+        const { pageCount, page, sortPacks, packName } = state.cards
+        cardPacksAPI.getCardPacks(pageCount, page, sortPacks, packName)
             .then(res => {
                 dispatch(setCardPacks(res.data.cardPacks))
                 dispatch(setTotalItemsCount(res.data.cardPacksTotalCount))
@@ -120,11 +123,17 @@ export const getSorting = (sortPack:any) => ( {
     sortPack
 } as const)
 
+export const getSearch = (packName:string) => ({
+    type: "SEARCH",
+    packName
+} as const)
+
 type SetCardPacksActionType = ReturnType<typeof setCardPacks>
     | ReturnType<typeof setTotalItemsCount>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setPageCount>
     | ReturnType<typeof getSorting>
+    | ReturnType<typeof getSearch>
 
 export type CardPacksActionsType = SetCardPacksActionType
 

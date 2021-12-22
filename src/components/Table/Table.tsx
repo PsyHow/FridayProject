@@ -13,6 +13,7 @@ import Button from "../Button/Button";
 import { CardPack } from "./CardPacks/CardPack/CardPack";
 import { Paginator } from "../Paginator/Paginator";
 import { Sorting } from "../Sorting/Sorting";
+import { Search } from "../Search/Search";
 
 export const Table = () => {
     const dispatch = useDispatch()
@@ -21,13 +22,14 @@ export const Table = () => {
     const page = useSelector<AppRootStoreType, number>(state => state.cards.page)
     const pageCount = useSelector<AppRootStoreType, number>(state => state.cards.pageCount)
     const sortPacks = useSelector<AppRootStoreType, string>(state => state.cards.sortPacks)
+    const packName = useSelector<AppRootStoreType, string>(state => state.cards.packName)
 
     useEffect(() => {
         if (!loggedIn) {
             return
         }
         dispatch(getCardPacksTC())
-    }, [page, pageCount, sortPacks,loggedIn])
+    }, [page, pageCount, sortPacks,loggedIn, packName])
 
 
     const deleteCardPack = (id: string) => {
@@ -46,6 +48,7 @@ export const Table = () => {
 
     return (<>
             <Button onClick={createCardPack}> add cardpack</Button>
+            <Search/>
             <table className={s.table}>
                 <thead>
                 <tr>
