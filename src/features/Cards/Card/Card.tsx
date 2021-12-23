@@ -1,17 +1,16 @@
-import Button from "../../../Button/Button";
+import Button from "../../../components/common/Button/Button";
 import React from "react";
-import { CardsType } from "../../../../bll/cardReducer";
+import { CardsType } from "../bll/cardsTypes";
 
 type CardsPropsType = {
     card: CardsType
-    deleteCardPack: (id: string) => void
+    // deleteCard: (id: string) => void
 }
 
 export const Card = ({ card }: CardsPropsType) => {
 
-
-    // const deleteCardPack = () => {
-    //     props.deleteCardPack(cardPack._id)
+    // const deleteCardId = () => {
+    //     deleteCard(card._id)
     // }
     //
     // const editCardPack = () => {
@@ -30,9 +29,8 @@ export const Card = ({ card }: CardsPropsType) => {
         <td>{card.grade}</td>
         <td>{card.updated}</td>
         <td>
-            <Button onClick={()=>{}}>Delete</Button>
+            <Button onClick={()=> {}}>Delete</Button>
             <Button onClick={()=>{}}>Edit</Button>
-            {/*<Button onClick={()=>{}}>Learn</Button>*/}
         </td>
     </tr>
 }

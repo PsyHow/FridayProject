@@ -1,6 +1,6 @@
 import style from "../forgot/ui/PasswordRestore/Restore.module.css";
-import SuperInputText from "../../../components/Input/Input";
-import Button from "../../../components/Button/Button";
+import SuperInputText from "../../../components/common/Input/Input";
+import Button from "../../../components/common/Button/Button";
 
 export const SignUp = (props: PropsType) => {
 

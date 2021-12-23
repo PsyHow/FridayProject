@@ -1,7 +1,7 @@
 import React from "react"
 import { Slider } from "@mui/material";
 import { useSelector } from "react-redux";
-import { AppRootStoreType } from "../../bll/Store";
+import { AppRootStoreType } from "../../../bll/Store";
 
 type SuperDoubleRangePropsType = {
     onChangeRange?: (value: number | number[]) => void

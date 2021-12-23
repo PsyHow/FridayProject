@@ -1,7 +1,7 @@
-import Button from "../../../Button/Button";
+import Button from "../../../components/common/Button/Button";
 import React from "react";
-import { CardPackType } from "../CardPacksReducer";
 import { NavLink } from "react-router-dom";
+import { CardPackType } from "../bll/CardPacksTypes";
 
 type CardPackPropsType = {
     cardPack: CardPackType
@@ -20,11 +20,6 @@ export const CardPack = (props: CardPackPropsType) => {
         //  захардкодженное имя
         props.editCardPack(cardPack._id, 'ssssss')
     }
-
-    // const learnCardPack = () => {
-    //     console.log(cardPack._id);
-    // }
-
 
     return <tr>
         <td>{cardPack.name}</td>

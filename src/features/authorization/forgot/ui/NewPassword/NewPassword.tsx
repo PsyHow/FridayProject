@@ -1,5 +1,5 @@
-import SuperInputText from "../../../../../components/Input/Input";
-import Button from "../../../../../components/Button/Button";
+import SuperInputText from "../../../../../components/common/Input/Input";
+import Button from "../../../../../components/common/Button/Button";
 import style from "./NewPassword.module.css"
 import { Navigate } from "react-router-dom";
 import React from "react";

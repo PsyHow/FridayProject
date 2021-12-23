@@ -1,6 +1,6 @@
-import Input from "../Input/Input";
-import Button from "../Button/Button";
-import Checkbox from "../Checkbox/Checkbox";
+import Input from "../common/Input/Input";
+import Button from "../common/Button/Button";
+import Checkbox from "../common/Checkbox/Checkbox";
 import style from "./Test.module.css";
 import { useState } from "react";
 

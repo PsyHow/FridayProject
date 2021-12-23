@@ -5,14 +5,16 @@ import { loginReducer } from "./loginReducer";
 import { profileReducer } from "./profileReducer";
 import { passwordRecoverReducer } from "./passwordRecoverReducer";
 import { signUpReducer } from "./signUpReducer";
-import {CardPacksActionsType, cardPacksReducer} from "../components/Table/CardPacks/CardPacksReducer";
-import { ActionCardTypes, cardReducer } from "./cardReducer";
+import { cardPacksReducer} from "../features/Packs/bll/CardPacksReducer";
+import { CardPacksActionsType } from "../features/Packs/bll/CardPacksTypes";
+import { cardsReducer } from "../features/Cards/bll/cardsReducer";
+import { ActionCardTypes } from "../features/Cards/bll/cardsTypes";
 
 const reducers = combineReducers({
     firstReducer,
     loginReducer,
     profileReducer,
-    cardReducer,
+    cardReducer: cardsReducer,
     recovery: passwordRecoverReducer,
     registration: signUpReducer,
     cards: cardPacksReducer

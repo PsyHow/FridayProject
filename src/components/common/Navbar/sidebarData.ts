@@ -1,4 +1,4 @@
-import { PATH } from "../Routes";
+import { PATH } from "../../Routes";
 
 export const sidebarData = [
     {

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { AppRootStoreType } from "../../bll/Store";
-import { UserType } from "../../bll/profileReducer";
+import { AppRootStoreType } from "bll/Store";
+import { UserType } from "bll/profileReducer";
 import { Navigate } from "react-router-dom";
 
 export const Profile = () => {

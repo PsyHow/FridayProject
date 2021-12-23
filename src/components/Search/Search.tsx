@@ -1,13 +1,9 @@
-import SuperInputText from "../Input/Input"
-import Button from "../Button/Button";
+import SuperInputText from "../common/Input/Input"
+import Button from "../common/Button/Button";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-    getSearch,
-    setMaxCardsCount,
-    setMinCardsCount,
-} from "../Table/CardPacks/CardPacksReducer";
-import { DoubleRange } from "../DoubleRange/DoubleRange";
+import { DoubleRange } from "../common/DoubleRange/DoubleRange";
+import { getSearch, setMaxCardsCount, setMinCardsCount } from "../../features/Packs/bll/CardPacksActions";
 
 export const Search = () => {
     const dispatch = useDispatch();

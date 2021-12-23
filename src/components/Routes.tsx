@@ -6,8 +6,8 @@ import { Test } from "./Test/Test";
 import { Error } from "./Error"
 import { PasswordRestoreContainer } from "../features/authorization/forgot/ui/PasswordRestore/PasswordRestoreContainer";
 import { NewPasswordContainer } from "../features/authorization/forgot/ui/NewPassword/NewPasswordContainer";
-import { Table } from "./Table/Table";
-import { CardsTable } from "./Table/Cards/CardsTable";
+import { Table } from "../features/Packs/Table";
+import { CardsTable } from "../features/Cards/CardsTable";
 
 export const PATH = {
     LOGIN: "login",

@@ -1,10 +1,13 @@
 import style from "./Paginator.module.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppRootStoreType } from "../../bll/Store";
-import { setCurrentPageAC, setPageCount } from "../Table/CardPacks/CardPacksReducer";
+import { AppRootStoreType } from "../../../bll/Store";
 import { SuperSelect } from "../Select/SuperSelect";
 import Button from "../Button/Button";
+import {
+    setCurrentPageAC,
+    setPageCount,
+} from "../../../features/Packs/bll/CardPacksActions";
 
 export const Paginator = () => {
     const dispatch = useDispatch();
