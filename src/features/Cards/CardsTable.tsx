@@ -6,7 +6,9 @@ import { AppRootStoreType } from "bll/Store";
 import { Card } from "./Card/Card";
 import { useParams } from "react-router-dom";
 import { CardsType } from "../Cards/bll/cardsTypes";
-import { getCardsTC } from "./bll/cardsThunks";
+import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from "./bll/cardsThunks";
+import { createCardPackTC } from "features/Packs/bll/CardPacksThunk";
+import Button from "components/common/Button/Button";
 
 export const CardsTable = () => {
     const dispatch = useDispatch();
@@ -19,11 +21,23 @@ export const CardsTable = () => {
         }
     }, [token])
 
-    // const deleteCard = (id:string) => {
-    //     dispatch(deleteCardTC(id))
-    // }
+    const deleteCard = (id: string) => {
+        if (token)
+            dispatch(deleteCardTC(token, id))
+    }
+
+    const createCard = () => {
+        if (token)
+            dispatch(createCardTC(token))
+    }
+
+    const updateCard = (id: string, question: string, answer: string) => {
+        if (token)
+            dispatch(updateCardTC(token, question,answer, id))
+    }
 
     return ( <>
+        <Button onClick={ createCard }>add Card</Button>
         <table className={ s.table }>
             <thead>
             <tr>
@@ -37,7 +51,8 @@ export const CardsTable = () => {
             <tbody>
             { cards.map((card: any) => {
                 return <Card card={ card }
-                             // deleteCard={ deleteCard }
+                             deleteCard={ deleteCard }
+                             getUpdateCard={updateCard}
                 />
             }) }
             </tbody>

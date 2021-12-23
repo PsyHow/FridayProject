@@ -14,9 +14,9 @@ export const getCardsTC = (token: string): AppThunkType => {
     }
 }
 
-export const deleteCardTC = (token: string): AppThunkType => {
+export const deleteCardTC = (token:string,id:string): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
-        cardsAPI.deleteCard()
+        cardsAPI.deleteCard(id)
             .then(() => {
                 dispatch(getCardsTC(token))
             })
@@ -28,7 +28,7 @@ export const deleteCardTC = (token: string): AppThunkType => {
 
 export const createCardTC = (token: string): AppThunkType => {
     return (dispatch) => {
-        cardsAPI.createCard()
+        cardsAPI.createCard(token)
             .then(() => {
                 dispatch(getCardsTC(token))
             })
@@ -38,9 +38,9 @@ export const createCardTC = (token: string): AppThunkType => {
     }
 }
 
-export const updateCardTC = (token:string): AppThunkType => {
+export const updateCardTC = (token:string, question:string, answer:string, id:string): AppThunkType => {
     return (dispatch) => {
-        cardsAPI.updateCard()
+        cardsAPI.updateCard(id, question,answer)
             .then(() => {
                 dispatch(getCardsTC(token))
             })

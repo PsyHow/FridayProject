@@ -5,18 +5,25 @@ export const cardsAPI = {
     getCards(cardsPack_id: string) {
         return instance.get<CardsResponseType>(`cards/card`, { params: { cardsPack_id } })
     },
-    deleteCard() {
-        return instance.delete(`cards/card`)
+    deleteCard(id: string) {
+        return instance.delete(`cards/card`, {params: { id }})
     },
-    createCard() {
+    createCard(cardsPack_id:string) {
         return instance.post(`cards/card`, {
             card: {
+                cardsPack_id,
                 question: 'the answer to the main question?',
                 answer: '42',
             },
         })
     },
-    updateCard() {
-        return instance.put(`cards/card`)
+    updateCard(id:string, question:string, answer:string) {
+        return instance.put(`cards/card`, {
+            card: {
+                _id: id,
+                question,
+                answer
+            }
+        })
     },
 }

@@ -1,4 +1,4 @@
-import { instance } from "../../../dal/apiConfing/apiConfing";
+import { instance } from "dal/apiConfing/apiConfing";
 import { CardsPackResponseType } from "./CardPackApiTypes";
 // cardPackAPI
 export const cardPacksAPI = {
