@@ -63,6 +63,7 @@ export const Login = () => {
 
                 <span className={styles.label}>Password</span>
                 <input value={password}
+                       type="password"
                        onChange={onPasswordChangeHandler}
                        className={styles.input}
                 />

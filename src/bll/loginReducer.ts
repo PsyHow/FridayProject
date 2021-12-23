@@ -30,7 +30,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
                 }
             })
             .catch((error) => {
-                dispatch(loginFailAC(error.response.data.error))
+                dispatch(loginFailAC(error.response.error))
             })
     }
 }
