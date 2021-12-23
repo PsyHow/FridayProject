@@ -42,8 +42,8 @@ export const Table = () => {
         dispatch(createCardPackTC())
     }
 
-    if(!loggedIn) {
-        return <Navigate to='/login'/>
+    if (!loggedIn) {
+        return <Navigate to="/login"/>
     }
 
     return ( <>
@@ -52,10 +52,10 @@ export const Table = () => {
         <table className={ s.table }>
             <thead>
             <tr>
-                <td>Name<Sorting sortName={ 'name' }/></td>
-                <td>CardsCount<Sorting sortName={ 'cardsCount' }/></td>
-                <td>Last Updated<Sorting sortName={ 'updated' }/></td>
-                <td>Created by<Sorting sortName={ 'created' }/></td>
+                <td>Name<Sorting sortName={ "name" }/></td>
+                <td>CardsCount<Sorting sortName={ "cardsCount" }/></td>
+                <td>Last Updated<Sorting sortName={ "updated" }/></td>
+                <td>Created by<Sorting sortName={ "created" }/></td>
                 <td>Actions</td>
             </tr>
             </thead>

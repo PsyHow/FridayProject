@@ -7,7 +7,6 @@ import { Card } from "./Card/Card";
 import { useParams } from "react-router-dom";
 import { CardsType } from "../Cards/bll/cardsTypes";
 import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from "./bll/cardsThunks";
-import { createCardPackTC } from "features/Packs/bll/CardPacksThunk";
 import Button from "components/common/Button/Button";
 
 export const CardsTable = () => {

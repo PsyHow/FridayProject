@@ -1,6 +1,8 @@
 import Button from "../../../components/common/Button/Button";
 import React from "react";
 import { CardsType } from "../bll/cardsTypes";
+import { useSelector } from "react-redux";
+import { AppRootStoreType } from "bll/Store";
 
 type CardsPropsType = {
     card: CardsType
@@ -10,6 +12,8 @@ type CardsPropsType = {
 
 export const Card = ({ card, deleteCard, getUpdateCard }: CardsPropsType) => {
 
+    const userId=useSelector<AppRootStoreType, string>(st=>st.profileReducer.user._id)
+
     const deleteCardId = () => {
         deleteCard(card._id)
     }
@@ -18,11 +22,6 @@ export const Card = ({ card, deleteCard, getUpdateCard }: CardsPropsType) => {
         //  захардкодженное имя
         getUpdateCard(card._id,'Why so serious?', '****')
     }
-    //
-    // const learnCardPack = () => {
-    //
-    // }
-
 
     return <tr>
         <td>{card.question}</td>
@@ -30,8 +29,8 @@ export const Card = ({ card, deleteCard, getUpdateCard }: CardsPropsType) => {
         <td>{card.grade}</td>
         <td>{card.updated}</td>
         <td>
-            <Button onClick={deleteCardId}>Delete</Button>
-            <Button onClick={editCardPack}>Edit</Button>
+            {card.user_id===userId && <Button onClick={deleteCardId}>Delete</Button>}
+            {card.user_id===userId && <Button onClick={editCardPack}>Edit</Button>}
         </td>
     </tr>
 }
