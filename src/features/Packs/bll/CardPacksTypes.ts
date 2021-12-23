@@ -1,19 +1,27 @@
 import {
     getSearch, getSorting, setCardPacks, setCurrentPageAC,
-    setMaxCardsCount,
-    setMinCardsCount, setPageCount, setTotalItemsCount,
+    setMaxItemsCount,
+    setMinItemsCount, setPageCount, setTotalItemsCount,
 } from "./CardPacksActions";
 import { initialState } from "./CardPacksReducer";
 
 
 export type SetCardPacksActionType = ReturnType<typeof setCardPacks>
-    | ReturnType<typeof setTotalItemsCount>
-    | ReturnType<typeof setCurrentPageAC>
-    | ReturnType<typeof setPageCount>
-    | ReturnType<typeof getSorting>
-    | ReturnType<typeof getSearch>
-    | ReturnType<typeof setMinCardsCount>
-    | ReturnType<typeof setMaxCardsCount>
+    | SetTotalItemsCountType
+    | SetCurrentPageType
+    | SetPageCountType
+    | GetSearchType
+    | SetMinItemCountType
+    | SetMaxItemCountType
+    | GetSortingType
+
+export type GetSearchType = ReturnType<typeof getSearch>
+export type SetPageCountType = ReturnType<typeof setPageCount>
+export type SetTotalItemsCountType = ReturnType<typeof setTotalItemsCount>
+export type SetCurrentPageType = ReturnType<typeof setCurrentPageAC>
+export type GetSortingType = ReturnType<typeof getSorting>
+export type SetMinItemCountType = ReturnType<typeof setMinItemsCount>
+export type SetMaxItemCountType = ReturnType<typeof setMaxItemsCount>
 
 export type CardPacksActionsType = SetCardPacksActionType
 

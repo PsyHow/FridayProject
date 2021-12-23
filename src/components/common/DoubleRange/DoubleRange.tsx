@@ -1,11 +1,11 @@
 import React from "react"
 import { Slider } from "@mui/material";
-import { useSelector } from "react-redux";
-import { AppRootStoreType } from "../../../bll/Store";
 
 type SuperDoubleRangePropsType = {
     onChangeRange?: (value: number | number[]) => void
     value?: number | number[]
+    min:number
+    max:number
 }
 
 export const DoubleRange: React.FC<SuperDoubleRangePropsType> = (
@@ -18,16 +18,12 @@ export const DoubleRange: React.FC<SuperDoubleRangePropsType> = (
         onChangeRange && onChangeRange(value)
     }
 
-    const min = useSelector<AppRootStoreType, number>(state => state.cards.minCardsCount)
-    const max = useSelector<AppRootStoreType, number>(state => state.cards.maxCardsCount)
-
-
     return (
         <>
             <Slider value={ value }
-                    min={ min }
-                    max={ max }
-                    style={ { "width": "200px" } }
+                    min={ restProps.min }
+                    max={ restProps.max }
+                    style={ { "width": "200px", "color": "#7676EE7D" } }
                     onChange={ onChangeCallback }
             />
 

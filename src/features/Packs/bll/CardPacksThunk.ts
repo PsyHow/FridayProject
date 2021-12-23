@@ -1,6 +1,6 @@
 import { AppRootStoreType, AppThunkType } from "../../../bll/Store";
 import { setCardPacks, setTotalItemsCount } from "./CardPacksActions";
-import { cardPacksAPI } from "../../Packs/dal/CardPacksAPI";
+import { cardPacksAPI } from "../dal/CardPacksAPI";
 
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {

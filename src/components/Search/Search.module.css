@@ -1,0 +1,10 @@
+.searchBox {
+    display: flex;
+    justify-content: right;
+    align-items: flex-end;
+    height: 70px;
+}
+
+.range {
+    margin-right: 20px;
+}

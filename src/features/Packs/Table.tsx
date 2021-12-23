@@ -18,6 +18,9 @@ import {
 
 export const Table = () => {
     const dispatch = useDispatch()
+    const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.cards.cardPacksTotalCount)
+    const pageSize = useSelector<AppRootStoreType, number>(state => state.cards.pageCount)
+    const currentPage = useSelector<AppRootStoreType, number>(state => state.cards.page)
     const loggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
     const cardPacks = useSelector<AppRootStoreType, Array<CardPackType>>(state => state.cards.cardPacks)
     const page = useSelector<AppRootStoreType, number>(state => state.cards.page)
@@ -25,10 +28,11 @@ export const Table = () => {
     const sortPacks = useSelector<AppRootStoreType, string>(state => state.cards.sortPacks)
     const packName = useSelector<AppRootStoreType, string>(state => state.cards.packName)
     const min = useSelector<AppRootStoreType, string>(state => state.cards.min)
+    const max = useSelector<AppRootStoreType, string>(state => state.cards.max)
 
     useEffect(() => {
         dispatch(getCardPacksTC())
-    }, [page, pageCount, sortPacks, loggedIn, packName, min])
+    }, [dispatch, page, pageCount, sortPacks, loggedIn, packName, min, max])
 
     const deleteCardPack = (id: string) => {
         dispatch(deleteCardPackTC(id))
@@ -42,13 +46,13 @@ export const Table = () => {
         dispatch(createCardPackTC())
     }
 
-    if (!loggedIn) {
+    if(!loggedIn) {
         return <Navigate to="/login"/>
     }
 
     return ( <>
         <Button onClick={ createCardPack }> add cardpack</Button>
-        <Search/>
+        <Search min={ +min } max={ +max }/>
         <table className={ s.table }>
             <thead>
             <tr>
@@ -68,6 +72,8 @@ export const Table = () => {
             }) }
             </tbody>
         </table>
-        <Paginator/>
+        <Paginator totalItemsCount={ totalItemsCount }
+                   currentPage={ currentPage }
+                   pageSize={ pageSize }/>
     </> )
 }

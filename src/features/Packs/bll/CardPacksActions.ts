@@ -20,22 +20,22 @@ export const setPageCount = (pageCount: number) => ( {
     pageCount,
 } as const )
 
-export const getSorting = (sortPack: any) => ( {
+export const getSorting = (item: any) => ( {
     type: "SORTING",
-    sortPack,
+    item,
 } as const )
 
-export const getSearch = (packName: string) => ( {
+export const getSearch = (value: string) => ( {
     type: "SEARCH",
-    packName,
+    value,
 } as const )
 
-export const setMinCardsCount = (min: string) => ( {
+export const setMinItemsCount = (min: string) => ( {
     type: "SET_MIN_CARDS_COUNT",
     min,
 } as const )
 
-export const setMaxCardsCount = (max: string) => ( {
+export const setMaxItemsCount = (max: string) => ( {
     type: "SET_MAX_CARDS_COUNT",
     max,
 } as const )

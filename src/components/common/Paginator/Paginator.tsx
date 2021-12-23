@@ -1,7 +1,6 @@
 import style from "./Paginator.module.css";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppRootStoreType } from "../../../bll/Store";
+import { useDispatch } from "react-redux";
 import { SuperSelect } from "../Select/SuperSelect";
 import Button from "../Button/Button";
 import {
@@ -9,12 +8,9 @@ import {
     setPageCount,
 } from "../../../features/Packs/bll/CardPacksActions";
 
-export const Paginator = () => {
+export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) => {
     const dispatch = useDispatch();
 
-    const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.cards.cardPacksTotalCount)
-    const currentPage = useSelector<AppRootStoreType, number>(state => state.cards.page)
-    const pageSize = useSelector<AppRootStoreType, number>(state => state.cards.pageCount)
     const pageItems = [3, 5, 10];
 
     const [portionNumber, setPortionNumber] = useState<number>(1)
@@ -66,4 +62,10 @@ export const Paginator = () => {
                 onClick={ () => {setPortionNumber(portionNumber + 1)} }>Right</Button> }
         </div>
     )
+}
+
+type PropsType = {
+    totalItemsCount:number
+    currentPage:number
+    pageSize:number
 }
