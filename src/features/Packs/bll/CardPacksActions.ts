@@ -31,11 +31,11 @@ export const getSearch = (value: string) => ( {
 } as const )
 
 export const setMinItemsCount = (min: string) => ( {
-    type: "SET_MIN_CARDS_COUNT",
+    type: "SET_MIN_ITEM_COUNT",
     min,
 } as const )
 
 export const setMaxItemsCount = (max: string) => ( {
-    type: "SET_MAX_CARDS_COUNT",
+    type: "SET_MAX_ITEM_COUNT",
     max,
 } as const )

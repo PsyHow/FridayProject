@@ -6,7 +6,7 @@ import { setTotalItemsCount } from "../../Packs/bll/CardPacksActions";
 export const getCardsTC = (token: string): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
         const state = getState();
-        const { sortCards, min, max, pageCount, page, cardQuestion } = state.cardReducer;
+        const { sortCards, min, max, pageCount, page, cardQuestion } = state.cards;
         cardsAPI.getCards(token, sortCards, min, max, pageCount, page, cardQuestion)
             .then((res) => {
                 dispatch(getCardsAC(res.data.cards))

@@ -5,7 +5,7 @@ import { cardPacksAPI } from "../dal/CardPacksAPI";
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
         const state = getState();
-        const { pageCount, page, sortPacks, packName, min, max } = state.cards
+        const { pageCount, page, sortPacks, packName, min, max } = state.cardPacks
         cardPacksAPI.getCardPacks(pageCount, page, sortPacks, packName, min, max)
             .then(res => {
                 dispatch(setCardPacks(res.data.cardPacks))

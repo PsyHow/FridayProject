@@ -6,7 +6,7 @@ import Button from "../Button/Button";
 import {
     setCurrentPageAC,
     setPageCount,
-} from "../../../features/Packs/bll/CardPacksActions";
+} from "features/Packs/bll/CardPacksActions";
 
 export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) => {
     const dispatch = useDispatch();
@@ -38,7 +38,6 @@ export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) =>
 
     return (
         <div className={ style.paginator }>
-
             { portionNumber > 1 &&
             <Button
                 onClick={ () => {setPortionNumber(portionNumber - 1)} }>Left</Button> }
@@ -46,7 +45,6 @@ export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) =>
                          value={ value }
                          onChangeOption={ onChangeSelect }
             />
-
             { pages
                 .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map(m =>
@@ -56,7 +54,6 @@ export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) =>
                 { m }
             </span>)
             }
-
             { portionCount > portionNumber &&
             <Button
                 onClick={ () => {setPortionNumber(portionNumber + 1)} }>Right</Button> }

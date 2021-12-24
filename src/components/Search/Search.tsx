@@ -7,10 +7,10 @@ import {
     getSearch,
     setMaxItemsCount,
     setMinItemsCount,
-} from "../../features/Packs/bll/CardPacksActions";
+} from "features/Packs/bll/CardPacksActions";
 import style from "./Search.module.css";
 
-export const Search = memo(({ min, max }: PropsType) => {
+export const Search = memo(({ min, max, defaultMin, defaultMax }: PropsType) => {
     const dispatch = useDispatch();
 
     const [search, setSearch] = useState<string>('')
@@ -44,8 +44,8 @@ export const Search = memo(({ min, max }: PropsType) => {
             <div className={ style.range } style={ { display: "flex" } }>
                 <span style={ { width: "50px" } }>{ value1 }</span>
                 <DoubleRange
-                    min={ min }
-                    max={ max }
+                    min={ defaultMin }
+                    max={ defaultMax }
                     value={ [value1, value2] }
                     onChangeRange={ onChangeHandler }
                 />
@@ -61,4 +61,6 @@ export const Search = memo(({ min, max }: PropsType) => {
 type PropsType = {
     min: number
     max: number
+    defaultMin:number
+    defaultMax:number
 }

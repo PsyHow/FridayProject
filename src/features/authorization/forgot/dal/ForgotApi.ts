@@ -1,5 +1,5 @@
-import { AxiosResponse } from "axios";
-import { instance, instanceHeroku } from "../../../../dal/apiConfing/apiConfing";
+import axios, { AxiosResponse } from "axios";
+import { instance } from "dal/apiConfing/apiConfing";
 
 const from = "test-front-admin <viktorburnyshev@gmail.com"
 
@@ -7,7 +7,7 @@ const message = "\n<div style=\"background-color: #520a27; padding: 15px\">\npas
 
 export const registrationAPI = {
     forgot(email: string) {
-        return instanceHeroku.post<RequestForgotType, AxiosResponse<ForgotResponseType>>(`auth/forgot/`, {
+        return axios.post<RequestForgotType, AxiosResponse<ForgotResponseType>>(`https://neko-back.herokuapp.com/2.0/auth/forgot/`, {
             email,
             from,
             message,

@@ -8,7 +8,6 @@ import { Paginator } from "components/common/Paginator/Paginator";
 import { Sorting } from "components/Sorting/Sorting";
 import { Search } from "components/Search/Search";
 import { Navigate } from "react-router-dom";
-import { CardPackType } from "./bll/CardPacksTypes";
 import {
     createCardPackTC,
     deleteCardPackTC,
@@ -18,21 +17,23 @@ import {
 
 export const Table = () => {
     const dispatch = useDispatch()
-    const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.cards.cardPacksTotalCount)
-    const pageSize = useSelector<AppRootStoreType, number>(state => state.cards.pageCount)
-    const currentPage = useSelector<AppRootStoreType, number>(state => state.cards.page)
     const loggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
-    const cardPacks = useSelector<AppRootStoreType, Array<CardPackType>>(state => state.cards.cardPacks)
-    const page = useSelector<AppRootStoreType, number>(state => state.cards.page)
-    const pageCount = useSelector<AppRootStoreType, number>(state => state.cards.pageCount)
-    const sortPacks = useSelector<AppRootStoreType, string>(state => state.cards.sortPacks)
-    const packName = useSelector<AppRootStoreType, string>(state => state.cards.packName)
-    const min = useSelector<AppRootStoreType, string>(state => state.cards.min)
-    const max = useSelector<AppRootStoreType, string>(state => state.cards.max)
+    const {
+        cardPacksTotalCount,
+        cardPacks,
+        page,
+        pageCount,
+        sortPacks,
+        packName,
+        min,
+        max,
+        minCardsCount,
+        maxCardsCount,
+    } = useSelector((state:AppRootStoreType)=> state.cardPacks)
 
     useEffect(() => {
         dispatch(getCardPacksTC())
-    }, [dispatch, page, pageCount, sortPacks, loggedIn, packName, min, max])
+    }, [dispatch, page, pageCount, sortPacks, loggedIn, packName, min, max, minCardsCount, maxCardsCount])
 
     const deleteCardPack = (id: string) => {
         dispatch(deleteCardPackTC(id))
@@ -46,13 +47,14 @@ export const Table = () => {
         dispatch(createCardPackTC())
     }
 
-    if(!loggedIn) {
+    if (!loggedIn) {
         return <Navigate to="/login"/>
     }
 
     return ( <>
         <Button onClick={ createCardPack }> add cardpack</Button>
-        <Search min={ +min } max={ +max }/>
+        <Search min={ +min } max={ +max }
+                defaultMin={minCardsCount} defaultMax={maxCardsCount}/>
         <table className={ s.table }>
             <thead>
             <tr>
@@ -72,8 +74,8 @@ export const Table = () => {
             }) }
             </tbody>
         </table>
-        <Paginator totalItemsCount={ totalItemsCount }
-                   currentPage={ currentPage }
-                   pageSize={ pageSize }/>
+        <Paginator totalItemsCount={ cardPacksTotalCount }
+                   currentPage={ page }
+                   pageSize={ pageCount }/>
     </> )
 }

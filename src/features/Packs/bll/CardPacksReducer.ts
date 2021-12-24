@@ -28,9 +28,9 @@ export const cardPacksReducer =
                 return { ...state, sortPacks: action.item }
             case "SEARCH":
                 return { ...state, packName: action.value }
-            case "SET_MAX_CARDS_COUNT":
+            case "SET_MAX_ITEM_COUNT":
                 return { ...state, max: action.max }
-            case "SET_MIN_CARDS_COUNT":
+            case "SET_MIN_ITEM_COUNT":
                 return { ...state, min: action.min }
             default:
                 return state

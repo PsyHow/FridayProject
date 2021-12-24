@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { getSorting } from "../../features/Packs/bll/CardPacksActions";
+import { getSorting } from "features/Packs/bll/CardPacksActions";
 
 export const Sorting:FC<PropsType> = ({ sortName }) => {
     const dispatch = useDispatch();

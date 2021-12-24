@@ -14,10 +14,10 @@ const reducers = combineReducers({
     firstReducer,
     loginReducer,
     profileReducer,
-    cardReducer: cardsReducer,
+    cards: cardsReducer,
     recovery: passwordRecoverReducer,
     registration: signUpReducer,
-    cards: cardPacksReducer
+    cardPacks: cardPacksReducer
 })
 
 export const store = createStore(reducers, applyMiddleware(thunk))

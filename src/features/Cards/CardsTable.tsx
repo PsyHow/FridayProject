@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "bll/Store";
 import { Card } from "./Card/Card";
 import { useParams } from "react-router-dom";
-import { CardsType } from "./bll/cardsTypes";
 import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from "./bll/cardsThunks";
 import Button from "components/common/Button/Button";
-import { Search } from "../../components/Search/Search";
-import { Paginator } from "../../components/common/Paginator/Paginator";
+import { Search } from "components/Search/Search";
+import { Paginator } from "components/common/Paginator/Paginator";
 
 export const CardsTable = () => {
     const dispatch = useDispatch();
@@ -22,17 +21,9 @@ export const CardsTable = () => {
         pageCount,
         cardQuestion,
         cardsTotalCount,
-    } = useSelector((state:AppRootStoreType)=> state.cardReducer)
-    // const sortCards = useSelector<AppRootStoreType, string>(state => state.cardReducer.sortCards)
-    // const minGrade = useSelector<AppRootStoreType, string>(state => state.cardReducer.min)
-    // const maxGrade = useSelector<AppRootStoreType, string>(state => state.cardReducer.max)
-    // const page = useSelector<AppRootStoreType, number>(state => state.cardReducer.page)
-    // const pageCount = useSelector<AppRootStoreType, number>(state => state.cardReducer.pageCount)
-    // const questionName = useSelector<AppRootStoreType, string>(state => state.cardReducer.cardQuestion)
-    //
-    // const pageSize = useSelector<AppRootStoreType, number>(state => state.cardReducer.pageCount)
-    // const currentPage = useSelector<AppRootStoreType, number>(state => state.cardReducer.page)
-    // const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.cardReducer.cardsTotalCount)
+        maxGradeCount,
+        minGradeCount,
+    } = useSelector((state: AppRootStoreType) => state.cards)
 
     const { token } = useParams();
 
@@ -40,7 +31,7 @@ export const CardsTable = () => {
         if (token) {
             dispatch(getCardsTC(token))
         }
-    }, [dispatch, token, sortCards, min, max, page, pageCount, cardQuestion])
+    }, [dispatch, token, sortCards, min, max, page, pageCount, cardQuestion, maxGradeCount, minGradeCount])
 
     const deleteCard = (id: string) => {
         if (token)
@@ -59,7 +50,9 @@ export const CardsTable = () => {
 
     return ( <>
         <Button onClick={ createCard }>add Card</Button>
-        <Search min={ +min } max={ +max }/>
+        <Search min={ +min } max={ +max }
+                defaultMin={ minGradeCount }
+                defaultMax={ maxGradeCount }/>
         <table className={ s.table }>
             <thead>
             <tr>

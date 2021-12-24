@@ -5,8 +5,8 @@ import * as AiIcons from "react-icons/ai";
 import { useState } from "react";
 import { sidebarData } from "../Navbar/sidebarData";
 import { useDispatch, useSelector } from "react-redux";
-import { AppRootStoreType } from "../../../bll/Store";
-import { logout } from "../../../bll/loginReducer";
+import { AppRootStoreType } from "bll/Store";
+import { logout } from "bll/loginReducer";
 
 export const Navbar = () => {
     const [sidebar, setSidebar] = useState<boolean>(false)

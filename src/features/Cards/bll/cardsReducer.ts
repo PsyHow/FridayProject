@@ -6,23 +6,25 @@ export const initialState = {
     sortCards: "",
     min: '0',
     max: '5',
-    pageCount: 3,
+    pageCount: 5,
     page: 1,
     cardsTotalCount: 0,
     cardQuestion: '',
+    maxGradeCount: 5,
+    minGradeCount: 0,
 }
 
 export const cardsReducer = (state = initialState, action: ActionCardTypes): InitialStateType => {
     switch (action.type) {
-        case "CARD_GET_CARDS":
+        case "CARDS_GET_CARDS":
             return { ...state, cards: action.cards }
-        case "CARD_GET_ID":
+        case "CARDS_GET_ID":
             return { ...state, id: action.id }
         case "SORTING":
             return { ...state, sortCards: action.item }
-        case "SET_MIN_CARDS_COUNT":
+        case "SET_MIN_ITEM_COUNT":
             return { ...state, min: action.min }
-        case "SET_MAX_CARDS_COUNT":
+        case "SET_MAX_ITEM_COUNT":
             return { ...state, max: action.max }
         case "PAGINATOR/SET_CURRENT_PAGE":
             return { ...state, page: action.page }

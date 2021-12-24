@@ -23,8 +23,8 @@ export const cardsAPI = {
         return instance.post(`cards/card`, {
             card: {
                 cardsPack_id,
-                question: 'the answer to the main question?',
-                answer: '42',
+                question: "the answer to the main question?",
+                answer: "42",
             },
         })
     },
