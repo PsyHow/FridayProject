@@ -13,44 +13,53 @@ import { Paginator } from "../../components/common/Paginator/Paginator";
 
 export const CardsTable = () => {
     const dispatch = useDispatch();
-    const cards = useSelector<AppRootStoreType, CardsType[]>(state => state.cardReducer.cards)
-    const sortCards = useSelector<AppRootStoreType, string>(state => state.cardReducer.sortCards)
-    const minGrade = useSelector<AppRootStoreType, string>(state => state.cardReducer.min)
-    const maxGrade = useSelector<AppRootStoreType, string>(state => state.cardReducer.max)
-    const page = useSelector<AppRootStoreType, number>(state => state.cardReducer.page)
-    const pageCount = useSelector<AppRootStoreType, number>(state => state.cardReducer.pageCount)
-    const questionName = useSelector<AppRootStoreType, string>(state => state.cardReducer.cardQuestion)
-
-    const pageSize = useSelector<AppRootStoreType, number>(state => state.cardReducer.pageCount)
-    const currentPage = useSelector<AppRootStoreType, number>(state => state.cardReducer.page)
-    const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.cardReducer.cardsTotalCount)
+    const {
+        cards,
+        sortCards,
+        min,
+        max,
+        page,
+        pageCount,
+        cardQuestion,
+        cardsTotalCount,
+    } = useSelector((state:AppRootStoreType)=> state.cardReducer)
+    // const sortCards = useSelector<AppRootStoreType, string>(state => state.cardReducer.sortCards)
+    // const minGrade = useSelector<AppRootStoreType, string>(state => state.cardReducer.min)
+    // const maxGrade = useSelector<AppRootStoreType, string>(state => state.cardReducer.max)
+    // const page = useSelector<AppRootStoreType, number>(state => state.cardReducer.page)
+    // const pageCount = useSelector<AppRootStoreType, number>(state => state.cardReducer.pageCount)
+    // const questionName = useSelector<AppRootStoreType, string>(state => state.cardReducer.cardQuestion)
+    //
+    // const pageSize = useSelector<AppRootStoreType, number>(state => state.cardReducer.pageCount)
+    // const currentPage = useSelector<AppRootStoreType, number>(state => state.cardReducer.page)
+    // const totalItemsCount = useSelector<AppRootStoreType, number>(state => state.cardReducer.cardsTotalCount)
 
     const { token } = useParams();
 
     useEffect(() => {
-        if(token) {
+        if (token) {
             dispatch(getCardsTC(token))
         }
-    }, [dispatch, token, sortCards, minGrade, maxGrade, page, pageCount, questionName])
+    }, [dispatch, token, sortCards, min, max, page, pageCount, cardQuestion])
 
     const deleteCard = (id: string) => {
-        if(token)
+        if (token)
             dispatch(deleteCardTC(token, id))
     }
 
     const createCard = () => {
-        if(token)
+        if (token)
             dispatch(createCardTC(token))
     }
 
     const updateCard = (id: string, question: string, answer: string) => {
-        if(token)
+        if (token)
             dispatch(updateCardTC(token, question, answer, id))
     }
 
     return ( <>
         <Button onClick={ createCard }>add Card</Button>
-        <Search min={ +minGrade } max={ +maxGrade }/>
+        <Search min={ +min } max={ +max }/>
         <table className={ s.table }>
             <thead>
             <tr>
@@ -70,8 +79,8 @@ export const CardsTable = () => {
             }) }
             </tbody>
         </table>
-        <Paginator totalItemsCount={ totalItemsCount }
-                   currentPage={ currentPage }
-                   pageSize={ pageSize }/>
+        <Paginator totalItemsCount={ cardsTotalCount }
+                   currentPage={ page }
+                   pageSize={ pageCount }/>
     </> )
 }
