@@ -1,16 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { loginTC } from "../../bll/loginReducer";
-import { AppRootStoreType } from "../../bll/Store";
+import { loginTC } from "bll/loginReducer";
+import { AppRootStoreType } from "bll/Store";
 import { Navigate, NavLink } from "react-router-dom";
 import styles from "./Login.module.css"
+import { instance } from "dal/apiConfing/apiConfing";
 
-const instance = axios.create({
-    withCredentials: true,
-    baseURL: "http://localhost:7542/2.0/"
-    // "http://localhost:7542/2.0/"
-})
 
 export const authAPI = {
     login(email: string, password: string, rememberMe: boolean) {
