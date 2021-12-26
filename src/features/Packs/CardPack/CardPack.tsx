@@ -2,8 +2,8 @@ import Button from "../../../components/common/Button/Button";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { CardPackType } from "../bll/CardPacksTypes";
-import {useSelector} from "react-redux";
-import {AppRootStoreType} from "../../../bll/Store";
+import { useSelector } from "react-redux";
+import { AppRootStoreType } from "../../../bll/Store";
 
 type CardPackPropsType = {
     cardPack: CardPackType

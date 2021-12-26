@@ -4,7 +4,7 @@ import React, { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { DoubleRange } from "../common/DoubleRange/DoubleRange";
 import {
-    getSearch,
+    getSearch, setCurrentPageAC,
     setMaxItemsCount,
     setMinItemsCount,
 } from "features/Packs/bll/CardPacksActions";
@@ -37,6 +37,7 @@ export const Search = memo(({ min, max, defaultMin, defaultMax }: PropsType) => 
         dispatch(getSearch(search))
         dispatch(setMinItemsCount(value1.toString()))
         dispatch(setMaxItemsCount(value2.toString()))
+        dispatch(setCurrentPageAC(1))
     }
 
     return (

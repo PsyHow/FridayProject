@@ -16,16 +16,18 @@ export const Card = ({ card, deleteCard, getUpdateCard }: CardsPropsType) => {
         getUpdateCard(card._id,'Why so serious?', '****')
     }
 
-    return <tr>
-        <td>{card.question}</td>
-        <td>{card.answer}</td>
-        <td>{card.grade}</td>
-        <td>{card.updated}</td>
-        <td>
-            {card.user_id===userId && <Button onClick={deleteCardId}>Delete</Button>}
-            {card.user_id===userId && <Button onClick={editCardPack}>Edit</Button>}
-        </td>
-    </tr>
+    return <>
+        <tr>
+            <td>{card.question}</td>
+            <td>{card.answer}</td>
+            <td>{card.grade}</td>
+            <td>{card.updated}</td>
+            <td>
+                {card.user_id===userId && <Button onClick={deleteCardId}>Delete</Button>}
+                {card.user_id===userId && <Button onClick={editCardPack}>Edit</Button>}
+            </td>
+        </tr>
+    </>
 }
 
 type CardsPropsType = {
