@@ -17,8 +17,6 @@ export const CardsTable = () => {
         sortCards,
         min,
         max,
-        page,
-        pageCount,
         cardQuestion,
         cardsTotalCount,
         maxGradeCount,
@@ -32,7 +30,7 @@ export const CardsTable = () => {
         if (token) {
             dispatch(getCardsTC(token))
         }
-    }, [dispatch, token, sortCards, min, max, page, pageCount, cardQuestion, maxGradeCount, minGradeCount, error])
+    }, [dispatch, token, sortCards, min, max, cardQuestion, maxGradeCount, minGradeCount, error])
 
     const deleteCard = (id: string) => {
         if (token)
@@ -73,9 +71,7 @@ export const CardsTable = () => {
             }) }
             </tbody>
         </table>
-        <Paginator totalItemsCount={ cardsTotalCount }
-                   currentPage={ page }
-                   pageSize={ pageCount }/>
+        <Paginator totalItemsCount={ cardsTotalCount }/>
         {error && <span className={s.error}>{ error }</span>}
     </> )
 }

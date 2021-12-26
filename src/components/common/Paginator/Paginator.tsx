@@ -1,24 +1,32 @@
 import style from "./Paginator.module.css";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SuperSelect } from "../Select/SuperSelect";
 import Button from "../Button/Button";
-import {
-    setCurrentPageAC,
-    setPageCount,
-} from "features/Packs/bll/CardPacksActions";
+import { setCurrentPageAC, setPageCount } from "features/Packs/bll/CardPacksActions";
 import { setCardsError } from "../../../features/Cards/bll/cardsActions";
+import { getCardPacksTC } from "../../../features/Packs/bll/CardPacksThunk";
+import { AppRootStoreType } from "../../../bll/Store";
+import { useParams } from "react-router-dom";
+import { getCardsTC } from "../../../features/Cards/bll/cardsThunks";
 
-export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) => {
+export const Paginator = ({ totalItemsCount }: PropsType) => {
     const dispatch = useDispatch();
+
+    const { page, pageCount } = useSelector((state: AppRootStoreType) => state.cardPacks)
 
     const pageItems = [3, 5, 10];
 
+    const { token } = useParams();
+
     const [portionNumber, setPortionNumber] = useState<number>(1)
+
     const [value, setValue] = useState(pageItems[1])
 
-    const pagesCount = Math.ceil(totalItemsCount / pageSize)
+    const pagesCount = Math.ceil(totalItemsCount / pageCount)
+
     const pages = []
+
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
 
@@ -31,11 +39,19 @@ export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) =>
     const onPageChanged = (page: number) => {
         dispatch(setCardsError(''))
         dispatch(setCurrentPageAC(page))
+        if(token) {
+            dispatch(getCardsTC(token))
+        } else
+            dispatch(getCardPacksTC())
     }
 
     const onChangeSelect = (items: 3 | 5 | 10) => {
         dispatch(setPageCount(items))
         setValue(items)
+        if(token) {
+            dispatch(getCardsTC(token))
+        } else
+            dispatch(getCardPacksTC())
     }
 
     return (
@@ -51,7 +67,7 @@ export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) =>
                 .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map(m =>
                     <span
-                        className={ currentPage === m ? style.selectedPage : style.pageNumber }
+                        className={ page === m ? style.selectedPage : style.pageNumber }
                         onClick={ () => {onPageChanged(m)} }>
                 { m }
             </span>)
@@ -64,7 +80,5 @@ export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) =>
 }
 
 type PropsType = {
-    totalItemsCount:number
-    currentPage:number
-    pageSize:number
+    totalItemsCount: number
 }

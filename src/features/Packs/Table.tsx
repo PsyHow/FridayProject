@@ -25,8 +25,6 @@ export const Table = () => {
     const {
         cardPacksTotalCount,
         cardPacks,
-        page,
-        pageCount,
         sortPacks,
         packName,
         min,
@@ -39,7 +37,7 @@ export const Table = () => {
     useEffect(() => {
         dispatch(setCardsError(''))
         dispatch(getCardPacksTC())
-    }, [dispatch, page, pageCount, sortPacks, loggedIn, packName, min, max, minCardsCount, maxCardsCount])
+    }, [dispatch, sortPacks, packName, min, max, minCardsCount, maxCardsCount])
 
     const deleteCardPack = (id: string) => {
         dispatch(deleteCardPackTC(id))
@@ -92,9 +90,7 @@ export const Table = () => {
             }) }
             </tbody>
         </table>
-        <Paginator totalItemsCount={ cardPacksTotalCount }
-                   currentPage={ page }
-                   pageSize={ pageCount }/>
+        <Paginator totalItemsCount={ cardPacksTotalCount }/>
         { error && <span className={ s.error }>{ error }</span> }
     </> )
 }
