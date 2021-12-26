@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import s from "./Table.module.css"
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "bll/Store";
@@ -15,10 +15,13 @@ import {
     updateCardPackTC,
 } from "./bll/CardPacksThunk";
 import { setCardsError } from "../Cards/bll/cardsActions";
+import SuperCheckbox from "../../components/common/Checkbox/Checkbox";
+import { setPackId } from "./bll/CardPacksActions";
 
 export const Table = () => {
     const dispatch = useDispatch()
     const loggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
+    const userId = useSelector<AppRootStoreType, string>(st => st.profileReducer.user._id)
     const {
         cardPacksTotalCount,
         cardPacks,
@@ -30,8 +33,8 @@ export const Table = () => {
         max,
         minCardsCount,
         maxCardsCount,
-        error
-    } = useSelector((state:AppRootStoreType)=> state.cardPacks)
+        error,
+    } = useSelector((state: AppRootStoreType) => state.cardPacks)
 
     useEffect(() => {
         dispatch(setCardsError(''))
@@ -50,14 +53,26 @@ export const Table = () => {
         dispatch(createCardPackTC())
     }
 
-    if (!loggedIn) {
+    const changePacks = (e: ChangeEvent<HTMLInputElement>) => {
+        if(e.currentTarget.checked) {
+            dispatch(setPackId(userId))
+            dispatch(getCardPacksTC())
+        } else {
+            dispatch(setPackId(''))
+            dispatch(getCardPacksTC())
+        }
+    }
+
+    if(!loggedIn) {
         return <Navigate to="/login"/>
     }
 
     return ( <>
-        <Button onClick={ createCardPack }> add cardpack</Button>
+        <Button style={ { marginRight: "20px" } } onClick={ createCardPack }> add
+            cardpack</Button>
+        <SuperCheckbox onChange={ changePacks }/> --- My Packs
         <Search min={ +min } max={ +max }
-                defaultMin={minCardsCount} defaultMax={maxCardsCount}/>
+                defaultMin={ minCardsCount } defaultMax={ maxCardsCount }/>
         <table className={ s.table }>
             <thead>
             <tr>
@@ -80,6 +95,6 @@ export const Table = () => {
         <Paginator totalItemsCount={ cardPacksTotalCount }
                    currentPage={ page }
                    pageSize={ pageCount }/>
-        {error && <span className={s.error}>{error}</span>}
+        { error && <span className={ s.error }>{ error }</span> }
     </> )
 }

@@ -7,8 +7,8 @@ import { setCardsError } from "../../Cards/bll/cardsActions";
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
         const state = getState();
-        const { pageCount, page, sortPacks, packName, min, max } = state.cardPacks
-        cardPacksAPI.getCardPacks(pageCount, page, sortPacks, packName, min, max)
+        const { pageCount, page, sortPacks, packName, min, max, user_id } = state.cardPacks
+        cardPacksAPI.getCardPacks(pageCount, page, sortPacks, packName, min, max, user_id)
             .then(res => {
                 dispatch(setCardPacks(res.data.cardPacks))
                 dispatch(setTotalItemsCount(res.data.cardPacksTotalCount))

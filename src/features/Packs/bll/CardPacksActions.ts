@@ -39,3 +39,8 @@ export const setMaxItemsCount = (max: string) => ( {
     type: "SET_MAX_ITEM_COUNT",
     max,
 } as const )
+
+export const setPackId = (id:string) => ({
+    type: "SET_PACK_ID",
+    id
+} as const)

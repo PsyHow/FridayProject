@@ -1,7 +1,12 @@
 import {
-    getSearch, getSorting, setCardPacks, setCurrentPageAC,
+    getSearch,
+    getSorting,
+    setCardPacks,
+    setCurrentPageAC,
     setMaxItemsCount,
-    setMinItemsCount, setPageCount, setTotalItemsCount,
+    setMinItemsCount, setPackId,
+    setPageCount,
+    setTotalItemsCount,
 } from "./CardPacksActions";
 import { initialState } from "./CardPacksReducer";
 import { SetCardsErrorType } from "../../Cards/bll/cardsTypes";
@@ -16,6 +21,7 @@ export type SetCardPacksActionType = ReturnType<typeof setCardPacks>
     | SetMaxItemCountType
     | GetSortingType
     | SetCardsErrorType
+    | ReturnType<typeof setPackId>
 
 export type GetSearchType = ReturnType<typeof getSearch>
 export type SetPageCountType = ReturnType<typeof setPageCount>
