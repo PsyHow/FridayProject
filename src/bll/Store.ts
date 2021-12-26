@@ -3,7 +3,10 @@ import { firstReducer } from "./FirstReducer";
 import thunk, {ThunkAction} from "redux-thunk";
 import { loginReducer } from "./loginReducer";
 import { profileReducer } from "./profileReducer";
-import { passwordRecoverReducer } from "./passwordRecoverReducer";
+import {
+    passwordRecoverActionTypes,
+    passwordRecoverReducer,
+} from "./passwordRecoverReducer";
 import { signUpReducer } from "./signUpReducer";
 import { cardPacksReducer} from "../features/Packs/bll/CardPacksReducer";
 import { CardPacksActionsType } from "../features/Packs/bll/CardPacksTypes";

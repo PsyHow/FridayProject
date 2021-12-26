@@ -11,6 +11,7 @@ export const initialState = {
     packName: "",
     min: '0',
     max: '103',
+    error: ''
 }
 
 export const cardPacksReducer =
@@ -32,6 +33,8 @@ export const cardPacksReducer =
                 return { ...state, max: action.max }
             case "SET_MIN_ITEM_COUNT":
                 return { ...state, min: action.min }
+            case "SET_CARDS_ERROR":
+                return { ...state, error: action.error}
             default:
                 return state
         }

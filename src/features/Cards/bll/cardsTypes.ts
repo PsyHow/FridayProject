@@ -1,4 +1,4 @@
-import { getCardsIdAC, getCardsAC } from "./cardsActions";
+import { getCardsIdAC, getCardsAC, setCardsError } from "./cardsActions";
 import { initialState } from "./cardsReducer";
 import {
     GetSearchType,
@@ -18,6 +18,9 @@ export type ActionCardTypes = ReturnType<typeof getCardsAC>
     | SetTotalItemsCountType
     | SetPageCountType
     | GetSearchType
+    | SetCardsErrorType
+
+export type SetCardsErrorType = ReturnType<typeof setCardsError>
 
 export type CardsType = {
     answer: string

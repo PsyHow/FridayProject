@@ -1,6 +1,8 @@
 import { AppRootStoreType, AppThunkType } from "../../../bll/Store";
 import { setCardPacks, setTotalItemsCount } from "./CardPacksActions";
 import { cardPacksAPI } from "../dal/CardPacksAPI";
+import axios from "axios";
+import { setCardsError } from "../../Cards/bll/cardsActions";
 
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
@@ -12,7 +14,11 @@ export const getCardPacksTC = (): AppThunkType => {
                 dispatch(setTotalItemsCount(res.data.cardPacksTotalCount))
             })
             .catch((error) => {
-                console.log(error) // just a plug (fix it later)
+                if (axios.isAxiosError(error) && error.response) {
+                    dispatch(setCardsError(error.response.data.error));
+                } else if (axios.isAxiosError(error)) {
+                    dispatch(setCardsError(error.message));
+                }
             })
     }
 }
@@ -24,7 +30,11 @@ export const deleteCardPackTC = (id: string): AppThunkType => {
                 dispatch(getCardPacksTC())
             })
             .catch((error) => {
-                console.log(error) // just a plug (fix it later)
+                if (axios.isAxiosError(error) && error.response) {
+                    dispatch(setCardsError(error.response.data.error));
+                } else if (axios.isAxiosError(error)) {
+                    dispatch(setCardsError(error.message));
+                }
             })
     }
 }
@@ -35,7 +45,11 @@ export const createCardPackTC = (): AppThunkType => {
                 dispatch(getCardPacksTC())
             })
             .catch((error) => {
-                console.log(error) // just a plug (fix it later)
+                if (axios.isAxiosError(error) && error.response) {
+                    dispatch(setCardsError(error.response.data.error));
+                } else if (axios.isAxiosError(error)) {
+                    dispatch(setCardsError(error.message));
+                }
             })
     }
 }
@@ -46,7 +60,11 @@ export const updateCardPackTC = (id: string, name: string): AppThunkType => {
                 dispatch(getCardPacksTC())
             })
             .catch((error) => {
-                console.log(error) // just a plug (fix it later)
+                if (axios.isAxiosError(error) && error.response) {
+                    dispatch(setCardsError(error.response.data.error));
+                } else if (axios.isAxiosError(error)) {
+                    dispatch(setCardsError(error.message));
+                }
             })
     }
 }

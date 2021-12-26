@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './App.css';
 import { Routing } from "./components/Routes";
 import { Navbar } from "./components/common/Navbar/Navbar";
-import { authMe } from "../src/bll/loginReducer";
+import { authMe } from "./bll/loginReducer";
 import { useDispatch } from "react-redux";
 
 
@@ -11,7 +11,7 @@ export const App = () => {
 
     useEffect(()=> {
         dispatch(authMe())
-    },[])
+    },[dispatch])
 
     return (
         <div className="App">

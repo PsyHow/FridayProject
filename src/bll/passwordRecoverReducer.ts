@@ -52,7 +52,7 @@ export const recoverTC = (email: string) => (dispatch: Dispatch) => {
 export const newPassword = (password: string, token: string) => (dispatch: Dispatch) => {
     dispatch(isFetching(true))
     registrationAPI.newPassword({ password, resetPasswordToken: token })
-        .then(res => {
+        .then(() => {
             dispatch(setNewPassword())
             dispatch(setError(''))
         })
@@ -70,7 +70,7 @@ export const newPassword = (password: string, token: string) => (dispatch: Dispa
 type InitialStateType = typeof initialState
 
 export type SetErrorType = ReturnType<typeof setError>
-type passwordRecoverActionTypes = ReturnType<typeof isFetching>
+export type passwordRecoverActionTypes = ReturnType<typeof isFetching>
     | ReturnType<typeof setNewPassword>
     | ReturnType<typeof sendEmail>
     | SetErrorType

@@ -14,6 +14,7 @@ import {
     getCardPacksTC,
     updateCardPackTC,
 } from "./bll/CardPacksThunk";
+import { setCardsError } from "../Cards/bll/cardsActions";
 
 export const Table = () => {
     const dispatch = useDispatch()
@@ -29,9 +30,11 @@ export const Table = () => {
         max,
         minCardsCount,
         maxCardsCount,
+        error
     } = useSelector((state:AppRootStoreType)=> state.cardPacks)
 
     useEffect(() => {
+        dispatch(setCardsError(''))
         dispatch(getCardPacksTC())
     }, [dispatch, page, pageCount, sortPacks, loggedIn, packName, min, max, minCardsCount, maxCardsCount])
 
@@ -77,5 +80,6 @@ export const Table = () => {
         <Paginator totalItemsCount={ cardPacksTotalCount }
                    currentPage={ page }
                    pageSize={ pageCount }/>
+        {error && <span className={s.error}>{error}</span>}
     </> )
 }

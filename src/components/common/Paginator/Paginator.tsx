@@ -7,6 +7,7 @@ import {
     setCurrentPageAC,
     setPageCount,
 } from "features/Packs/bll/CardPacksActions";
+import { setCardsError } from "../../../features/Cards/bll/cardsActions";
 
 export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) => {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ export const Paginator = ({totalItemsCount, currentPage, pageSize}:PropsType) =>
     const rightPortionPageNumber = portionNumber * portionSize
 
     const onPageChanged = (page: number) => {
+        dispatch(setCardsError(''))
         dispatch(setCurrentPageAC(page))
     }
 

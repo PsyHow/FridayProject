@@ -12,6 +12,7 @@ export const initialState = {
     cardQuestion: '',
     maxGradeCount: 5,
     minGradeCount: 0,
+    error: '',
 }
 
 export const cardsReducer = (state = initialState, action: ActionCardTypes): InitialStateType => {
@@ -34,6 +35,8 @@ export const cardsReducer = (state = initialState, action: ActionCardTypes): Ini
             return { ...state, pageCount: action.pageCount }
         case "SEARCH":
             return { ...state, cardQuestion: action.value }
+        case "SET_CARDS_ERROR":
+            return { ...state, error: action.error }
         default:
             return state;
     }

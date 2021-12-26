@@ -5,3 +5,11 @@
     font-weight:  bolder; color: #1d1d1d
 }
 .table thead tr td:hover {background: #8686d2; transition-duration: 0.2s; cursor: pointer}
+
+.error {
+    padding-top: 30px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    color: red;
+}
