@@ -2,10 +2,11 @@ import { getCardsIdAC, getCardsAC, setCardsError } from "./cardsActions";
 import { initialState } from "./cardsReducer";
 import {
     GetSearchType,
-    GetSortingType, SetCurrentPageType,
+    GetSortingType,
     SetMaxItemCountType,
-    SetMinItemCountType, SetPageCountType, SetTotalItemsCountType,
+    SetMinItemCountType,
 } from "../../Packs/bll/CardPacksTypes";
+import { PaginatorActionTypes } from "bll/paginatorReducer/paginatorTypes";
 
 export type InitialStateType = typeof initialState;
 
@@ -14,11 +15,9 @@ export type ActionCardTypes = ReturnType<typeof getCardsAC>
     | GetSortingType
     | SetMinItemCountType
     | SetMaxItemCountType
-    | SetCurrentPageType
-    | SetTotalItemsCountType
-    | SetPageCountType
     | GetSearchType
     | SetCardsErrorType
+    | PaginatorActionTypes
 
 export type SetCardsErrorType = ReturnType<typeof setCardsError>
 

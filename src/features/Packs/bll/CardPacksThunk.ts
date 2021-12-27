@@ -1,8 +1,9 @@
-import { AppRootStoreType, AppThunkType } from "../../../bll/Store";
-import { setCardPacks, setTotalItemsCount } from "./CardPacksActions";
+import { AppRootStoreType, AppThunkType } from "bll/Store";
+import { setCardPacks } from "./CardPacksActions";
 import { cardPacksAPI } from "../dal/CardPacksAPI";
 import axios from "axios";
 import { setCardsError } from "../../Cards/bll/cardsActions";
+import { setTotalItemsCount } from "bll/paginatorReducer/paginatorActions";
 
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {

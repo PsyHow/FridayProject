@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { getSorting, setCurrentPageAC } from "features/Packs/bll/CardPacksActions";
+import { getSorting } from "features/Packs/bll/CardPacksActions";
+import { setCurrentPageAC } from "bll/paginatorReducer/paginatorActions";
 
 export const Sorting:FC<PropsType> = ({ sortName }) => {
     const dispatch = useDispatch();

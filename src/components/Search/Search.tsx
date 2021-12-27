@@ -4,11 +4,12 @@ import React, { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { DoubleRange } from "../common/DoubleRange/DoubleRange";
 import {
-    getSearch, setCurrentPageAC,
+    getSearch,
     setMaxItemsCount,
     setMinItemsCount,
 } from "features/Packs/bll/CardPacksActions";
 import style from "./Search.module.css";
+import { setCurrentPageAC } from "bll/paginatorReducer/paginatorActions";
 
 export const Search = memo(({ min, max, defaultMin, defaultMax }: PropsType) => {
     const dispatch = useDispatch();

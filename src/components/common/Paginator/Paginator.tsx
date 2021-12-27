@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SuperSelect } from "../Select/SuperSelect";
 import Button from "../Button/Button";
-import { setCurrentPageAC, setPageCount } from "features/Packs/bll/CardPacksActions";
-import { setCardsError } from "../../../features/Cards/bll/cardsActions";
-import { getCardPacksTC } from "../../../features/Packs/bll/CardPacksThunk";
-import { AppRootStoreType } from "../../../bll/Store";
+import { setCardsError } from "features/Cards/bll/cardsActions";
+import { getCardPacksTC } from "features/Packs/bll/CardPacksThunk";
+import { AppRootStoreType } from "bll/Store";
 import { useParams } from "react-router-dom";
-import { getCardsTC } from "../../../features/Cards/bll/cardsThunks";
+import { getCardsTC } from "features/Cards/bll/cardsThunks";
+import { setCurrentPageAC, setPageCount } from "bll/paginatorReducer/paginatorActions";
 
 export const Paginator = ({ totalItemsCount }: PropsType) => {
     const dispatch = useDispatch();
