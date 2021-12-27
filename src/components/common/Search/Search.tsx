@@ -1,8 +1,8 @@
-import SuperInputText from "../common/Input/Input"
-import Button from "../common/Button/Button";
+import SuperInputText from "../Input/Input"
+import Button from "../Button/Button";
 import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { DoubleRange } from "../common/DoubleRange/DoubleRange";
+import { DoubleRange } from "../DoubleRange/DoubleRange";
 import {
     getPackSearch,
     setMinMaxCardsPackCount,
@@ -12,9 +12,9 @@ import { setCurrentPageAC } from "components/common/Paginator/paginatorActions";
 import {
     getCardsSearch,
     setMinMaxCardsCountAC,
-} from "../../features/Cards/bll/cardsActions";
-import { getCardsTC } from "../../features/Cards/bll/cardsThunks";
-import { getCardPacksTC } from "../../features/Packs/bll/CardPacksThunk";
+} from "../../../features/Cards/bll/cardsActions";
+import { getCardsTC } from "../../../features/Cards/bll/cardsThunks";
+import { getCardPacksTC } from "../../../features/Packs/bll/CardPacksThunk";
 
 export const Search: FC<PropsType> =
     ({ min, max, defaultMin, defaultMax, token }) => {

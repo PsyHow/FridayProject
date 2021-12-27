@@ -1,13 +1,13 @@
 import s from "../Packs/Table.module.css";
-import { Sorting } from "components/Sorting/Sorting";
+import { Sorting } from "components/common/Sorting/Sorting";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "bll/Store";
 import { Card } from "./Card/Card";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from "./bll/cardsThunks";
 import Button from "components/common/Button/Button";
-import { Search } from "components/Search/Search";
+import { Search } from "components/common/Search/Search";
 import { Paginator } from "components/common/Paginator/Paginator";
 import { setCurrentPageAC } from "../../components/common/Paginator/paginatorActions";
 
@@ -24,6 +24,7 @@ export const CardsTable = () => {
         page,
         error
     } = useSelector((state: AppRootStoreType) => state.cards)
+    const isLoggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
 
     const { token } = useParams();
 
@@ -49,7 +50,9 @@ export const CardsTable = () => {
             dispatch(updateCardTC(token, question, answer, id))
     }
 
-    debugger;
+    if(!isLoggedIn) {
+        return <Navigate to="/login"/>
+    }
 
     return ( <>
         <Button onClick={ createCard }>add Card</Button>

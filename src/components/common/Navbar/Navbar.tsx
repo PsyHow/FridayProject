@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { useState } from "react";
-import { sidebarData } from "../Navbar/sidebarData";
+import { sidebarData } from "./sidebarData";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "bll/Store";
 import { logout } from "bll/loginReducer";
@@ -26,9 +26,9 @@ export const Navbar = () => {
             <NavLink to="#" className={ style.menuBars }>
                 <FaIcons.FaBars onClick={ showSidebar }/>
             </NavLink>
-            {isLoggedIn ? <a className={ style.login } onClick={logoutHandle}>
+            {isLoggedIn ? <NavLink to={'/login'} className={ style.login } onClick={logoutHandle}>
                 logout
-            </a> : <NavLink to="/login" className={ style.login }>Login</NavLink>}
+            </NavLink> : <NavLink to="/login" className={ style.login }>Login</NavLink>}
 
         </div>
         <nav

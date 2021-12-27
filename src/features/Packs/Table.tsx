@@ -5,8 +5,8 @@ import { AppRootStoreType } from "bll/Store";
 import Button from "../../components/common/Button/Button";
 import { CardPack } from "./CardPack/CardPack";
 import { Paginator } from "components/common/Paginator/Paginator";
-import { Sorting } from "components/Sorting/Sorting";
-import { Search } from "components/Search/Search";
+import { Sorting } from "components/common/Sorting/Sorting";
+import { Search } from "components/common/Search/Search";
 import { Navigate } from "react-router-dom";
 import {
     createCardPackTC,
@@ -21,7 +21,7 @@ import { setCurrentPageAC } from "../../components/common/Paginator/paginatorAct
 
 export const Table = () => {
     const dispatch = useDispatch()
-    const loggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
+    const isLoggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
     const userId = useSelector<AppRootStoreType, string>(st => st.profileReducer.user._id)
     const {
         cardPacksTotalCount,
@@ -63,7 +63,7 @@ export const Table = () => {
         }
     }
 
-    if(!loggedIn) {
+    if(!isLoggedIn) {
         return <Navigate to="/login"/>
     }
 

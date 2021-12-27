@@ -1,5 +1,5 @@
 import style from "./Paginator.module.css";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 import { SuperSelect } from "../Select/SuperSelect";
 import Button from "../Button/Button";
@@ -12,7 +12,7 @@ import {
     setPageCount,
 } from "components/common/Paginator/paginatorActions";
 
-export const Paginator = ({page,pageCount, totalItemsCount }: PropsType) => {
+export const Paginator: FC<PropsType> = ({page,pageCount, totalItemsCount }) => {
     const dispatch = useDispatch();
     const { token } = useParams();
 
