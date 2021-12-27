@@ -1,29 +1,21 @@
 import {
-    getSearch,
-    getSorting,
-    setCardPacks,
-    setMaxItemsCount,
-    setMinItemsCount,
+    getPackSearch, getPackSorting,
+    setCardPacks, setMinMaxCardsPackCount,
     setPackId,
 } from "./CardPacksActions";
 import { initialState } from "./CardPacksReducer";
 import { SetCardsErrorType } from "../../Cards/bll/cardsTypes";
-import { PaginatorActionTypes } from "bll/paginatorReducer/paginatorTypes";
+import { PaginatorActionTypes } from "components/common/Paginator/paginatorTypes";
 
 
 export type SetCardPacksActionType = ReturnType<typeof setCardPacks>
-    | GetSearchType
-    | SetMinItemCountType
-    | SetMaxItemCountType
-    | GetSortingType
+    | ReturnType<typeof getPackSearch>
+    | ReturnType<typeof setMinMaxCardsPackCount>
+    | ReturnType<typeof getPackSorting>
     | SetCardsErrorType
     | ReturnType<typeof setPackId>
     | PaginatorActionTypes
 
-export type GetSearchType = ReturnType<typeof getSearch>
-export type GetSortingType = ReturnType<typeof getSorting>
-export type SetMinItemCountType = ReturnType<typeof setMinItemsCount>
-export type SetMaxItemCountType = ReturnType<typeof setMaxItemsCount>
 
 export type CardPacksActionsType = SetCardPacksActionType
 

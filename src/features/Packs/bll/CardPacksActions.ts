@@ -5,25 +5,21 @@ export const setCardPacks = (cards: Array<CardPackType>) => ( {
     cards,
 } as const )
 
-export const getSorting = (item: any) => ( {
-    type: "SORTING",
+export const getPackSorting = (item: any) => ( {
+    type: "GET_PACK_SORTING",
     item,
 } as const )
 
-export const getSearch = (value: string) => ( {
-    type: "SEARCH",
+export const getPackSearch = (value: string) => ( {
+    type: "GET_PACK_SEARCH",
     value,
 } as const )
 
-export const setMinItemsCount = (min: string) => ( {
-    type: "SET_MIN_ITEM_COUNT",
+export const setMinMaxCardsPackCount = (min:number, max:number) => ({
+    type: "SET_MIN_MAX_CARDS_PACK_COUNT",
     min,
-} as const )
-
-export const setMaxItemsCount = (max: string) => ( {
-    type: "SET_MAX_ITEM_COUNT",
-    max,
-} as const )
+    max
+} as const)
 
 export const setPackId = (id:string) => ({
     type: "SET_PACK_ID",

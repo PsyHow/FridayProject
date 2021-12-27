@@ -15,3 +15,19 @@ export const setCardsError = (error: string) => ({
     type: "SET_CARDS_ERROR",
     error
 } as const)
+
+export const setMinMaxCardsCountAC = (min:number, max:number) => ({
+    type: "SET_MIN_MAN_CARDS_COUNT",
+    min,
+    max
+} as const)
+
+export const getCardsSearch = (value:string) => ({
+    type: "GET_CARDS_SEARCH",
+    value
+} as const )
+
+export const getCardsSorting = (item: any) => ( {
+    type: "GET_CARDS_SORTING",
+    item,
+} as const )

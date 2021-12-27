@@ -9,28 +9,30 @@ import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from "./bll/card
 import Button from "components/common/Button/Button";
 import { Search } from "components/Search/Search";
 import { Paginator } from "components/common/Paginator/Paginator";
+import { setCurrentPageAC } from "../../components/common/Paginator/paginatorActions";
 
 export const CardsTable = () => {
     const dispatch = useDispatch();
     const {
         cards,
-        sortCards,
         min,
         max,
-        cardQuestion,
         cardsTotalCount,
         maxGradeCount,
         minGradeCount,
+        pageCount,
+        page,
         error
     } = useSelector((state: AppRootStoreType) => state.cards)
 
     const { token } = useParams();
 
     useEffect(() => {
+        dispatch(setCurrentPageAC(1))
         if (token) {
             dispatch(getCardsTC(token))
         }
-    }, [dispatch, token, sortCards, min, max, cardQuestion, maxGradeCount, minGradeCount, error])
+    }, [dispatch, token])
 
     const deleteCard = (id: string) => {
         if (token)
@@ -47,9 +49,13 @@ export const CardsTable = () => {
             dispatch(updateCardTC(token, question, answer, id))
     }
 
+    debugger;
+
     return ( <>
         <Button onClick={ createCard }>add Card</Button>
-        <Search min={ +min } max={ +max }
+        <Search
+            token={token}
+            min={ min } max={ max }
                 defaultMin={ minGradeCount }
                 defaultMax={ maxGradeCount }/>
         <table className={ s.table }>
@@ -57,8 +63,8 @@ export const CardsTable = () => {
             <tr>
                 <td>Question</td>
                 <td>Answer</td>
-                <td>Grade<Sorting sortName={ "grade" }/></td>
-                <td>Created by<Sorting sortName={ "created" }/></td>
+                <td>Grade<Sorting token={token} sortName={ "grade" }/></td>
+                <td>Created by<Sorting token={token} sortName={ "created" }/></td>
                 <td>Actions</td>
             </tr>
             </thead>
@@ -71,7 +77,10 @@ export const CardsTable = () => {
             }) }
             </tbody>
         </table>
-        <Paginator totalItemsCount={ cardsTotalCount }/>
+        <Paginator
+            page={page}
+            pageCount={pageCount}
+            totalItemsCount={ cardsTotalCount }/>
         {error && <span className={s.error}>{ error }</span>}
     </> )
 }

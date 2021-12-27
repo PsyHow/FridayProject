@@ -3,7 +3,7 @@ import { CardsResponseType } from "./CardsApiTypes";
 
 export const cardsAPI = {
     getCards(cardsPack_id: string, sortCards: string, min:
-        string, max: string, pageCount: number, page: number, cardQuestion: string) {
+        number, max: number, pageCount: number, page: number, cardQuestion: string) {
         return instance.get<CardsResponseType>(`cards/card`, {
             params: {
                 cardsPack_id,

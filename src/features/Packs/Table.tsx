@@ -17,6 +17,7 @@ import {
 import { setCardsError } from "../Cards/bll/cardsActions";
 import SuperCheckbox from "../../components/common/Checkbox/Checkbox";
 import { setPackId } from "./bll/CardPacksActions";
+import { setCurrentPageAC } from "../../components/common/Paginator/paginatorActions";
 
 export const Table = () => {
     const dispatch = useDispatch()
@@ -25,10 +26,10 @@ export const Table = () => {
     const {
         cardPacksTotalCount,
         cardPacks,
-        sortPacks,
-        packName,
         min,
         max,
+        page,
+        pageCount,
         minCardsCount,
         maxCardsCount,
         error,
@@ -36,8 +37,9 @@ export const Table = () => {
 
     useEffect(() => {
         dispatch(setCardsError(''))
+        dispatch(setCurrentPageAC(1))
         dispatch(getCardPacksTC())
-    }, [dispatch, sortPacks, packName, min, max, minCardsCount, maxCardsCount])
+    }, [dispatch])
 
     const deleteCardPack = (id: string) => {
         dispatch(deleteCardPackTC(id))
@@ -69,7 +71,7 @@ export const Table = () => {
         <Button style={ { marginRight: "20px" } } onClick={ createCardPack }> add
             cardpack</Button>
         <SuperCheckbox onChange={ changePacks }/> --- My Packs
-        <Search min={ +min } max={ +max }
+        <Search min={ min } max={ max }
                 defaultMin={ minCardsCount } defaultMax={ maxCardsCount }/>
         <table className={ s.table }>
             <thead>
@@ -90,7 +92,10 @@ export const Table = () => {
             }) }
             </tbody>
         </table>
-        <Paginator totalItemsCount={ cardPacksTotalCount }/>
+        <Paginator
+            page={page}
+            pageCount={pageCount}
+            totalItemsCount={ cardPacksTotalCount }/>
         { error && <span className={ s.error }>{ error }</span> }
     </> )
 }

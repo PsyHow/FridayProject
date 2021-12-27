@@ -9,8 +9,8 @@ export const initialState = {
     pageCount: 5,
     sortPacks: "",
     packName: "",
-    min: '0',
-    max: '103',
+    min: 0,
+    max: 103,
     error: '',
     user_id: '',
 }
@@ -26,14 +26,12 @@ export const cardPacksReducer =
                 return { ...state, page: action.page }
             case "PAGINATOR/SET_PAGE_COUNT":
                 return { ...state, pageCount: action.pageCount }
-            case "SORTING":
+            case "GET_PACK_SORTING":
                 return { ...state, sortPacks: action.item }
-            case "SEARCH":
+            case "GET_PACK_SEARCH":
                 return { ...state, packName: action.value }
-            case "SET_MAX_ITEM_COUNT":
-                return { ...state, max: action.max }
-            case "SET_MIN_ITEM_COUNT":
-                return { ...state, min: action.min }
+            case "SET_MIN_MAX_CARDS_PACK_COUNT":
+                return { ...state, min: action.min, max: action.max}
             case "SET_CARDS_ERROR":
                 return { ...state, error: action.error}
             case "SET_PACK_ID":

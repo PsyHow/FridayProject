@@ -34,6 +34,10 @@ export const CardPack = (props: CardPackPropsType) => {
             {cardPack.user_id===userId && <Button onClick={deleteCardPack}>Delete</Button>}
             {cardPack.user_id===userId && <Button onClick={editCardPack}>Edit</Button>}
             <NavLink to={`/card/${cardPack._id}`}>
+                <Button>Watch</Button>
+            </NavLink>
+
+            <NavLink to={`/card/${cardPack._id}`}>
                 <Button>Learn</Button>
             </NavLink>
 

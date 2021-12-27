@@ -2,7 +2,7 @@ import { instance } from "dal/apiConfing/apiConfing";
 import { CardsPackResponseType } from "./CardPackApiTypes";
 // cardPackAPI
 export const cardPacksAPI = {
-    getCardPacks(pageCount: number, page: number, sortPacks: string, packName: string, min: string, max: string, user_id: string) {
+    getCardPacks(pageCount: number, page: number, sortPacks: string, packName: string, min: number, max: number, user_id: string) {
         return instance.get<CardsPackResponseType>
         (`cards/pack`, { params: { pageCount, page, sortPacks, packName, min, max, user_id } })
     },

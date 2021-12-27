@@ -3,7 +3,7 @@ import { setCardPacks } from "./CardPacksActions";
 import { cardPacksAPI } from "../dal/CardPacksAPI";
 import axios from "axios";
 import { setCardsError } from "../../Cards/bll/cardsActions";
-import { setTotalItemsCount } from "bll/paginatorReducer/paginatorActions";
+import { setTotalItemsCount } from "components/common/Paginator/paginatorActions";
 
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {

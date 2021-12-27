@@ -9,7 +9,6 @@ import { cardPacksReducer } from "features/Packs/bll/CardPacksReducer";
 import { CardPacksActionsType } from "features/Packs/bll/CardPacksTypes";
 import { cardsReducer } from "features/Cards/bll/cardsReducer";
 import { ActionCardTypes } from "features/Cards/bll/cardsTypes";
-import { paginatorReducer } from "bll/paginatorReducer/paginatorReducer";
 
 const reducers = combineReducers({
     firstReducer,
@@ -19,7 +18,6 @@ const reducers = combineReducers({
     recovery: passwordRecoverReducer,
     registration: signUpReducer,
     cardPacks: cardPacksReducer,
-    paginator: paginatorReducer
 })
 
 export const store = createStore(reducers, applyMiddleware(thunk))

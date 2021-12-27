@@ -1,23 +1,22 @@
-import { getCardsIdAC, getCardsAC, setCardsError } from "./cardsActions";
-import { initialState } from "./cardsReducer";
 import {
-    GetSearchType,
-    GetSortingType,
-    SetMaxItemCountType,
-    SetMinItemCountType,
-} from "../../Packs/bll/CardPacksTypes";
-import { PaginatorActionTypes } from "bll/paginatorReducer/paginatorTypes";
+    getCardsIdAC,
+    getCardsAC,
+    setCardsError,
+    setMinMaxCardsCountAC, getCardsSearch, getCardsSorting,
+} from "./cardsActions";
+import { initialState } from "./cardsReducer";
+
+import { PaginatorActionTypes } from "components/common/Paginator/paginatorTypes";
 
 export type InitialStateType = typeof initialState;
 
 export type ActionCardTypes = ReturnType<typeof getCardsAC>
     | ReturnType<typeof getCardsIdAC>
-    | GetSortingType
-    | SetMinItemCountType
-    | SetMaxItemCountType
-    | GetSearchType
+    | ReturnType<typeof getCardsSorting>
+    | ReturnType<typeof getCardsSearch>
     | SetCardsErrorType
     | PaginatorActionTypes
+    | ReturnType<typeof setMinMaxCardsCountAC>
 
 export type SetCardsErrorType = ReturnType<typeof setCardsError>
 
