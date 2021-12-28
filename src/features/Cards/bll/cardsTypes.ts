@@ -1,12 +1,15 @@
 import {
-    getCardsIdAC,
     getCardsAC,
+    getCardsIdAC,
+    getCardsSearch,
+    getCardsSorting,
+    setCardsCurrentPageAC,
     setCardsError,
-    setMinMaxCardsCountAC, getCardsSearch, getCardsSorting,
+    setCardsPageCount,
+    setMinMaxCardsCountAC,
+    setTotalCardsCount,
 } from "./cardsActions";
 import { initialState } from "./cardsReducer";
-
-import { PaginatorActionTypes } from "components/common/Paginator/paginatorTypes";
 
 export type InitialStateType = typeof initialState;
 
@@ -14,9 +17,11 @@ export type ActionCardTypes = ReturnType<typeof getCardsAC>
     | ReturnType<typeof getCardsIdAC>
     | ReturnType<typeof getCardsSorting>
     | ReturnType<typeof getCardsSearch>
+    | ReturnType<typeof setCardsPageCount>
     | SetCardsErrorType
-    | PaginatorActionTypes
     | ReturnType<typeof setMinMaxCardsCountAC>
+    | ReturnType<typeof setCardsCurrentPageAC>
+    | ReturnType<typeof setTotalCardsCount>
 
 export type SetCardsErrorType = ReturnType<typeof setCardsError>
 

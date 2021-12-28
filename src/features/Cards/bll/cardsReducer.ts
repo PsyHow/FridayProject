@@ -25,11 +25,11 @@ export const cardsReducer = (state = initialState, action: ActionCardTypes): Ini
             return { ...state, sortCards: action.item }
         case "SET_MIN_MAN_CARDS_COUNT":
             return { ...state, min: action.min, max: action.max }
-        case "PAGINATOR/SET_CURRENT_PAGE":
+        case "SET_CARDS_CURRENT_PAGE":
             return { ...state, page: action.page }
-        case "PAGINATOR/SET_TOTAL_ITEMS_COUNT":
-            return { ...state, cardsTotalCount: action.totalItemsCount }
-        case "PAGINATOR/SET_PAGE_COUNT":
+        case "SET_TOTAL_CARDS_COUNT":
+            return { ...state, cardsTotalCount: action.totalCardsCount }
+        case "SET_CARDS_PAGE_COUNT":
             return { ...state, pageCount: action.pageCount }
         case "GET_CARDS_SEARCH":
             return { ...state, cardQuestion: action.value }

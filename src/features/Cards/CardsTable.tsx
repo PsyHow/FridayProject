@@ -1,15 +1,15 @@
 import s from "../Packs/Table.module.css";
-import { Sorting } from "components/common/Sorting/Sorting";
+import { Sorting } from "components/Sorting/Sorting";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "bll/Store";
 import { Card } from "./Card/Card";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from "./bll/cardsThunks";
 import Button from "components/common/Button/Button";
-import { Search } from "components/common/Search/Search";
+import { Search } from "components/Search/Search";
 import { Paginator } from "components/common/Paginator/Paginator";
-import { setCurrentPageAC } from "../../components/common/Paginator/paginatorActions";
+import { setPacksCurrentPageAC } from "features/Packs/bll/CardPacksActions";
 
 export const CardsTable = () => {
     const dispatch = useDispatch();
@@ -24,14 +24,15 @@ export const CardsTable = () => {
         page,
         error
     } = useSelector((state: AppRootStoreType) => state.cards)
-    const isLoggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
 
     const { token } = useParams();
 
     useEffect(() => {
-        dispatch(setCurrentPageAC(1))
         if (token) {
             dispatch(getCardsTC(token))
+        }
+        return () => {
+            dispatch(setPacksCurrentPageAC(1))
         }
     }, [dispatch, token])
 
@@ -50,9 +51,6 @@ export const CardsTable = () => {
             dispatch(updateCardTC(token, question, answer, id))
     }
 
-    if(!isLoggedIn) {
-        return <Navigate to="/login"/>
-    }
 
     return ( <>
         <Button onClick={ createCard }>add Card</Button>

@@ -1,13 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./Login/Login";
 import { Profile } from "./Profile/Profile";
-import { SignUpContainer } from "../features/authorization/signUp/SignUpContainer";
+import { SignUpContainer } from "features/authorization/signUp/SignUpContainer";
 import { Test } from "./Test/Test";
 import { Error } from "./Error"
-import { PasswordRestoreContainer } from "../features/authorization/forgot/ui/PasswordRestore/PasswordRestoreContainer";
-import { NewPasswordContainer } from "../features/authorization/forgot/ui/NewPassword/NewPasswordContainer";
-import { Table } from "../features/Packs/Table";
-import { CardsTable } from "../features/Cards/CardsTable";
+import { PasswordRestoreContainer } from "features/authorization/forgot/ui/PasswordRestore/PasswordRestoreContainer";
+import { NewPasswordContainer } from "features/authorization/forgot/ui/NewPassword/NewPasswordContainer";
+import { Table } from "features/Packs/Table";
+import { CardsTable } from "features/Cards/CardsTable";
+import { Learn } from "features/Learn/Learn";
 
 export const PATH = {
     LOGIN: "login",
@@ -18,6 +19,7 @@ export const PATH = {
     TEST: 'test',
     CARD_PACKS: 'packs',
     CARD: '/card/:token',
+    LEARN: '/learn/:token',
 }
 
 export const Routing = () => {
@@ -33,6 +35,7 @@ export const Routing = () => {
             <Route path={ PATH.LOGIN } element={ <Login/> }/>
             <Route path={ PATH.CARD_PACKS } element={ <Table/> }/>
             <Route path={ PATH.CARD } element={ <CardsTable/> }/>
+            <Route path={ PATH.LEARN } element={ <Learn/> }/>
             <Route path="*" element={ <Error/> }/>
         </Routes>
     )

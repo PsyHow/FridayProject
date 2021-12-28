@@ -1,9 +1,8 @@
 import { AppRootStoreType, AppThunkType } from "bll/Store";
-import { setCardPacks } from "./CardPacksActions";
+import { setCardPacks, setTotalPacksCount } from "./CardPacksActions";
 import { cardPacksAPI } from "../dal/CardPacksAPI";
 import axios from "axios";
 import { setCardsError } from "../../Cards/bll/cardsActions";
-import { setTotalItemsCount } from "components/common/Paginator/paginatorActions";
 
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
@@ -12,7 +11,7 @@ export const getCardPacksTC = (): AppThunkType => {
         cardPacksAPI.getCardPacks(pageCount, page, sortPacks, packName, min, max, user_id)
             .then(res => {
                 dispatch(setCardPacks(res.data.cardPacks))
-                dispatch(setTotalItemsCount(res.data.cardPacksTotalCount))
+                dispatch(setTotalPacksCount(res.data.cardPacksTotalCount))
             })
             .catch((error) => {
                 if (axios.isAxiosError(error) && error.response) {

@@ -25,3 +25,18 @@ export const setPackId = (id:string) => ({
     type: "SET_PACK_ID",
     id
 } as const)
+
+export const setPacksPageCount = (pageCount: number) => ( {
+    type: "SET_PACKS_PAGE_COUNT",
+    pageCount,
+} as const )
+
+export const setPacksCurrentPageAC = (page: number) => ( {
+    type: "SET_PACKS_CURRENT_PAGE",
+    page,
+} as const )
+
+export const setTotalPacksCount = (totalPacksCount: number) => ( {
+    type: "SET_TOTAL_PACKS_COUNT",
+    totalPacksCount,
+} as const )

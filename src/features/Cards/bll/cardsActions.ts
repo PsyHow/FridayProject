@@ -31,3 +31,18 @@ export const getCardsSorting = (item: any) => ( {
     type: "GET_CARDS_SORTING",
     item,
 } as const )
+
+export const setCardsPageCount = (pageCount: number) => ( {
+    type: "SET_CARDS_PAGE_COUNT",
+    pageCount,
+} as const )
+
+export const setCardsCurrentPageAC = (page: number) => ( {
+    type: "SET_CARDS_CURRENT_PAGE",
+    page,
+} as const )
+
+export const setTotalCardsCount = (totalCardsCount: number) => ( {
+    type: "SET_TOTAL_CARDS_COUNT",
+    totalCardsCount,
+} as const )

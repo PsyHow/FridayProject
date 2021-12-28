@@ -3,7 +3,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { CardPackType } from "../bll/CardPacksTypes";
 import { useSelector } from "react-redux";
-import { AppRootStoreType } from "../../../bll/Store";
+import { AppRootStoreType } from "bll/Store";
 
 type CardPackPropsType = {
     cardPack: CardPackType
@@ -37,7 +37,7 @@ export const CardPack = (props: CardPackPropsType) => {
                 <Button>Watch</Button>
             </NavLink>
 
-            <NavLink to={`/card/${cardPack._id}`}>
+            <NavLink to={`/learn/${cardPack._id}`}>
                 <Button>Learn</Button>
             </NavLink>
 

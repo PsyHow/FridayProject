@@ -14,10 +14,9 @@ import {
     getCardPacksTC,
     updateCardPackTC,
 } from "./bll/CardPacksThunk";
-import { setCardsError } from "../Cards/bll/cardsActions";
+import { setCardsCurrentPageAC, setCardsError } from "../Cards/bll/cardsActions";
 import SuperCheckbox from "../../components/common/Checkbox/Checkbox";
 import { setPackId } from "./bll/CardPacksActions";
-import { setCurrentPageAC } from "../../components/common/Paginator/paginatorActions";
 
 export const Table = () => {
     const dispatch = useDispatch()
@@ -37,8 +36,10 @@ export const Table = () => {
 
     useEffect(() => {
         dispatch(setCardsError(''))
-        dispatch(setCurrentPageAC(1))
         dispatch(getCardPacksTC())
+        return () => {
+            dispatch(setCardsCurrentPageAC(1))
+        }
     }, [dispatch])
 
     const deleteCardPack = (id: string) => {
