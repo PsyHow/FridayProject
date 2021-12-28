@@ -9,7 +9,7 @@ import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from "./bll/card
 import Button from "components/common/Button/Button";
 import { Search } from "components/Search/Search";
 import { Paginator } from "components/common/Paginator/Paginator";
-import { setCurrentPageAC } from "../../components/common/Paginator/paginatorActions";
+import { setCurrentPageAC } from "components/common/Paginator/paginatorActions";
 
 export const CardsTable = () => {
     const dispatch = useDispatch();
@@ -28,9 +28,11 @@ export const CardsTable = () => {
     const { token } = useParams();
 
     useEffect(() => {
-        dispatch(setCurrentPageAC(1))
         if (token) {
             dispatch(getCardsTC(token))
+        }
+        return () => {
+            dispatch(setCurrentPageAC(1))
         }
     }, [dispatch, token])
 
@@ -49,7 +51,6 @@ export const CardsTable = () => {
             dispatch(updateCardTC(token, question, answer, id))
     }
 
-    debugger;
 
     return ( <>
         <Button onClick={ createCard }>add Card</Button>

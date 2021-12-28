@@ -37,8 +37,10 @@ export const Table = () => {
 
     useEffect(() => {
         dispatch(setCardsError(''))
-        dispatch(setCurrentPageAC(1))
         dispatch(getCardPacksTC())
+        return () => {
+            dispatch(setCurrentPageAC(1))
+        }
     }, [dispatch])
 
     const deleteCardPack = (id: string) => {
