@@ -9,7 +9,7 @@ import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from "./bll/card
 import Button from "components/common/Button/Button";
 import { Search } from "components/Search/Search";
 import { Paginator } from "components/common/Paginator/Paginator";
-import { setCurrentPageAC } from "components/common/Paginator/paginatorActions";
+import { setPacksCurrentPageAC } from "features/Packs/bll/CardPacksActions";
 
 export const CardsTable = () => {
     const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export const CardsTable = () => {
             dispatch(getCardsTC(token))
         }
         return () => {
-            dispatch(setCurrentPageAC(1))
+            dispatch(setPacksCurrentPageAC(1))
         }
     }, [dispatch, token])
 

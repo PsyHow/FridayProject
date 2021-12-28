@@ -3,14 +3,18 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { SuperSelect } from "../Select/SuperSelect";
 import Button from "../Button/Button";
-import { setCardsError } from "features/Cards/bll/cardsActions";
+import {
+    setCardsCurrentPageAC,
+    setCardsError,
+    setCardsPageCount,
+} from "features/Cards/bll/cardsActions";
 import { getCardPacksTC } from "features/Packs/bll/CardPacksThunk";
 import { useParams } from "react-router-dom";
 import { getCardsTC } from "features/Cards/bll/cardsThunks";
 import {
-    setCurrentPageAC,
-    setPageCount,
-} from "components/common/Paginator/paginatorActions";
+    setPacksCurrentPageAC,
+    setPacksPageCount,
+} from "features/Packs/bll/CardPacksActions";
 
 export const Paginator = ({page,pageCount, totalItemsCount }: PropsType) => {
     const dispatch = useDispatch();
@@ -33,8 +37,9 @@ export const Paginator = ({page,pageCount, totalItemsCount }: PropsType) => {
 
 
     const onPageChanged = (page: number) => {
+        dispatch(setCardsCurrentPageAC(page))
+        dispatch(setPacksCurrentPageAC(page))
         dispatch(setCardsError(''))
-        dispatch(setCurrentPageAC(page))
         if(token) {
             dispatch(getCardsTC(token))
         } else
@@ -42,8 +47,9 @@ export const Paginator = ({page,pageCount, totalItemsCount }: PropsType) => {
     }
 
     const onChangeSelect = (items: 3 | 5 | 10) => {
-        dispatch(setPageCount(items))
         setValue(items)
+        dispatch(setCardsPageCount(items))
+        dispatch(setPacksPageCount(items))
         if(token) {
             dispatch(getCardsTC(token))
         } else

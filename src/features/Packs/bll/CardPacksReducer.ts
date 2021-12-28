@@ -20,11 +20,11 @@ export const cardPacksReducer =
         switch (action.type) {
             case "SET-CARD-PACKS":
                 return { ...state, cardPacks: action.cards }
-            case "PAGINATOR/SET_TOTAL_ITEMS_COUNT":
-                return { ...state, cardPacksTotalCount: action.totalItemsCount }
-            case "PAGINATOR/SET_CURRENT_PAGE":
+            case "SET_TOTAL_PACKS_COUNT":
+                return { ...state, cardPacksTotalCount: action.totalPacksCount }
+            case "SET_PACKS_CURRENT_PAGE":
                 return { ...state, page: action.page }
-            case "PAGINATOR/SET_PAGE_COUNT":
+            case "SET_PACKS_PAGE_COUNT":
                 return { ...state, pageCount: action.pageCount }
             case "GET_PACK_SORTING":
                 return { ...state, sortPacks: action.item }

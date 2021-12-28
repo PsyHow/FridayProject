@@ -5,16 +5,15 @@ import { useDispatch } from "react-redux";
 import { DoubleRange } from "../common/DoubleRange/DoubleRange";
 import {
     getPackSearch,
-    setMinMaxCardsPackCount,
+    setMinMaxCardsPackCount, setPacksCurrentPageAC,
 } from "features/Packs/bll/CardPacksActions";
 import style from "./Search.module.css";
-import { setCurrentPageAC } from "components/common/Paginator/paginatorActions";
 import {
-    getCardsSearch,
+    getCardsSearch, setCardsCurrentPageAC,
     setMinMaxCardsCountAC,
-} from "../../features/Cards/bll/cardsActions";
-import { getCardsTC } from "../../features/Cards/bll/cardsThunks";
-import { getCardPacksTC } from "../../features/Packs/bll/CardPacksThunk";
+} from "features/Cards/bll/cardsActions";
+import { getCardsTC } from "features/Cards/bll/cardsThunks";
+import { getCardPacksTC } from "features/Packs/bll/CardPacksThunk";
 
 export const Search: FC<PropsType> =
     ({ min, max, defaultMin, defaultMax, token }) => {
@@ -41,14 +40,15 @@ export const Search: FC<PropsType> =
         }
 
         const onSubmit = () => {
-            dispatch(setCurrentPageAC(1))
             if(token) {
                 dispatch(setMinMaxCardsCountAC(value1, value2))
                 dispatch(getCardsSearch(search))
+                dispatch(setCardsCurrentPageAC(1))
                 dispatch(getCardsTC(token))
             } else {
                 dispatch(setMinMaxCardsPackCount(value1, value2))
                 dispatch(getPackSearch(search))
+                dispatch(setPacksCurrentPageAC(1))
                 dispatch(getCardPacksTC())
             }
         }
