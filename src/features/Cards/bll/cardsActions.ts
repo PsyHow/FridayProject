@@ -46,3 +46,10 @@ export const setTotalCardsCount = (totalCardsCount: number) => ( {
     type: "SET_TOTAL_CARDS_COUNT",
     totalCardsCount,
 } as const )
+
+export const updateGradeAC = (grade: number, shots: number, id: string) => ({
+    type: "UPDATE_GRADE",
+    grade,
+    shots,
+    id
+} as const)

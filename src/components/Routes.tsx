@@ -8,7 +8,7 @@ import { PasswordRestoreContainer } from "features/authorization/forgot/ui/Passw
 import { NewPasswordContainer } from "features/authorization/forgot/ui/NewPassword/NewPasswordContainer";
 import { Table } from "features/Packs/Table";
 import { CardsTable } from "features/Cards/CardsTable";
-import { Learn } from "features/Learn/Learn";
+import { LearnPage } from "features/Learn/LearnPage";
 
 export const PATH = {
     LOGIN: "login",
@@ -35,7 +35,7 @@ export const Routing = () => {
             <Route path={ PATH.LOGIN } element={ <Login/> }/>
             <Route path={ PATH.CARD_PACKS } element={ <Table/> }/>
             <Route path={ PATH.CARD } element={ <CardsTable/> }/>
-            <Route path={ PATH.LEARN } element={ <Learn/> }/>
+            <Route path={ PATH.LEARN } element={ <LearnPage/> }/>
             <Route path="*" element={ <Error/> }/>
         </Routes>
     )

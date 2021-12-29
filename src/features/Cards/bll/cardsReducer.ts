@@ -35,6 +35,21 @@ export const cardsReducer = (state = initialState, action: ActionCardTypes): Ini
             return { ...state, cardQuestion: action.value }
         case "SET_CARDS_ERROR":
             return { ...state, error: action.error }
+        case "UPDATE_GRADE":
+            return {
+                ...state,
+                cards: state.cards.map(card => {
+                    if (card._id === action.id) {
+                        return {
+                            ...card,
+                            grade: action.grade,
+                            shots: action.shots
+                        }
+                    } else {
+                        return card
+                    }
+                })
+            }
         default:
             return state;
     }

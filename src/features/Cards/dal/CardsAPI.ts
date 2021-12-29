@@ -37,4 +37,10 @@ export const cardsAPI = {
             },
         })
     },
+    updateCardGrade(id:string, grade:number) {
+        return instance.put(`cards/grade`, {
+            card_id: id,
+            grade: grade
+        })
+    }
 }
