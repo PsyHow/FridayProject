@@ -1,8 +1,5 @@
-import SuperInputText from "../common/Input/Input"
-import Button from "../common/Button/Button";
 import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { DoubleRange } from "../common/DoubleRange/DoubleRange";
 import {
     getPackSearch,
     setMinMaxCardsPackCount, setPacksCurrentPageAC,
@@ -14,6 +11,9 @@ import {
 } from "features/Cards/bll/cardsActions";
 import { getCardsTC } from "features/Cards/bll/cardsThunks";
 import { getCardPacksTC } from "features/Packs/bll/CardPacksThunk";
+import { DoubleRange } from "../DoubleRange/DoubleRange";
+import SuperInputText from "components/common/Input/Input";
+import Button from "../Button/Button";
 
 export const Search: FC<PropsType> =
     ({ min, max, defaultMin, defaultMax, token }) => {

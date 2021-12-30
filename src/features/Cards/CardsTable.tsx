@@ -1,5 +1,4 @@
 import s from "../Packs/Table.module.css";
-import { Sorting } from "components/Sorting/Sorting";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "bll/Store";
@@ -7,9 +6,10 @@ import { Card } from "./Card/Card";
 import { useParams } from "react-router-dom";
 import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from "./bll/cardsThunks";
 import Button from "components/common/Button/Button";
-import { Search } from "components/Search/Search";
 import { Paginator } from "components/common/Paginator/Paginator";
 import { setPacksCurrentPageAC } from "features/Packs/bll/CardPacksActions";
+import { Search } from "components/common/Search/Search";
+import { Sorting } from "components/common/Sorting/Sorting";
 
 export const CardsTable = () => {
     const dispatch = useDispatch();

@@ -22,6 +22,7 @@ const getCard = (cards: CardsType[]) => {
 
 export const LearnPage = () => {
     const dispatch = useDispatch()
+    const { token } = useParams();
     const packId = useSelector<AppRootStoreType, string>(state => state.cards.id)
     const [first, setFirst] = useState(true)
     const [isShowAnswer, setIsShowAnswer] = useState(false)
@@ -43,8 +44,6 @@ export const LearnPage = () => {
         rating: 1,
     })
 
-    const { token } = useParams();
-
     useEffect(() => {
         if (first) {
             dispatch(getCardsTC(token || ""))
@@ -53,7 +52,7 @@ export const LearnPage = () => {
         if (cards.length > 0) {
             setLearningCard(getCard(cards))
         }
-    }, [cards, first, dispatch, packId])
+    }, [token, cards, first, dispatch, packId])
 
     const onNext = () => {
         dispatch(updateCardGradeTC(learningCard._id, gradeValue))
@@ -64,7 +63,6 @@ export const LearnPage = () => {
     const setGradeToCard = (grade: number, event?: any) => {
         setGradeValue(grade)
     }
-
 
     return (
         <div>
@@ -83,13 +81,13 @@ export const LearnPage = () => {
                     <div>
                         <span>Rate yourself:</span>
                     </div>
-                    { grades.map((g, i) => (
-                        <Button data-tag={ i + 1 }
+                    { grades.map((grade, i) => (
+                        <Button style={{marginRight: "30px"}} data-tag={ i + 1 }
                                 key={ "grade-" + i }
                                 onClick={ (event: any) => {
                                     setGradeToCard(i + 1, event)
                                 }
-                                }>{ g }</Button> ))
+                                }>{ grade }</Button> ))
                     }
                     <Button onClick={ onNext }>Next</Button>
                 </>
