@@ -1,6 +1,10 @@
 import { AppRootStoreType, AppThunkType } from "bll/Store";
 import { cardsAPI } from "../dal/CardsAPI";
-import { getCardsAC, setCardsError, setTotalCardsCount } from "./cardsActions";
+import {
+    getCardsAC,
+    setCardsError,
+    setTotalCardsCount, updateGradeAC,
+} from "./cardsActions";
 import axios from "axios";
 
 export const getCardsTC = (token: string): AppThunkType => {
@@ -69,3 +73,13 @@ export const updateCardTC = (token: string, question: string, answer: string, id
             })
     }
 }
+
+export const updateCardGradeTC = (cardId:string, grade:number): AppThunkType => {
+    return (dispatch, getState: () => AppRootStoreType) => {
+        return cardsAPI.updateCardGrade(cardId, grade)
+            .then((res) => {
+                dispatch(updateGradeAC(res.data.grade, res.data.shots, res.data.card_id))
+            })
+    }
+}
+
