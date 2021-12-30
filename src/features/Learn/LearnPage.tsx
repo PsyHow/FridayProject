@@ -5,23 +5,18 @@ import { AppRootStoreType } from "bll/Store";
 import { getCardsTC, updateCardGradeTC } from "features/Cards/bll/cardsThunks";
 import { useParams } from "react-router-dom";
 import Button from "components/common/Button/Button";
-import {
-    setCardsCurrentPageAC,
-    setTotalCardsCount,
-} from "features/Cards/bll/cardsActions";
-
 
 // есть баги
-const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer']
+const grades = ["Did not know", "Forgot", "A lot of thought", "Confused", "Knew the answer"]
 
 const getCard = (cards: CardsType[]) => {
-    const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0)
+    const sum = cards.reduce((acc, card) => acc + ( 6 - card.grade ) * ( 6 - card.grade ), 0)
     const rand = Math.random() * sum
     const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
-            const newSum = acc.sum + (6 - card.grade) * (6 - card.grade)
-            return {sum: newSum, id: newSum < rand ? i : acc.id}
+            const newSum = acc.sum + ( 6 - card.grade ) * ( 6 - card.grade )
+            return { sum: newSum, id: newSum < rand ? i : acc.id }
         }
-        , {sum: 0, id: -1})
+        , { sum: 0, id: -1 })
     return cards[res.id + 1]
 }
 
@@ -34,31 +29,28 @@ export const LearnPage = () => {
     const showAnswer = () => setIsShowAnswer(true)
     const cards = useSelector<AppRootStoreType, CardsType[]>(state => state.cards.cards)
     const [learningCard, setLearningCard] = useState<CardsType>({
-        cardsPack_id: '',
+        cardsPack_id: "",
         grade: 0,
-        question: '',
+        question: "",
         shots: 1,
-        user_id: '',
-        updated: '',
+        user_id: "",
+        updated: "",
         __v: 1,
-        _id: '',
-        type: '',
-        answer: '',
-        created: '',
-        rating: 1
+        _id: "",
+        type: "",
+        answer: "",
+        created: "",
+        rating: 1,
     })
 
-    const {token} = useParams();
+    const { token } = useParams();
 
     useEffect(() => {
-        dispatch(setTotalCardsCount(10000))
-        dispatch(setCardsCurrentPageAC(1))
         if (first) {
-            if(token)
-            dispatch(getCardsTC(token))
+            dispatch(getCardsTC(token || ""))
             setFirst(false)
         }
-        if (cards) {
+        if (cards.length > 0) {
             setLearningCard(getCard(cards))
         }
     }, [cards, first, dispatch, packId])
@@ -78,28 +70,28 @@ export const LearnPage = () => {
         <div>
             <div>
                 <span>Question: </span>
-                <span>{learningCard.question}</span>
+                <span>{ learningCard.question }</span>
             </div>
 
-            {!isShowAnswer ?
-                <Button onClick={showAnswer}>Show answer</Button>
+            { !isShowAnswer ?
+                <Button onClick={ showAnswer }>Show answer</Button>
                 :
                 <>
                     <div>
-                        Answer: {learningCard.answer}
+                        Answer: { learningCard.answer }
                     </div>
                     <div>
                         <span>Rate yourself:</span>
                     </div>
-                    {grades.map((g, i) => (
-                        <Button data-tag={i + 1}
-                                     key={'grade-' + i}
-                                     onClick={(event: any) => {
-                                         setGradeToCard(i + 1, event)
-                                     }
-                                     }>{g}</Button>))
+                    { grades.map((g, i) => (
+                        <Button data-tag={ i + 1 }
+                                key={ "grade-" + i }
+                                onClick={ (event: any) => {
+                                    setGradeToCard(i + 1, event)
+                                }
+                                }>{ g }</Button> ))
                     }
-                    <Button onClick={onNext}>Next</Button>
+                    <Button onClick={ onNext }>Next</Button>
                 </>
             }
         </div>
