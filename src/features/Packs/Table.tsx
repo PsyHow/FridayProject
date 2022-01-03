@@ -17,6 +17,7 @@ import {
 import { setCardsCurrentPageAC, setCardsError } from "../Cards/bll/cardsActions";
 import SuperCheckbox from "../../components/common/Checkbox/Checkbox";
 import { setPackId } from "./bll/CardPacksActions";
+import { Preloader } from "components/Preloader/Preloader";
 
 export const Table = () => {
     const dispatch = useDispatch()
@@ -33,6 +34,8 @@ export const Table = () => {
         maxCardsCount,
         error,
     } = useSelector((state: AppRootStoreType) => state.cardPacks)
+
+    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.recovery.isFetching)
 
     useEffect(() => {
         dispatch(setCardsError(''))
@@ -84,19 +87,27 @@ export const Table = () => {
                 <td>Actions</td>
             </tr>
             </thead>
-            <tbody>
-            { cardPacks.map(cardPack => {
-                return <CardPack cardPack={ cardPack }
-                                 deleteCardPack={ deleteCardPack }
-                                 editCardPack={ editCardPack }
-                />
-            }) }
-            </tbody>
+
+            {
+                isFetching ? <Preloader/> :
+                    <tbody>
+                    { cardPacks.map(cardPack => {
+                        return <CardPack cardPack={ cardPack }
+                                         deleteCardPack={ deleteCardPack }
+                                         editCardPack={ editCardPack }
+                        />
+                    }) }
+                    </tbody>
+            }
+
         </table>
-        <Paginator
+
+        { !isFetching && <Paginator
             page={page}
             pageCount={pageCount}
             totalItemsCount={ cardPacksTotalCount }/>
+        }
+
         { error && <span className={ s.error }>{ error }</span> }
     </> )
 }

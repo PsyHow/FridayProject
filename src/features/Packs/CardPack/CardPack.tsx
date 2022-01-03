@@ -25,17 +25,18 @@ export const CardPack = (props: CardPackPropsType) => {
     }
 
     return <tr>
-        <td>{cardPack.name}</td>
+        <td>
+            <NavLink style={{textDecoration: "none", color: "#1d1d1d"}} to={`/card/${cardPack._id}`}>
+                <span >{cardPack.name}</span>
+            </NavLink>
+        </td>
         <td>{cardPack.cardsCount}</td>
         <td>{cardPack.updated}</td>
         <td>{cardPack.user_name}</td>
         <td>
-          {/*или <Button disabled={cardPack.user_id!==userId} onClick={deleteCardPack}>Delete</Button>*/}
+
             {cardPack.user_id===userId && <Button onClick={deleteCardPack}>Delete</Button>}
             {cardPack.user_id===userId && <Button onClick={editCardPack}>Edit</Button>}
-            <NavLink to={`/card/${cardPack._id}`}>
-                <Button>Watch</Button>
-            </NavLink>
 
             <NavLink to={`/learn/${cardPack._id}`}>
                 <Button>Learn</Button>

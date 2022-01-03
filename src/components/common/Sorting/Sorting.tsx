@@ -36,8 +36,8 @@ export const Sorting: FC<PropsType> =
         }
         return (
             <div>
-                <button onClick={ setSortUp }>+</button>
-                <button onClick={ setSortDown }>-</button>
+                <button onClick={ setSortUp }>▲</button>
+                <button onClick={ setSortDown }>▼</button>
             </div>
         )
     }
