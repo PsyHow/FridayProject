@@ -3,7 +3,10 @@ import { firstReducer } from "./FirstReducer";
 import thunk, { ThunkAction } from "redux-thunk";
 import { loginReducer } from "./loginReducer";
 import { profileReducer } from "./profileReducer";
-import { passwordRecoverReducer } from "./passwordRecoverReducer";
+import {
+    passwordRecoverActionTypes,
+    passwordRecoverReducer,
+} from "./passwordRecoverReducer";
 import { signUpReducer } from "./signUpReducer";
 import { cardPacksReducer } from "features/Packs/bll/CardPacksReducer";
 import { CardPacksActionsType } from "features/Packs/bll/CardPacksTypes";
@@ -25,7 +28,7 @@ export const store = createStore(reducers, applyMiddleware(thunk))
 export type AppRootStoreType = ReturnType<typeof reducers>
 
 //все типы экшенов для всего app
-export type AppActionsType=CardPacksActionsType | ActionCardTypes;
+export type AppActionsType=CardPacksActionsType | ActionCardTypes | passwordRecoverActionTypes;
 
 export type AppThunkType<ReturnType=void>=ThunkAction<
     ReturnType,

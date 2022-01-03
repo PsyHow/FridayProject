@@ -1,7 +1,6 @@
-import {Dispatch} from "redux";
-import {authAPI} from "../components/Login/Login";
-import {setUser} from "./profileReducer";
-
+import { Dispatch } from "redux";
+import { authAPI } from "components/Login/Login";
+import { setUser } from "./profileReducer";
 let initialState: authReducerStateType = {
     isLogged: false,
     error: "",
@@ -48,7 +47,7 @@ export const authMe = () => (dispatch:Dispatch) => {
 
 export const logout = () => (dispatch:Dispatch) => {
     authAPI.logout()
-        .then((res)=> {
+        .then(()=> {
             dispatch(loggingInAC(false))
         })
 }

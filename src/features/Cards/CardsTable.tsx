@@ -10,6 +10,8 @@ import { Paginator } from "components/common/Paginator/Paginator";
 import { setPacksCurrentPageAC } from "features/Packs/bll/CardPacksActions";
 import { Search } from "components/common/Search/Search";
 import { Sorting } from "components/common/Sorting/Sorting";
+import { Preloader } from "components/Preloader/Preloader";
+import { CardsType } from "features/Cards/bll/cardsTypes";
 
 export const CardsTable = () => {
     const dispatch = useDispatch();
@@ -24,6 +26,8 @@ export const CardsTable = () => {
         page,
         error
     } = useSelector((state: AppRootStoreType) => state.cards)
+
+    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.recovery.isFetching)
 
     const { token } = useParams();
 
@@ -69,19 +73,23 @@ export const CardsTable = () => {
                 <td>Actions</td>
             </tr>
             </thead>
-            <tbody>
-            { cards.map((card: any) => {
-                return <Card card={ card }
-                             deleteCard={ deleteCard }
-                             getUpdateCard={ updateCard }
-                />
-            }) }
-            </tbody>
+            {
+                isFetching ? <Preloader/> :
+                <tbody>
+                { cards.map((card: CardsType) => {
+                    return <Card card={ card }
+                                 deleteCard={ deleteCard }
+                                 getUpdateCard={ updateCard }
+                    />
+                }) }
+                </tbody>
+            }
         </table>
-        <Paginator
+        {!isFetching && <Paginator
             page={page}
             pageCount={pageCount}
-            totalItemsCount={ cardsTotalCount }/>
+            totalItemsCount={ cardsTotalCount }/>}
+
         {error && <span className={s.error}>{ error }</span>}
     </> )
 }

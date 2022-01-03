@@ -1,5 +1,5 @@
 import { Dispatch } from "redux"
-import { registrationAPI } from "../features/authorization/forgot/dal/ForgotApi"
+import { registrationAPI } from "features/authorization/forgot/dal/ForgotApi"
 
 const initialState = {
     isFetching: false,
