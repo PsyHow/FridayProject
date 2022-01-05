@@ -3,12 +3,12 @@ import { setCardPacks, setTotalPacksCount } from "./CardPacksActions";
 import { cardPacksAPI } from "../dal/CardPacksAPI";
 import axios from "axios";
 import { setCardsError } from "../../Cards/bll/cardsActions";
-import { isFetching } from "bll/passwordRecoverReducer";
+import { isFetching } from "features/authorization/dal/registrationReducer/registrationActions";
 
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
         const state = getState();
-        const { pageCount, page, sortPacks, packName, min, max, user_id } = state.cardPacks
+        const { pageCount, page, sortPacks, packName, min, max, user_id } = state.cardPacksReducer
         dispatch(isFetching(true))
         cardPacksAPI.getCardPacks(pageCount, page, sortPacks, packName, min, max, user_id)
             .then(res => {

@@ -2,6 +2,7 @@ import Input from "../../../../../components/common/Input/Input";
 import Button from "../../../../../components/common/Button/Button";
 import style from "./Restore.module.css"
 import { SendEmail } from "../SendEmail/SendEmail";
+import { Preloader } from "components/Preloader/Preloader";
 
 
 export const Restore = (props: PropsType) => {
@@ -15,27 +16,25 @@ export const Restore = (props: PropsType) => {
         sendEmail,
     } = props
 
-    return (
-        <div>
-            <div className={ style.loadingBox }>
-                { isFetching ? <span className={ style.loading }>loading</span> : '' }
-            </div>
-            { !sendEmail ?
-                <div className={ style.container }>
-                    <h1>Forgot your password ?</h1>
-                    <Input type={ "email" }
-                           placeholder={ "Enter Email" }
-                           onChangeText={ onChangeText }
-                           value={ email }
-                           error={ error }/>
-                    <h5>Enter your email address and we will send you further
-                        instructions</h5>
-                    <Button onClick={ onClickHandler } disabled={ isFetching }>Send</Button>
-                </div>
-                : <SendEmail/>
-            }
-        </div>
-    )
+    return <div className={ style.box }>
+        {
+            isFetching ? <Preloader/> :
+                !sendEmail ?
+                    <div className={ style.container }>
+                        <h1>Forgot your password ?</h1>
+                        <Input type={ "email" }
+                               placeholder={ "Enter Email" }
+                               onChangeText={ onChangeText }
+                               value={ email }
+                               error={ error }/>
+                        <h5>Enter your email address and we will send you further
+                            instructions</h5>
+                        <Button onClick={ onClickHandler }
+                                disabled={ isFetching }>Send</Button>
+                    </div>
+                    : <SendEmail/>
+        }
+    </div>
 }
 
 //types

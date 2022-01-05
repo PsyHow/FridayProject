@@ -21,7 +21,7 @@ import { Preloader } from "components/Preloader/Preloader";
 
 export const Table = () => {
     const dispatch = useDispatch()
-    const isLoggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
+    const isLoggedIn = useSelector<AppRootStoreType, boolean>(state => state.authReducer.isLogged)
     const userId = useSelector<AppRootStoreType, string>(st => st.profileReducer.user._id)
     const {
         cardPacksTotalCount,
@@ -33,9 +33,9 @@ export const Table = () => {
         minCardsCount,
         maxCardsCount,
         error,
-    } = useSelector((state: AppRootStoreType) => state.cardPacks)
+    } = useSelector((state: AppRootStoreType) => state.cardPacksReducer)
 
-    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.recovery.isFetching)
+    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.registrationReducer.isFetching)
 
     useEffect(() => {
         dispatch(setCardsError(''))

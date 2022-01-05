@@ -1,6 +1,10 @@
-.container {
+.box {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.box span {
+    padding-bottom: 5px;
+    border: 1px solid black;
+}

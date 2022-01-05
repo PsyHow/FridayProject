@@ -22,7 +22,7 @@
 }
 
 .pageTitle {
-    color: #2D2E46;
+    color: grey;
     font-size: 26px;
     line-height: 39px;
     margin-top: 25px;
@@ -31,7 +31,7 @@
 }
 
 .signIn {
-    color: #2D2E46;
+    color: grey;
     font-size: 22px;
     line-height: 33px;
     margin-left: 164px;
@@ -81,7 +81,7 @@
     text-decoration: none;
     font-size: 14px;
     line-height: 17px;
-    color: #2D2E46;
+    color: #21268F;
     margin-top: 48px;
     margin-left: 261px;
 }

@@ -1,9 +1,10 @@
+import { setError } from "features/authorization/dal/registrationReducer/registrationActions";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { newPassword, setError } from "../../../../../bll/passwordRecoverReducer";
 import { AppRootStoreType } from "../../../../../bll/Store";
 import { NewPassword } from "./NewPassword";
+import { newPassword } from "features/authorization/dal/registrationReducer/registrationThunks";
 
 
 export const NewPasswordContainer = () => {
@@ -12,9 +13,9 @@ export const NewPasswordContainer = () => {
     const [pass, setPass] = useState<string>('');
     const [confirmPass, setConfirmPass] = useState<string>('');
     const dispatch = useDispatch();
-    const error = useSelector<AppRootStoreType, string | null>(state => state.recovery.error);
-    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.recovery.isFetching);
-    const setNewPassword = useSelector<AppRootStoreType, boolean>(state => state.recovery.setNewPassword);
+    const error = useSelector<AppRootStoreType, string | null>(state => state.registrationReducer.error);
+    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.registrationReducer.isFetching);
+    const setNewPassword = useSelector<AppRootStoreType, boolean>(state => state.registrationReducer.setNewPassword);
 
     const onSubmit = () => {
         if(pass !== confirmPass) {

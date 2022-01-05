@@ -6,11 +6,11 @@ import { useState } from "react";
 import { sidebarData } from "./sidebarData";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "bll/Store";
-import { logout } from "bll/loginReducer";
+import { logout } from "features/authorization/dal/authReducer/authThunks";
 
 export const Navbar = () => {
     const [sidebar, setSidebar] = useState<boolean>(false)
-    const isLoggedIn = useSelector<AppRootStoreType, boolean>(state => state.loginReducer.isLogged)
+    const isLoggedIn = useSelector<AppRootStoreType, boolean>(state => state.authReducer.isLogged)
     const dispatch = useDispatch();
 
     const showSidebar = () => {

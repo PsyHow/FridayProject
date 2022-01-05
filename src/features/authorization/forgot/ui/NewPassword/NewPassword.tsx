@@ -3,6 +3,7 @@ import Button from "../../../../../components/common/Button/Button";
 import style from "./NewPassword.module.css"
 import { Navigate } from "react-router-dom";
 import React from "react";
+import { Preloader } from "components/Preloader/Preloader";
 
 export const NewPassword = (props: PropsType) => {
 
@@ -12,30 +13,30 @@ export const NewPassword = (props: PropsType) => {
         onChangeConfirmPass, setNewPassword,
     } = props
 
-    if(setNewPassword) {
+    if (setNewPassword) {
         return <Navigate to="/login"/>
     }
 
-    return (
-        <div>
-            <div className={ style.loadingBox }>
-                { isFetching ? <span className={ style.loading }>Loading</span> : '' }
-            </div>
-            <div className={ style.container }>
-                <h1>Create new Password</h1>
-                <SuperInputText type={ "password" }
-                                placeholder={ "Enter new password" }
-                                onChangeText={ onChange }
-                                value={ password }/>
-                <SuperInputText type={ "password" }
-                                placeholder={ "Confirm new password" }
-                                onChangeText={ onChangeConfirmPass }
-                                value={ confirmPass } error={ error }/>
-                <Button onClick={ onSubmit } disabled={ isFetching }>Create new
-                    password</Button>
-            </div>
-        </div>
-    )
+    return <div>
+        {
+            isFetching ? <Preloader/> :
+
+                <div className={ style.container }>
+                    <h1>Create new Password</h1>
+                    <SuperInputText type={ "password" }
+                                    placeholder={ "Enter new password" }
+                                    onChangeText={ onChange }
+                                    value={ password }/>
+                    <SuperInputText type={ "password" }
+                                    placeholder={ "Confirm new password" }
+                                    onChangeText={ onChangeConfirmPass }
+                                    value={ confirmPass } error={ error }/>
+                    <Button onClick={ onSubmit } disabled={ isFetching }>Create new
+                        password</Button>
+                </div>
+        }
+
+    </div>
 }
 
 //types

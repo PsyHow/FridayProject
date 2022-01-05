@@ -25,9 +25,9 @@ export const CardsTable = () => {
         pageCount,
         page,
         error
-    } = useSelector((state: AppRootStoreType) => state.cards)
+    } = useSelector((state: AppRootStoreType) => state.cardsReducer)
 
-    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.recovery.isFetching)
+    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.registrationReducer.isFetching)
 
     const { token } = useParams();
 

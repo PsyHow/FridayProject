@@ -23,12 +23,12 @@ const getCard = (cards: CardsType[]) => {
 export const LearnPage = () => {
     const dispatch = useDispatch()
     const { token } = useParams();
-    const packId = useSelector<AppRootStoreType, string>(state => state.cards.id)
+    const packId = useSelector<AppRootStoreType, string>(state => state.cardsReducer.id)
     const [first, setFirst] = useState(true)
     const [isShowAnswer, setIsShowAnswer] = useState(false)
     const [gradeValue, setGradeValue] = useState<number>(0)
     const showAnswer = () => setIsShowAnswer(true)
-    const cards = useSelector<AppRootStoreType, CardsType[]>(state => state.cards.cards)
+    const cards = useSelector<AppRootStoreType, CardsType[]>(state => state.cardsReducer.cards)
     const [learningCard, setLearningCard] = useState<CardsType>({
         cardsPack_id: "",
         grade: 0,

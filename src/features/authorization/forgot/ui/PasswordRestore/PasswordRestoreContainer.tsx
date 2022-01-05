@@ -2,15 +2,16 @@ import { Restore } from "./Restore";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStoreType } from "../../../../../bll/Store";
-import { recoverTC, setError } from "../../../../../bll/passwordRecoverReducer";
+import { setError } from "features/authorization/dal/registrationReducer/registrationActions";
+import { recoverTC } from "features/authorization/dal/registrationReducer/registrationThunks";
 
 export const PasswordRestoreContainer = () => {
 
     const [email, setEmail] = useState<string>('')
 
-    const error = useSelector<AppRootStoreType, null | string>(state => state.recovery.error)
-    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.recovery.isFetching)
-    const sendEmail = useSelector<AppRootStoreType, boolean>(state => state.recovery.sendEmail)
+    const error = useSelector<AppRootStoreType, null | string>(state => state.registrationReducer.error)
+    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.registrationReducer.isFetching)
+    const sendEmail = useSelector<AppRootStoreType, boolean>(state => state.registrationReducer.sendEmail)
     const dispatch = useDispatch()
 
     const onChangeEmail = (value: string) => {

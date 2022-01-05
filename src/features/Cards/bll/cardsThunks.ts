@@ -3,15 +3,16 @@ import { cardsAPI } from "../dal/CardsAPI";
 import {
     getCardsAC,
     setCardsError,
-    setTotalCardsCount, updateGradeAC,
+    setTotalCardsCount,
+    updateGradeAC,
 } from "./cardsActions";
 import axios from "axios";
-import { isFetching } from "bll/passwordRecoverReducer";
+import { isFetching } from "features/authorization/dal/registrationReducer/registrationActions";
 
 export const getCardsTC = (token: string): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
         const state = getState();
-        const { sortCards, min, max, pageCount, page, cardQuestion } = state.cards;
+        const { sortCards, min, max, pageCount, page, cardQuestion } = state.cardsReducer;
         dispatch(isFetching(true))
         cardsAPI.getCards(token, sortCards, min, max, pageCount, page, cardQuestion)
             .then((res) => {
