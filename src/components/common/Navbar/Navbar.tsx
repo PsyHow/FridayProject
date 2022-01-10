@@ -26,22 +26,23 @@ export const Navbar = () => {
             <NavLink to="#" className={ style.menuBars }>
                 <FaIcons.FaBars onClick={ showSidebar }/>
             </NavLink>
-            {isLoggedIn ? <NavLink to={'/login'} className={ style.login } onClick={logoutHandle}>
+            { isLoggedIn ? <NavLink to={ "/login" } className={ style.login }
+                                    onClick={ logoutHandle }>
                 logout
-            </NavLink> : <NavLink to="/login" className={ style.login }>Login</NavLink>}
+            </NavLink> : <NavLink to="/login" className={ style.login }>Login</NavLink> }
 
         </div>
         <nav
-            className={ sidebar ? `${ style['navMenu'] } ${ style['active'] }` : style['navMenu'] }>
+            className={ sidebar ? `${ style["navMenu"] } ${ style["active"] }` : style["navMenu"] }>
             <ul className={ style.navMenuItems } onClick={ showSidebar }>
                 <li className={ style.navbarToggle }>
                     <NavLink to="#" className={ style.menuBars }>
                         <AiIcons.AiOutlineClose/>
                     </NavLink>
                 </li>
-                { sidebarData.map((item, index) => {
+                { sidebarData.map((item) => {
                     return (
-                        <li key={ index } className={ style.navText }>
+                        <li key={ item.id } className={ style.navText }>
                             <NavLink to={ item.path }>
                                 <span>{ item.title }</span>
                             </NavLink>

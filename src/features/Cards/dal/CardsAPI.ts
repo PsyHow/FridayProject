@@ -1,18 +1,11 @@
 import { instance } from "dal/apiConfing/apiConfing";
-import { CardsResponseType } from "./CardsApiTypes";
+import { CardsData, CardsResponseType } from "./CardsApiTypes";
 
 export const cardsAPI = {
-    getCards(cardsPack_id: string, sortCards: string, min:
-        number, max: number, pageCount: number, page: number, cardQuestion: string) {
+    getCards(data: CardsData) {
         return instance.get<CardsResponseType>(`cards/card`, {
             params: {
-                cardsPack_id,
-                sortCards,
-                min,
-                max,
-                pageCount,
-                page,
-                cardQuestion,
+                data,
             },
         })
     },
@@ -37,10 +30,10 @@ export const cardsAPI = {
             },
         })
     },
-    updateCardGrade(id:string, grade:number) {
+    updateCardGrade(id: string, grade: number) {
         return instance.put(`cards/grade`, {
             card_id: id,
-            grade: grade
+            grade: grade,
         })
-    }
+    },
 }

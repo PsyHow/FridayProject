@@ -6,7 +6,7 @@ import { getCardsTC, updateCardGradeTC } from "features/Cards/bll/cardsThunks";
 import { useParams } from "react-router-dom";
 import Button from "components/common/Button/Button";
 
-// есть баги
+
 const grades = ["Did not know", "Forgot", "A lot of thought", "Confused", "Knew the answer"]
 
 const getCard = (cards: CardsType[]) => {

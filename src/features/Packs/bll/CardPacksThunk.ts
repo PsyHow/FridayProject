@@ -8,9 +8,20 @@ import { isFetching } from "features/authorization/dal/registrationReducer/regis
 export const getCardPacksTC = (): AppThunkType => {
     return (dispatch, getState: () => AppRootStoreType) => {
         const state = getState();
-        const { pageCount, page, sortPacks, packName, min, max, user_id } = state.cardPacksReducer
+        const {
+            pageCount,
+            page,
+            sortPacks,
+            packName,
+            min,
+            max,
+            user_id,
+        } = state.cardPacksReducer
         dispatch(isFetching(true))
-        cardPacksAPI.getCardPacks(pageCount, page, sortPacks, packName, min, max, user_id)
+        cardPacksAPI.getCardPacks({
+            page,
+            sortPacks, packName, min, max, user_id, pageCount,
+        })
             .then(res => {
                 dispatch(isFetching(false))
                 dispatch(setCardPacks(res.data.cardPacks))

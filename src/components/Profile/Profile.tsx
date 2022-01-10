@@ -21,7 +21,10 @@ export const Profile = () => {
 
     return (
         <div className={styles.box}>
-            Name:<span>{ user.name }</span>
+            <div>
+                <h3>Name</h3>
+                <span>{ user.name }</span>
+            </div>
             Public Pack:<span>{ user.publicCardPacksCount }</span>
             Email:<span>{ user.email }</span>
             Created by:<span>{ user.created }</span>

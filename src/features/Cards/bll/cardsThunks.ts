@@ -14,7 +14,15 @@ export const getCardsTC = (token: string): AppThunkType => {
         const state = getState();
         const { sortCards, min, max, pageCount, page, cardQuestion } = state.cardsReducer;
         dispatch(isFetching(true))
-        cardsAPI.getCards(token, sortCards, min, max, pageCount, page, cardQuestion)
+        cardsAPI.getCards({
+            cardsPack_id: token,
+            sortCards,
+            min,
+            max,
+            pageCount,
+            page,
+            cardQuestion,
+        })
             .then((res) => {
                 dispatch(isFetching(false))
                 dispatch(getCardsAC(res.data.cards))
@@ -88,7 +96,7 @@ export const updateCardTC = (token: string, question: string, answer: string, id
     }
 }
 
-export const updateCardGradeTC = (cardId:string, grade:number): AppThunkType => {
+export const updateCardGradeTC = (cardId: string, grade: number): AppThunkType => {
     return (dispatch) => {
         dispatch(isFetching(true))
         cardsAPI.updateCardGrade(cardId, grade)

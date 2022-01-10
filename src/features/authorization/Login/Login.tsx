@@ -1,40 +1,15 @@
-import React, { ChangeEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppRootStoreType } from "bll/Store";
-import { Navigate, NavLink } from "react-router-dom";
-import styles from "features/authorization/Login/Login.module.css"
-import { loginTC } from "features/authorization/dal/authReducer/authThunks";
-import { setError } from "features/authorization/dal/registrationReducer/registrationActions";
+import { ChangeEvent, FC } from "react";
+import styles from "features/authorization/Login/Login.module.css";
+import { NavLink } from "react-router-dom";
 
-
-export const Login = () => {
-    const dispatch = useDispatch()
-
-    let [email, setEmail] = useState("viktorburnyshev@gmail.com")
-    let [password, setPassword] = useState("12345QWER")
-    let [rememberMe, setRememberMe] = useState(true)
-
-    const error = useSelector<AppRootStoreType, string | null>(state => state.registrationReducer.error)
-    const isLogged = useSelector<AppRootStoreType, boolean>(state => state.authReducer.isLogged)
-
-    if (isLogged) {
-        return <Navigate to="/profile"/>;
-    }
-
-    const onEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setError(null))
-        let text = e.currentTarget.value
-        setEmail(text)
-    }
-    const onPasswordChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setError(null))
-        setPassword(e.currentTarget.value)
-    }
-    const onLoginButtonClick = async () => {
-        dispatch(loginTC(email, password, rememberMe))
-    }
-
-
+export const Login: FC<PropsType> = ({
+                                         email,
+                                         error,
+                                         onLoginButtonClick,
+                                         onEmailChangeHandler,
+                                         onPasswordChangeHandler,
+                                         password,
+                                     }) => {
     return (
         <div className={ styles.loginPage }>
             <form className={ styles.formWrapper }>
@@ -69,4 +44,13 @@ export const Login = () => {
             </form>
         </div>
     )
+}
+
+type PropsType = {
+    email: string
+    onEmailChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void
+    password: string
+    onPasswordChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void
+    error: string | null
+    onLoginButtonClick: () => Promise<void>
 }

@@ -8,3 +8,13 @@ export type CardsPackResponseType = {
     page: number
     pageCount: number
 }
+
+export type DataCards = {
+    pageCount: number,
+    page: number,
+    sortPacks: string,
+    packName: string,
+    min: number,
+    max: number,
+    user_id: string
+}

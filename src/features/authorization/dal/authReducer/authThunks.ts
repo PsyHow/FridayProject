@@ -5,10 +5,12 @@ import {
     loggingInAC,
 } from "features/authorization/dal/authReducer/authActions";
 import { setError } from "features/authorization/dal/registrationReducer/registrationActions";
+import { LoginData } from "features/authorization/api/authTypes";
+import axios from "axios";
 
-export const loginTC = (email: string, password: string, rememberMe: boolean) => {
+export const loginTC = (data:LoginData) => {
     return (dispatch: Dispatch) => {
-        authAPI.login(email, password, rememberMe)
+        authAPI.login(data)
             .then((response) => {
                 if (response.data._id) {
                     dispatch(loggingInAC(true))
@@ -16,7 +18,11 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
                 }
             })
             .catch((error) => {
-                dispatch(setError(error.response.data.error))
+                if (axios.isAxiosError(error) && error.response) {
+                    dispatch(setError(error.response.data.error));
+                } else if (axios.isAxiosError(error)) {
+                    dispatch(setError(error.message));
+                }
             })
     }
 }

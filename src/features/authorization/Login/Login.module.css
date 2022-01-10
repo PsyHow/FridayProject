@@ -63,6 +63,8 @@
     color: red;
     height: 36px;
     margin: 92px 73px 39px;
+    display: flex;
+    justify-content: center;
 }
 
 .input {

@@ -2,7 +2,7 @@ let initialState : InitialStateType = {
     user: {
         _id: "fake_ID",
         email: "here is my email",
-        name: "What for do i need a name , i have id",
+        name: "Heizenberg",
         publicCardPacksCount: 0,
         created: null,
         updated: null,
