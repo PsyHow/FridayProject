@@ -1,6 +1,6 @@
 import Button from "../../../components/common/Button/Button";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { CardPackType } from "../bll/CardPacksTypes";
 import { useSelector } from "react-redux";
 import { AppRootStoreType } from "bll/Store";
@@ -23,7 +23,7 @@ export const CardPack = (props: CardPackPropsType) => {
         //  захардкодженное имя
         props.editCardPack(cardPack._id, 'ssssss')
     }
-
+   
     return <tr>
         <td>
             <NavLink style={{textDecoration: "none", color: "#1d1d1d"}} to={`/card/${cardPack._id}`}>

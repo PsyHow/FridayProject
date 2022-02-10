@@ -5,7 +5,7 @@ export const cardsAPI = {
     getCards(data: CardsData) {
         return instance.get<CardsResponseType>(`cards/card`, {
             params: {
-                data,
+                ...data,
             },
         })
     },

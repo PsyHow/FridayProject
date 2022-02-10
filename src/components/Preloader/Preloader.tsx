@@ -1,4 +1,4 @@
-import preload from '../../assets/Pulse-1s-200px.svg';
+import preload from '../../assets/Eclipse-1s-211px.svg';
 import styles from './Preloader.module.css';
 
 export const Preloader = () => {

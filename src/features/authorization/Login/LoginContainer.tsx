@@ -12,8 +12,8 @@ export const LoginContainer = () => {
     const error = useSelector<AppRootStoreType, string | null>(state => state.registrationReducer.error)
     const isLogged = useSelector<AppRootStoreType, boolean>(state => state.authReducer.isLogged)
 
-    let [email, setEmail] = useState("viktorburnyshev@gmail.com")
-    let [password, setPassword] = useState("12345QWER")
+    let [email, setEmail] = useState("nya-admin@nya.nya")
+    let [password, setPassword] = useState("1qazxcvBG")
     let [rememberMe, setRememberMe] = useState(true)
 
     const onEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
