@@ -1,34 +1,46 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { AppRootStoreType } from "bll/Store";
-import { UserType } from "bll/profileReducer";
-import { Navigate } from "react-router-dom";
-import styles from "./Profile.module.css";
+import { FC } from 'react';
 
-export const Profile = () => {
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
-    let user = useSelector<AppRootStoreType, UserType>(state => state.profileReducer.user)
-    const loggedIn = useSelector<AppRootStoreType, boolean>(state => state.authReducer.isLogged)
+import styles from './Profile.module.css';
 
-    const style = {
-        width: "200px",
-        height: "200px",
-    }
+import { UserType } from 'bll/profileReducer';
+import { AppRootStoreType } from 'bll/Store';
 
-    if(!loggedIn) {
-        return <Navigate to={ "/login" }/>
-    }
+const avatar =
+  'https://habrastorage.org/r/w780/webt/fs/uc/ng/fsucngwjrulpxpcwgrrmehvhhf0.jpeg';
 
-    return (
-        <div className={styles.box}>
-            <div>
-                <h3>Name</h3>
-                <span>{ user.name }</span>
-            </div>
-            Public Pack:<span>{ user.publicCardPacksCount }</span>
-            Email:<span>{ user.email }</span>
-            Created by:<span>{ user.created }</span>
-            <img style={ style } src={ user.avatar || "https://habrastorage.org/r/w780/webt/fs/uc/ng/fsucngwjrulpxpcwgrrmehvhhf0.jpeg" } alt="user avatar"/>
-        </div>
-    )
-}
+export const Profile: FC = () => {
+  const user = useSelector<AppRootStoreType, UserType>(
+    state => state.profileReducer.user,
+  );
+  const loggedIn = useSelector<AppRootStoreType, boolean>(
+    state => state.authReducer.isLogged,
+  );
+
+  const style = {
+    width: '200px',
+    height: '200px',
+  };
+
+  if (!loggedIn) {
+    return <Navigate to="/login" />;
+  }
+
+  return (
+    <div className={styles.box}>
+      <div>
+        <h3>Name</h3>
+        <span>{user.name}</span>
+      </div>
+      Public Pack:
+      <span>{user.publicCardPacksCount}</span>
+      Email:
+      <span>{user.email}</span>
+      Created by:
+      <span>{user.created}</span>
+      <img style={style} src={user.avatar || avatar} alt="user avatar" />
+    </div>
+  );
+};

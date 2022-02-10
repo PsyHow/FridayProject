@@ -1,3 +1,3 @@
-export const Error = () => {
-    return <div>Error</div>
-}
+import { FC } from 'react';
+
+export const Error: FC = () => <div>Error</div>;

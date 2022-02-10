@@ -1,19 +1,20 @@
 import React from 'react';
+
 import ReactDOM from 'react-dom';
 import './index.css';
-import { App } from './App';
-import reportWebVitals from './reportWebVitals';
-import { HashRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "./bll/Store";
+import { Provider } from 'react-redux';
+import { HashRouter } from 'react-router-dom';
 
+import { App } from './App';
+import { store } from './bll/Store';
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-    <Provider store={ store }>
-        <HashRouter>
-            <App/>
-        </HashRouter>
-    </Provider>,
-    document.getElementById('root'),
+  <Provider store={store}>
+    <HashRouter>
+      <App />
+    </HashRouter>
+  </Provider>,
+  document.getElementById('root'),
 );
 reportWebVitals();
