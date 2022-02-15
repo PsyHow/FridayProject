@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk, { ThunkAction } from 'redux-thunk';
 
-import { profileReducer } from './profileReducer';
+import { profileReducer, ProfileReducerActionsType } from './profileReducer';
 
 import { authReducer } from 'features/authorization/dal/authReducer/authReducer';
 import { AuthReducerTypes } from 'features/authorization/dal/authReducer/authTypes';
@@ -25,11 +25,12 @@ export const store = createStore(reducers, applyMiddleware(thunk));
 export type AppRootStoreType = ReturnType<typeof reducers>;
 
 // все типы экшенов для всего app
-export type AppActionsType =
+type AppActionsType =
   | CardPacksActionsType
   | ActionCardTypes
   | RegistrationTypes
-  | AuthReducerTypes;
+  | AuthReducerTypes
+  | ProfileReducerActionsType;
 
 export type AppThunkType<ReturnType = void> = ThunkAction<
   ReturnType,

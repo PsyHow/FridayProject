@@ -1,11 +1,13 @@
 /* eslint-disable no-nested-ternary */
 import { FC } from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import Button from '../../../../../components/common/Button/Button';
 import Input from '../../../../../components/common/Input/Input';
 import { SendEmail } from '../SendEmail/SendEmail';
 
-import style from './Restore.module.css';
+import style from './Restore.module.scss';
 
 import { Preloader } from 'components/Preloader/Preloader';
 
@@ -31,18 +33,23 @@ export const Restore: FC<PropsType> = ({
       <Preloader />
     ) : !sendEmail ? (
       <div className={style.container}>
-        <h1>Forgot your password ?</h1>
+        <div className={style.title}>It-incubator</div>
+        <div className={style.question}>Forgot your password?</div>
         <Input
           type="email"
-          placeholder="Enter Email"
+          placeholder="Email"
           onChangeText={onChangeText}
           value={email}
           error={error}
         />
         <h5>Enter your email address and we will send you further instructions</h5>
         <Button onClick={onClickHandler} disabled={isFetching}>
-          Send
+          Send Instructions
         </Button>
+        <span>Did you remember your password?</span>
+        <NavLink to="/">
+          <div className={style.logginIn}>Try logging in</div>
+        </NavLink>
       </div>
     ) : (
       <SendEmail />

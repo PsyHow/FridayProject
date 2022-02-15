@@ -1,21 +1,20 @@
-import axios from 'axios';
-
-import { setCardsError } from '../../Cards/bll/cardsActions';
 import { cardPacksAPI } from '../dal/CardPacksAPI';
 
 import { setCardPacks, setTotalPacksCount } from './CardPacksActions';
 
 import { AppRootStoreType, AppThunkType } from 'bll/Store';
+import { handleCatchError } from 'const';
 import { isFetching } from 'features/authorization/dal/registrationReducer/registrationActions';
 
 export const getCardPacksTC =
-  (): AppThunkType => (dispatch, getState: () => AppRootStoreType) => {
-    const state = getState();
+  (): AppThunkType => async (dispatch, getState: () => AppRootStoreType) => {
     const { pageCount, page, sortPacks, packName, min, max, user_id } =
-      state.cardPacksReducer;
+      getState().cardPacksReducer;
+
     dispatch(isFetching(true));
-    cardPacksAPI
-      .getCardPacks({
+
+    try {
+      const res = await cardPacksAPI.getCardPacks({
         page,
         sortPacks,
         packName,
@@ -23,74 +22,55 @@ export const getCardPacksTC =
         max,
         user_id,
         pageCount,
-      })
-      .then(res => {
-        dispatch(isFetching(false));
-        dispatch(setCardPacks(res.data.cardPacks));
-        dispatch(setTotalPacksCount(res.data.cardPacksTotalCount));
-      })
-      .catch(error => {
-        dispatch(isFetching(false));
-        if (axios.isAxiosError(error) && error.response) {
-          dispatch(setCardsError(error.response.data.error));
-        } else if (axios.isAxiosError(error)) {
-          dispatch(setCardsError(error.message));
-        }
       });
+      dispatch(isFetching(false));
+      dispatch(setCardPacks(res.data.cardPacks));
+      dispatch(setTotalPacksCount(res.data.cardPacksTotalCount));
+    } catch (error) {
+      dispatch(isFetching(false));
+      handleCatchError(error, dispatch);
+    }
   };
 
 export const deleteCardPackTC =
   (id: string): AppThunkType =>
-  dispatch => {
+  async dispatch => {
     dispatch(isFetching(true));
-    cardPacksAPI
-      .deleteCardPack(id)
-      .then(() => {
-        dispatch(isFetching(false));
-        dispatch(getCardPacksTC());
-      })
-      .catch(error => {
-        dispatch(isFetching(false));
-        if (axios.isAxiosError(error) && error.response) {
-          dispatch(setCardsError(error.response.data.error));
-        } else if (axios.isAxiosError(error)) {
-          dispatch(setCardsError(error.message));
-        }
-      });
-  };
-export const createCardPackTC = (): AppThunkType => dispatch => {
-  dispatch(isFetching(true));
-  cardPacksAPI
-    .createCardPack()
-    .then(() => {
+
+    try {
+      await cardPacksAPI.deleteCardPack(id);
       dispatch(isFetching(false));
       dispatch(getCardPacksTC());
-    })
-    .catch(error => {
+    } catch (error) {
       dispatch(isFetching(false));
-      if (axios.isAxiosError(error) && error.response) {
-        dispatch(setCardsError(error.response.data.error));
-      } else if (axios.isAxiosError(error)) {
-        dispatch(setCardsError(error.message));
-      }
-    });
+      handleCatchError(error, dispatch);
+    }
+  };
+
+export const createCardPackTC = (): AppThunkType => async dispatch => {
+  dispatch(isFetching(true));
+
+  try {
+    await cardPacksAPI.createCardPack();
+    dispatch(isFetching(false));
+    dispatch(getCardPacksTC());
+  } catch (error) {
+    dispatch(isFetching(false));
+    handleCatchError(error, dispatch);
+  }
 };
+
 export const updateCardPackTC =
   (id: string, name: string): AppThunkType =>
-  dispatch => {
+  async dispatch => {
     dispatch(isFetching(true));
-    cardPacksAPI
-      .updateCardPack(id, name)
-      .then(() => {
-        dispatch(isFetching(false));
-        dispatch(getCardPacksTC());
-      })
-      .catch(error => {
-        dispatch(isFetching(false));
-        if (axios.isAxiosError(error) && error.response) {
-          dispatch(setCardsError(error.response.data.error));
-        } else if (axios.isAxiosError(error)) {
-          dispatch(setCardsError(error.message));
-        }
-      });
+
+    try {
+      await cardPacksAPI.updateCardPack(id, name);
+      dispatch(isFetching(false));
+      dispatch(getCardPacksTC());
+    } catch (error) {
+      dispatch(isFetching(false));
+      handleCatchError(error, dispatch);
+    }
   };

@@ -1,44 +1,51 @@
 import axios from 'axios';
-import { Dispatch } from 'redux';
 
 import { setUser } from 'bll/profileReducer';
+import { AppThunkType } from 'bll/Store';
+import { errorString } from 'const';
 import { authAPI } from 'features/authorization/api/authApit';
 import { LoginData } from 'features/authorization/api/authTypes';
 import { loggingInAC } from 'features/authorization/dal/authReducer/authActions';
 import { setError } from 'features/authorization/dal/registrationReducer/registrationActions';
 
-export const loginTC = (data: LoginData) => (dispatch: Dispatch) => {
-  authAPI
-    .login(data)
-    .then(response => {
-      if (response.data._id) {
+export const loginTC =
+  (data: LoginData): AppThunkType =>
+  async dispatch => {
+    try {
+      const res = await authAPI.login(data);
+      if (res.data._id) {
         dispatch(loggingInAC(true));
-        dispatch(setUser(response.data));
+        dispatch(setUser(res.data));
       }
-    })
-    .catch(error => {
-      if (axios.isAxiosError(error) && error.response) {
-        dispatch(setError(error.response.data.error));
-      } else if (axios.isAxiosError(error)) {
-        dispatch(setError(error.message));
-      }
-    });
+    } catch (error) {
+      const errorMessage = (error as Error).message || errorString;
+      dispatch(setError(errorMessage));
+    }
+  };
+
+export const authMe = (): AppThunkType => async dispatch => {
+  try {
+    const res = await authAPI.me();
+    dispatch(loggingInAC(true));
+    dispatch(setUser(res.data));
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response)
+      dispatch(setError(error.response.data.error));
+    else if (axios.isAxiosError(error)) {
+      dispatch(setError(error.message));
+    }
+  }
 };
 
-export const authMe = () => (dispatch: Dispatch) => {
-  authAPI
-    .me()
-    .then(res => {
-      dispatch(loggingInAC(true));
-      dispatch(setUser(res.data));
-    })
-    .catch(() => {
-      dispatch(loggingInAC(false));
-    });
-};
-
-export const logout = () => (dispatch: Dispatch) => {
-  authAPI.logout().then(() => {
+export const logout = (): AppThunkType => async dispatch => {
+  try {
+    await authAPI.logout();
     dispatch(loggingInAC(false));
-  });
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response)
+      dispatch(setError(error.response.data.error));
+    else if (axios.isAxiosError(error)) {
+      dispatch(setError(error.message));
+    }
+  }
 };

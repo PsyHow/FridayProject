@@ -1,6 +1,7 @@
-import { Dispatch } from 'redux';
+import axios from 'axios';
 
-import { AppActionsType } from 'bll/Store';
+import { AppThunkType } from 'bll/Store';
+import { errorString } from 'const';
 import { authAPI } from 'features/authorization/api/authApit';
 import {
   confirmRegistrationDataAC,
@@ -10,59 +11,57 @@ import {
   setNewPassword,
 } from 'features/authorization/dal/registrationReducer/registrationActions';
 
-export const recoverTC = (email: string) => (dispatch: Dispatch) => {
-  dispatch(isFetching(true));
-  authAPI
-    .forgot(email)
-    .then(() => {
+export const recoverTC =
+  (email: string): AppThunkType =>
+  async dispatch => {
+    dispatch(isFetching(true));
+    try {
+      await authAPI.forgot(email);
       dispatch(sendEmail(true));
-    })
-    .catch(e => {
-      const error = e.response
-        ? e.response.data.error
-        : `${e.message}, more details in the console`;
-      dispatch(setError(error));
-    })
-    .finally(() => {
       dispatch(isFetching(false));
-    });
-};
+    } catch (error) {
+      dispatch(isFetching(false));
+      if (axios.isAxiosError(error) && error.response)
+        dispatch(setError(error.response.data.error));
+      else if (axios.isAxiosError(error)) {
+        dispatch(setError(error.message));
+      }
+    }
+  };
 
 export const newPassword =
-  (password: string, token: string) => (dispatch: Dispatch<AppActionsType>) => {
+  (password: string, token: string): AppThunkType =>
+  async dispatch => {
     dispatch(isFetching(true));
-    authAPI
-      .newPassword({ password, resetPasswordToken: token })
-      .then(() => {
-        dispatch(setNewPassword(true));
-        dispatch(setError(''));
-      })
-      .catch(e => {
-        const error = e.response
-          ? e.response.data.error
-          : `${e.message}, more details in the console`;
-        dispatch(setError(error));
-      })
-      .finally(() => {
-        dispatch(isFetching(false));
-      });
+    try {
+      await authAPI.newPassword({ password, resetPasswordToken: token });
+      dispatch(setNewPassword(true));
+      dispatch(isFetching(false));
+      dispatch(setError(''));
+    } catch (error) {
+      dispatch(isFetching(false));
+      if (axios.isAxiosError(error) && error.response)
+        dispatch(setError(error.response.data.error));
+      else if (axios.isAxiosError(error)) {
+        dispatch(setError(error.message));
+      }
+    }
   };
 
 export const signUpTC =
-  (email: string, password: string) => (dispatch: Dispatch<AppActionsType>) => {
+  (email: string, password: string): AppThunkType =>
+  async dispatch => {
     dispatch(isFetching(true));
-    authAPI
-      .signUp(email, password)
-      .then(() => {
-        dispatch(confirmRegistrationDataAC(true));
-      })
-      .catch(e => {
-        const error = e.response
-          ? e.response.data.error
-          : `${e.message}, more details in the console`;
-        dispatch(setError(error));
-      })
-      .finally(() => {
-        dispatch(isFetching(false));
-      });
+    try {
+      await authAPI.signUp(email, password);
+      dispatch(confirmRegistrationDataAC(true));
+      dispatch(isFetching(false));
+    } catch (error) {
+      dispatch(isFetching(false));
+      if (axios.isAxiosError(error) && error.response)
+        dispatch(setError(error.response.data.error));
+      else if (axios.isAxiosError(error)) {
+        dispatch(setError(error.message));
+      }
+    }
   };

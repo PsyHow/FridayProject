@@ -16,7 +16,7 @@ const initialState: InitialStateType = {
 
 export const profileReducer = (
   state = initialState,
-  action: ActionType,
+  action: ProfileReducerActionsType,
 ): InitialStateType => {
   switch (action.type) {
     case 'SET_USER': {
@@ -50,4 +50,4 @@ type InitialStateType = {
 };
 
 type randomProfileActionsActionType = ReturnType<typeof setUser>;
-type ActionType = randomProfileActionsActionType;
+export type ProfileReducerActionsType = randomProfileActionsActionType;

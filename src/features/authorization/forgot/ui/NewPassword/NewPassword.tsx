@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import Button from '../../../../../components/common/Button/Button';
 import SuperInputText from '../../../../../components/common/Input/Input';
 
-import style from './NewPassword.module.css';
+import style from './NewPassword.module.scss';
 
 import { Preloader } from 'components/Preloader/Preloader';
 
@@ -40,7 +40,8 @@ export const NewPassword: FC<PropsType> = ({
         <Preloader />
       ) : (
         <div className={style.container}>
-          <h1>Create new Password</h1>
+          <div className={style.title}>It-incubator</div>
+          <span>Create new password</span>
           <SuperInputText
             type="password"
             placeholder="Enter new password"
@@ -54,6 +55,7 @@ export const NewPassword: FC<PropsType> = ({
             value={confirmPass}
             error={error}
           />
+          <h5>Create new password and we will send you further instructions to email</h5>
           <Button onClick={onSubmit} disabled={isFetching}>
             Create new password
           </Button>

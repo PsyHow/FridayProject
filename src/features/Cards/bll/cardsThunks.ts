@@ -1,25 +1,21 @@
-import axios from 'axios';
-
 import { cardsAPI } from '../dal/CardsAPI';
 
-import {
-  getCardsAC,
-  setCardsError,
-  setTotalCardsCount,
-  updateGradeAC,
-} from './cardsActions';
+import { getCardsAC, setTotalCardsCount, updateGradeAC } from './cardsActions';
 
 import { AppRootStoreType, AppThunkType } from 'bll/Store';
+import { handleCatchError } from 'const';
 import { isFetching } from 'features/authorization/dal/registrationReducer/registrationActions';
 
 export const getCardsTC =
   (token: string): AppThunkType =>
-  (dispatch, getState: () => AppRootStoreType) => {
-    const state = getState();
-    const { sortCards, min, max, pageCount, page, cardQuestion } = state.cardsReducer;
+  async (dispatch, getState: () => AppRootStoreType) => {
+    const { sortCards, min, max, pageCount, page, cardQuestion } =
+      getState().cardsReducer;
+
     dispatch(isFetching(true));
-    cardsAPI
-      .getCards({
+
+    try {
+      const res = await cardsAPI.getCards({
         cardsPack_id: token,
         sortCards,
         min,
@@ -27,88 +23,72 @@ export const getCardsTC =
         pageCount,
         page,
         cardQuestion,
-      })
-      .then(res => {
-        dispatch(isFetching(false));
-        dispatch(getCardsAC(res.data.cards));
-        dispatch(setTotalCardsCount(res.data.cardsTotalCount));
-      })
-      .catch(error => {
-        dispatch(isFetching(false));
-        if (axios.isAxiosError(error) && error.response) {
-          dispatch(setCardsError(error.response.data.error));
-        } else if (axios.isAxiosError(error)) {
-          dispatch(setCardsError(error.message));
-        }
       });
+      dispatch(isFetching(false));
+      dispatch(getCardsAC(res.data.cards));
+      dispatch(setTotalCardsCount(res.data.cardsTotalCount));
+    } catch (error) {
+      dispatch(isFetching(false));
+      handleCatchError(error, dispatch);
+    }
   };
 
 export const deleteCardTC =
   (token: string, id: string): AppThunkType =>
-  dispatch => {
+  async dispatch => {
     dispatch(isFetching(true));
-    cardsAPI
-      .deleteCard(id)
-      .then(() => {
-        dispatch(isFetching(false));
-        dispatch(getCardsTC(token));
-      })
-      .catch(error => {
-        dispatch(isFetching(false));
-        if (axios.isAxiosError(error) && error.response) {
-          dispatch(setCardsError(error.response.data.error));
-        } else if (axios.isAxiosError(error)) {
-          dispatch(setCardsError(error.message));
-        }
-      });
+
+    try {
+      await cardsAPI.deleteCard(id);
+      dispatch(isFetching(false));
+      dispatch(getCardsTC(token));
+    } catch (error) {
+      dispatch(isFetching(false));
+      handleCatchError(error, dispatch);
+    }
   };
 
 export const createCardTC =
   (token: string): AppThunkType =>
-  dispatch => {
+  async dispatch => {
     dispatch(isFetching(true));
-    cardsAPI
-      .createCard(token)
-      .then(() => {
-        dispatch(isFetching(false));
-        dispatch(getCardsTC(token));
-      })
-      .catch(error => {
-        dispatch(isFetching(false));
-        if (axios.isAxiosError(error) && error.response) {
-          dispatch(setCardsError(error.response.data.error));
-        } else if (axios.isAxiosError(error)) {
-          dispatch(setCardsError(error.message));
-        }
-      });
+
+    try {
+      await cardsAPI.createCard(token);
+      dispatch(isFetching(false));
+      dispatch(getCardsTC(token));
+    } catch (error) {
+      dispatch(isFetching(false));
+      handleCatchError(error, dispatch);
+    }
   };
 
 export const updateCardTC =
   (token: string, question: string, answer: string, id: string): AppThunkType =>
-  dispatch => {
+  async dispatch => {
     dispatch(isFetching(true));
-    cardsAPI
-      .updateCard(id, question, answer)
-      .then(() => {
-        dispatch(isFetching(false));
-        dispatch(getCardsTC(token));
-      })
-      .catch(error => {
-        dispatch(isFetching(false));
-        if (axios.isAxiosError(error) && error.response) {
-          dispatch(setCardsError(error.response.data.error));
-        } else if (axios.isAxiosError(error)) {
-          dispatch(setCardsError(error.message));
-        }
-      });
+
+    try {
+      await cardsAPI.updateCard(id, question, answer);
+      dispatch(isFetching(false));
+      dispatch(getCardsTC(token));
+    } catch (error) {
+      dispatch(isFetching(false));
+      handleCatchError(error, dispatch);
+    }
   };
 
 export const updateCardGradeTC =
   (cardId: string, grade: number): AppThunkType =>
-  dispatch => {
+  async dispatch => {
     dispatch(isFetching(true));
-    cardsAPI.updateCardGrade(cardId, grade).then(res => {
+
+    try {
+      const res = await cardsAPI.updateCardGrade(cardId, grade);
       dispatch(isFetching(false));
       dispatch(updateGradeAC(res.data.grade, res.data.shots, res.data.card_id));
-    });
+    } catch (error) {
+      dispatch(isFetching(false));
+      handleCatchError(error, dispatch);
+    }
   };

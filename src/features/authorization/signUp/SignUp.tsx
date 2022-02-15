@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import Button from '../../../components/common/Button/Button';
 import SuperInputText from '../../../components/common/Input/Input';
-import style from '../forgot/ui/PasswordRestore/Restore.module.css';
+import style from '../forgot/ui/PasswordRestore/Restore.module.scss';
 
 import { Preloader } from 'components/Preloader/Preloader';
 
