@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
-import Button from '../../../components/common/Button/Button';
+import { NavLink } from 'react-router-dom';
+
 import SuperInputText from '../../../components/common/Input/Input';
-import style from '../forgot/ui/PasswordRestore/Restore.module.scss';
+
+import style from './signup.module.scss';
 
 import { Preloader } from 'components/Preloader/Preloader';
 
@@ -10,7 +12,9 @@ type PropsType = {
   email: string;
   onChangeEmail: (value: string) => void;
   password: string;
+  confirm: string;
   onChangePassword: (value: string) => void;
+  onChangeConfirmPassword: (value: string) => void;
   isFetching: boolean;
   onClickHandler: () => void;
   error: null | string;
@@ -21,8 +25,10 @@ export const SignUp: FC<PropsType> = ({
   onChangeEmail,
   error,
   password,
+  confirm,
   onChangePassword,
   onClickHandler,
+  onChangeConfirmPassword,
   isFetching,
 }) => (
   <div>
@@ -30,23 +36,38 @@ export const SignUp: FC<PropsType> = ({
       <Preloader />
     ) : (
       <div className={style.container}>
-        <h1>Sign Up</h1>
+        <div className={style.title}>It-incubator</div>
+        <span>Sign Up</span>
+
         <SuperInputText
           type="email"
-          placeholder="Enter Email"
+          placeholder="Email"
           onChangeText={onChangeEmail}
           value={email}
         />
         <SuperInputText
           type="password"
-          placeholder="Enter Password"
+          placeholder="Password"
           onChangeText={onChangePassword}
           value={password}
           error={error}
         />
-        <Button onClick={onClickHandler} disabled={isFetching}>
-          Register
-        </Button>
+        <SuperInputText
+          type="password"
+          placeholder="Confirm password"
+          onChangeText={onChangeConfirmPassword}
+          value={confirm}
+          error={error}
+        />
+
+        <div className={style.buttons}>
+          <NavLink to="/login">
+            <button type="button">Cancel</button>
+          </NavLink>
+          <button type="button" onClick={onClickHandler} disabled={isFetching}>
+            Register
+          </button>
+        </div>
       </div>
     )}
   </div>

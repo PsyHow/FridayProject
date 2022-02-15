@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import s from '../Packs/Table.module.css';
+import s from '../Packs/Table.module.scss';
 
 import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from './bll/cardsThunks';
 import { Card } from './Card/Card';

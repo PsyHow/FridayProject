@@ -13,6 +13,7 @@ import { signUpTC } from 'features/authorization/dal/registrationReducer/registr
 export const SignUpContainer: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirm, setConfirm] = useState<string>('');
 
   const dispatch = useDispatch();
   const { error, isFetching } = useSelector(
@@ -29,6 +30,11 @@ export const SignUpContainer: FC = () => {
 
   const onChangePassword = (value: string): void => {
     setPassword(value);
+    dispatch(setError(null));
+  };
+
+  const onChangeConfirmPassword = (value: string): void => {
+    setConfirm(value);
     dispatch(setError(null));
   };
 
@@ -57,8 +63,10 @@ export const SignUpContainer: FC = () => {
     <SignUp
       email={email}
       onChangeEmail={onChangeEmail}
+      onChangeConfirmPassword={onChangeConfirmPassword}
       password={password}
       onChangePassword={onChangePassword}
+      confirm={confirm}
       isFetching={isFetching}
       onClickHandler={onClickHandle}
       error={error}

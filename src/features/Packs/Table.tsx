@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { ChangeEvent, FC, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '../../components/common/Button/Button';
 import SuperCheckbox from '../../components/common/Checkbox/Checkbox';
@@ -15,19 +16,19 @@ import {
   updateCardPackTC,
 } from './bll/CardPacksThunk';
 import { CardPack } from './CardPack/CardPack';
-import s from './Table.module.css';
+import style from './Table.module.scss';
 
 import { AppRootStoreType } from 'bll/Store';
 import { Paginator } from 'components/common/Paginator/Paginator';
 import { Search } from 'components/common/Search/Search';
 import { Sorting } from 'components/common/Sorting/Sorting';
 import { Preloader } from 'components/Preloader/Preloader';
+import { selectIsLoggedIn } from 'selectors/authSelectors';
 
 export const Table: FC = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector<AppRootStoreType, boolean>(
-    state => state.authReducer.isLogged,
-  );
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const userId = useSelector<AppRootStoreType, string>(st => st.profileReducer.user._id);
   const {
     cardPacksTotalCount,
@@ -75,19 +76,27 @@ export const Table: FC = () => {
     }
   };
 
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />;
-  }
+  if (!isLoggedIn) navigate('/login');
 
   return (
-    <>
+    <div className={style.container}>
+      <div className={style.leftContent}>
+        <span>Show packs cards</span>
+        <div className={style.checkBoxInput}>
+          <label className={style.toggle}>
+            <input onChange={changePacks} type="checkbox" />
+            <span className={style.slider} />
+            <span className={style.labels} data-on="MY" data-off="ALL" />
+          </label>
+        </div>
+        <span>Number of cards</span>
+      </div>
       <Button style={{ marginRight: '20px' }} onClick={createCardPack}>
         {' '}
         add cardpack
       </Button>
-      <SuperCheckbox onChange={changePacks} /> --- My Packs
       <Search min={min} max={max} defaultMin={minCardsCount} defaultMax={maxCardsCount} />
-      <table className={s.table}>
+      <table className={style.table}>
         <thead>
           <tr>
             <td>
@@ -132,7 +141,7 @@ export const Table: FC = () => {
           totalItemsCount={cardPacksTotalCount}
         />
       )}
-      {error && <span className={s.error}>{error}</span>}
-    </>
+      {error && <span className={style.error}>{error}</span>}
+    </div>
   );
 };
