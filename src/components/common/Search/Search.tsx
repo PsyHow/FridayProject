@@ -40,7 +40,7 @@ export const Search: FC<PropsType> = ({ min, max, defaultMin, defaultMax, token 
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = (): void => {
     if (token) {
       dispatch(setMinMaxCardsCountAC(value1, value2));
       dispatch(getCardsSearch(search));

@@ -1,45 +1,56 @@
-import { Restore } from "./Restore";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppRootStoreType } from "../../../../../bll/Store";
-import { setError } from "features/authorization/dal/registrationReducer/registrationActions";
-import { recoverTC } from "features/authorization/dal/registrationReducer/registrationThunks";
+import { FC, useState } from 'react';
 
-export const PasswordRestoreContainer = () => {
+import { useDispatch, useSelector } from 'react-redux';
 
-    const [email, setEmail] = useState<string>('')
+import { AppRootStoreType } from '../../../../../bll/Store';
 
-    const error = useSelector<AppRootStoreType, null | string>(state => state.registrationReducer.error)
-    const isFetching = useSelector<AppRootStoreType, boolean>(state => state.registrationReducer.isFetching)
-    const sendEmail = useSelector<AppRootStoreType, boolean>(state => state.registrationReducer.sendEmail)
-    const dispatch = useDispatch()
+import { Restore } from './Restore';
 
-    const onChangeEmail = (value: string) => {
-        setEmail(value)
-        if(error !== null) {
-            dispatch(setError(error))
-        }
-        dispatch(setError(null))
+import { setError } from 'features/authorization/dal/registrationReducer/registrationActions';
+import { recoverTC } from 'features/authorization/dal/registrationReducer/registrationThunks';
+
+export const PasswordRestoreContainer: FC = () => {
+  const [email, setEmail] = useState<string>('');
+
+  const error = useSelector<AppRootStoreType, null | string>(
+    state => state.registrationReducer.error,
+  );
+  const isFetching = useSelector<AppRootStoreType, boolean>(
+    state => state.registrationReducer.isFetching,
+  );
+  const sendEmail = useSelector<AppRootStoreType, boolean>(
+    state => state.registrationReducer.sendEmail,
+  );
+  const dispatch = useDispatch();
+
+  const onChangeEmail = (value: string): void => {
+    setEmail(value);
+    if (error !== null) {
+      dispatch(setError(error));
     }
+    dispatch(setError(null));
+  };
 
-    const onClickHandler = () => {
-        if(email === '') {
-            dispatch(setError('Required'))
-        }
-        if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
-            dispatch(setError('Invalid email address'))
-        } else {
-            dispatch(recoverTC(email))
-            setEmail('')
-        }
+  const onClickHandler = (): void => {
+    if (email === '') {
+      dispatch(setError('Required'));
     }
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+      dispatch(setError('Invalid email address'));
+    } else {
+      dispatch(recoverTC(email));
+      setEmail('');
+    }
+  };
 
-    return (
-        <Restore email={ email }
-                 onChangeText={ onChangeEmail }
-                 onClickHandler={ onClickHandler }
-                 error={ error }
-                 isFetching={ isFetching }
-                 sendEmail={ sendEmail }/>
-    )
-}
+  return (
+    <Restore
+      email={email}
+      onChangeText={onChangeEmail}
+      onClickHandler={onClickHandler}
+      error={error}
+      isFetching={isFetching}
+      sendEmail={sendEmail}
+    />
+  );
+};

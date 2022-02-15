@@ -25,6 +25,8 @@
     ],
     "rules": {
       "no-shadow": "off",
+      "no-underscore-dangle": ["warn", { "allow": ["_id"] }],
+      "camelcase": ["warn", {"allow": ["cardsPack_id", "card_id", "user_id"]}],
       "no-alert": "error",
       "no-debugger": "off",
       "no-plusplus": "error",

@@ -1,42 +1,50 @@
-import { CardPackType } from "./CardPacksTypes";
+import { CardPackType } from './CardPacksTypes';
 
-export const setCardPacks = (cards: Array<CardPackType>) => ( {
-    type: "SET-CARD-PACKS",
+export const setCardPacks = (cards: Array<CardPackType>) =>
+  ({
+    type: 'SET-CARD-PACKS',
     cards,
-} as const )
+  } as const);
 
-export const getPackSorting = (item: any) => ( {
-    type: "GET_PACK_SORTING",
+export const getPackSorting = (item: any) =>
+  ({
+    type: 'GET_PACK_SORTING',
     item,
-} as const )
+  } as const);
 
-export const getPackSearch = (value: string) => ( {
-    type: "GET_PACK_SEARCH",
+export const getPackSearch = (value: string) =>
+  ({
+    type: 'GET_PACK_SEARCH',
     value,
-} as const )
+  } as const);
 
-export const setMinMaxCardsPackCount = (min:number, max:number) => ({
-    type: "SET_MIN_MAX_CARDS_PACK_COUNT",
+export const setMinMaxCardsPackCount = (min: number, max: number) =>
+  ({
+    type: 'SET_MIN_MAX_CARDS_PACK_COUNT',
     min,
-    max
-} as const)
+    max,
+  } as const);
 
-export const setPackId = (id:string) => ({
-    type: "SET_PACK_ID",
-    id
-} as const)
+export const setPackId = (id: string) =>
+  ({
+    type: 'SET_PACK_ID',
+    id,
+  } as const);
 
-export const setPacksPageCount = (pageCount: number) => ( {
-    type: "SET_PACKS_PAGE_COUNT",
+export const setPacksPageCount = (pageCount: number) =>
+  ({
+    type: 'SET_PACKS_PAGE_COUNT',
     pageCount,
-} as const )
+  } as const);
 
-export const setPacksCurrentPageAC = (page: number) => ( {
-    type: "SET_PACKS_CURRENT_PAGE",
+export const setPacksCurrentPageAC = (page: number) =>
+  ({
+    type: 'SET_PACKS_CURRENT_PAGE',
     page,
-} as const )
+  } as const);
 
-export const setTotalPacksCount = (totalPacksCount: number) => ( {
-    type: "SET_TOTAL_PACKS_COUNT",
+export const setTotalPacksCount = (totalPacksCount: number) =>
+  ({
+    type: 'SET_TOTAL_PACKS_COUNT',
     totalPacksCount,
-} as const )
+  } as const);

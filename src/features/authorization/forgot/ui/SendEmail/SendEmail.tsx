@@ -1,11 +1,12 @@
-import style from "./SendEmail.module.css"
+/* eslint-disable react/no-unescaped-entities */
+import { FC } from 'react';
 
-export const SendEmail = () => {
-    return (
-        <div className={style.container}>
-            <h1>Check email</h1>
+import style from './SendEmail.module.css';
 
-            <h4>We've sent an Email with instructions to your Email</h4>
-        </div>
-    )
-}
+export const SendEmail: FC = () => (
+  <div className={style.container}>
+    <h1>Check email</h1>
+
+    <h4>We've sent an Email with instructions to your Email</h4>
+  </div>
+);

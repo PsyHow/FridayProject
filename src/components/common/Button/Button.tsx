@@ -1,19 +1,22 @@
-import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react"
-import style from "./Button.module.css"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react/button-has-type */
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+
+import style from './Button.module.css';
 
 // тип пропсов обычной кнопки, children в котором храниться название кнопки там уже описан
-type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+type DefaultButtonPropsType = DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>;
 
-type SuperButtonPropsType = DefaultButtonPropsType
+type SuperButtonPropsType = DefaultButtonPropsType;
 
-const SuperButton: React.FC<SuperButtonPropsType> = ({ className, ...restProps }) => {
+const SuperButton: React.FC<SuperButtonPropsType> = ({ className, ...restProps }) => (
+  <button
+    className={style.button}
+    {...restProps} // отдаём кнопке остальные пропсы если они есть (children там внутри)
+  />
+);
 
-    return (
-        <button
-            className={ style.button }
-            { ...restProps } // отдаём кнопке остальные пропсы если они есть (children там внутри)
-        />
-    )
-}
-
-export default SuperButton
+export default SuperButton;

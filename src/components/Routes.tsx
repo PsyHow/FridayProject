@@ -4,7 +4,6 @@ import { Route, Routes } from 'react-router-dom';
 
 import { Error } from './Error';
 import { Profile } from './Profile/Profile';
-import { Test } from './Test/Test';
 
 import { NewPasswordContainer } from 'features/authorization/forgot/ui/NewPassword/NewPasswordContainer';
 import { PasswordRestoreContainer } from 'features/authorization/forgot/ui/PasswordRestore/PasswordRestoreContainer';
@@ -33,7 +32,6 @@ export const Routing: FC = () => (
     <Route path={PATH.SIGN_UP} element={<SignUpContainer />} />
     <Route path={PATH.PASSWORD_RESTORE} element={<PasswordRestoreContainer />} />
     <Route path={PATH.NEW_PASSWORD} element={<NewPasswordContainer />} />
-    <Route path={PATH.TEST} element={<Test />} />
     <Route path={PATH.LOGIN} element={<LoginContainer />} />
     <Route path={PATH.CARD_PACKS} element={<Table />} />
     <Route path={PATH.CARD} element={<CardsTable />} />
