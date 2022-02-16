@@ -5,10 +5,9 @@ import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import Button from '../Button/Button';
 import { SuperSelect } from '../Select/SuperSelect';
 
-import style from './Paginator.module.css';
+import style from './Paginator.module.scss';
 
 import {
   setCardsCurrentPageAC,
@@ -46,7 +45,12 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
     dispatch(setCardsError(''));
     if (token) {
       dispatch(getCardsTC(token));
-    } else dispatch(getCardPacksTC());
+    } else
+      dispatch(
+        getCardPacksTC({
+          page: pageC,
+        }),
+      );
   };
 
   const onChangeSelect = (items: 3 | 5 | 10): void => {
@@ -61,15 +65,13 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
   return (
     <div className={style.paginator}>
       {portionNumber > 1 && (
-        <Button
+        <div
           onClick={() => {
             setPortionNumber(portionNumber - 1);
           }}
-        >
-          Left
-        </Button>
+          className={style.left}
+        />
       )}
-      <SuperSelect options={pageItems} value={value} onChangeOption={onChangeSelect} />
       {pages
         .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
         .map(m => (
@@ -86,14 +88,18 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
           </span>
         ))}
       {portionCount > portionNumber && (
-        <Button
+        <div
           onClick={() => {
             setPortionNumber(portionNumber + 1);
           }}
-        >
-          Right
-        </Button>
+          className={style.right}
+        />
       )}
+      <div className={style.pageSettings}>
+        <span>Show</span>
+        <SuperSelect options={pageItems} value={value} onChangeOption={onChangeSelect} />
+        <span>Cards per Page</span>
+      </div>
     </div>
   );
 };

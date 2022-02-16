@@ -16,8 +16,8 @@ export const LoginContainer: FC = () => {
   );
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const [email, setEmail] = useState('nya-admin@nya.nya');
-  const [password, setPassword] = useState('1qazxcvBG');
+  const [email, setEmail] = useState('viktorburnyshev@gmail.com');
+  const [password, setPassword] = useState('12345Qwe');
   const [rememberMe] = useState(true);
 
   const onEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {

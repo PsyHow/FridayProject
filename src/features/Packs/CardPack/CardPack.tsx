@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import Button from '../../../components/common/Button/Button';
 import { CardPackType } from '../bll/CardPacksTypes';
+import style from '../Table.module.scss';
 
 import { AppRootStoreType } from 'bll/Store';
 import { lastUpdateDate } from 'const';
@@ -41,12 +42,18 @@ export const CardPack: FC<CardPackPropsType> = ({ cardPack, ...restProps }) => {
       <td>{lastUpdateDate(cardPack.created)}</td>
       <td>{cardPack.user_name}</td>
       <td>
-        {cardPack.user_id === userId && <Button onClick={deleteCardPack}>Delete</Button>}
-        {cardPack.user_id === userId && <Button onClick={editCardPack}>Edit</Button>}
+        <div className={style.buttons}>
+          {cardPack.user_id === userId && (
+            <Button id="delete" onClick={deleteCardPack}>
+              Delete
+            </Button>
+          )}
+          {cardPack.user_id === userId && <Button onClick={editCardPack}>Edit</Button>}
 
-        <NavLink to={`/learn/${cardPack._id}`}>
-          <Button>Learn</Button>
-        </NavLink>
+          <NavLink to={`/learn/${cardPack._id}`}>
+            <Button>Learn</Button>
+          </NavLink>
+        </div>
       </td>
     </tr>
   );

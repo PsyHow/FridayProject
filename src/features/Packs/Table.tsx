@@ -2,7 +2,7 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce/lib';
 
 import Button from '../../components/common/Button/Button';
@@ -138,32 +138,31 @@ export const Table: FC = () => {
           />
           <Button onClick={createCardPack}>Add new pack</Button>
         </div>
-        <table className={style.table}>
-          <thead>
-            <tr>
-              <td>
-                Name
-                {/* <Sorting sortName="name" /> */}
-              </td>
-              <td>
-                Cards
-                {/* <Sorting sortName="cardsCount" /> */}
-              </td>
-              <td>
-                Last Updated
-                {/* <Sorting sortName="updated" /> */}
-              </td>
-              <td>
-                Created by
-                {/* <Sorting sortName="created" /> */}
-              </td>
-              <td>Actions</td>
-            </tr>
-          </thead>
-
-          {isFetching ? (
-            <Preloader />
-          ) : (
+        {isFetching ? (
+          <Preloader />
+        ) : (
+          <table className={style.table}>
+            <thead>
+              <tr>
+                <td>
+                  Name
+                  {/* <Sorting sortName="name" /> */}
+                </td>
+                <td>
+                  Cards
+                  {/* <Sorting sortName="cardsCount" /> */}
+                </td>
+                <td>
+                  Last Updated
+                  {/* <Sorting sortName="updated" /> */}
+                </td>
+                <td>
+                  Created by
+                  {/* <Sorting sortName="created" /> */}
+                </td>
+                <td>Actions</td>
+              </tr>
+            </thead>
             <tbody>
               {cardPacks.map(cardPack => (
                 <CardPack
@@ -174,8 +173,9 @@ export const Table: FC = () => {
                 />
               ))}
             </tbody>
-          )}
-        </table>
+          </table>
+        )}
+
         {!isFetching && (
           <Paginator
             page={page}
@@ -185,7 +185,7 @@ export const Table: FC = () => {
         )}
       </div>
 
-      {error && <span className={style.error}>{error}</span>}
+      {/* {error && <span className={style.error}>{error}</span>} */}
     </div>
   );
 };

@@ -3,16 +3,13 @@ import { cardPacksAPI } from '../dal/CardPacksAPI';
 
 import { setCardPacks, setTotalPacksCount } from './CardPacksActions';
 
-import { AppRootStoreType, AppThunkType } from 'bll/Store';
+import { AppThunkType } from 'bll/Store';
 import { handleCatchError } from 'const';
 import { isFetching } from 'features/authorization/dal/registrationReducer/registrationActions';
 
 export const getCardPacksTC =
   (data?: CardsRequest): AppThunkType =>
-  async (dispatch, getState: () => AppRootStoreType) => {
-    // const { pageCount, page, sortPacks, packName, min, max, user_id } =
-    //   getState().cardPacksReducer;
-
+  async dispatch => {
     dispatch(isFetching(true));
 
     try {
