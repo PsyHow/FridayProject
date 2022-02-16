@@ -1,10 +1,14 @@
-import { CardsPackResponseType, DataCards } from './CardPackApiTypes';
+import { CardsPackResponseType, CardsRequest } from './CardPackApiTypes';
 
 import { instance } from 'dal/apiConfing/apiConfing';
 
 export const cardPacksAPI = {
-  getCardPacks(data: DataCards) {
-    return instance.get<CardsPackResponseType>(`cards/pack`, { params: data });
+  getCardPacks(data: CardsRequest) {
+    return instance.get<CardsPackResponseType>(`cards/pack`, {
+      params: {
+        ...data,
+      },
+    });
   },
   deleteCardPack(id: string) {
     return instance.delete(`cards/pack?id=${id}`);

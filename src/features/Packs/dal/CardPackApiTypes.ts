@@ -9,12 +9,12 @@ export type CardsPackResponseType = {
   pageCount: number;
 };
 
-export type DataCards = {
-  pageCount: number;
-  page: number;
-  sortPacks: string;
-  packName: string;
-  min: number;
-  max: number;
-  user_id: string;
+export type CardsRequest = {
+  pageCount?: number;
+  page?: number;
+  sortPacks?: string;
+  packName?: string;
+  min?: number;
+  max?: number;
+  user_id?: string;
 };

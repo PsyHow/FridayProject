@@ -26,8 +26,8 @@ export const loginTC =
 export const authMe = (): AppThunkType => async dispatch => {
   try {
     const res = await authAPI.me();
-    dispatch(setUser(res.data));
     dispatch(loggingInAC(true));
+    dispatch(setUser(res.data));
   } catch (error) {
     dispatch(loggingInAC(false));
     if (axios.isAxiosError(error) && error.response)

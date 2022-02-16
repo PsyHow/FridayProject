@@ -7,6 +7,7 @@ import Button from '../../../components/common/Button/Button';
 import { CardPackType } from '../bll/CardPacksTypes';
 
 import { AppRootStoreType } from 'bll/Store';
+import { lastUpdateDate } from 'const';
 
 type CardPackPropsType = {
   cardPack: CardPackType;
@@ -37,7 +38,7 @@ export const CardPack: FC<CardPackPropsType> = ({ cardPack, ...restProps }) => {
         </NavLink>
       </td>
       <td>{cardPack.cardsCount}</td>
-      <td>{cardPack.updated}</td>
+      <td>{lastUpdateDate(cardPack.created)}</td>
       <td>{cardPack.user_name}</td>
       <td>
         {cardPack.user_id === userId && <Button onClick={deleteCardPack}>Delete</Button>}

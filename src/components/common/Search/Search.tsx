@@ -7,15 +7,12 @@ import { DoubleRange } from '../DoubleRange/DoubleRange';
 
 import style from './Search.module.css';
 
-import SuperInputText from 'components/common/Input/Input';
 import {
-  getCardsSearch,
   setCardsCurrentPageAC,
   setMinMaxCardsCountAC,
 } from 'features/Cards/bll/cardsActions';
 import { getCardsTC } from 'features/Cards/bll/cardsThunks';
 import {
-  getPackSearch,
   setMinMaxCardsPackCount,
   setPacksCurrentPageAC,
 } from 'features/Packs/bll/CardPacksActions';
@@ -23,10 +20,6 @@ import { getCardPacksTC } from 'features/Packs/bll/CardPacksThunk';
 
 export const Search: FC<PropsType> = ({ min, max, defaultMin, defaultMax, token }) => {
   const dispatch = useDispatch();
-  const [search, setSearch] = useState<string>('');
-  const onChangeSearch = (value: string): void => {
-    setSearch(value);
-  };
 
   // double range
   const [value1, setValue1] = useState(min);
@@ -43,12 +36,10 @@ export const Search: FC<PropsType> = ({ min, max, defaultMin, defaultMax, token 
   const onSubmit = (): void => {
     if (token) {
       dispatch(setMinMaxCardsCountAC(value1, value2));
-      dispatch(getCardsSearch(search));
       dispatch(setCardsCurrentPageAC(1));
       dispatch(getCardsTC(token));
     } else {
       dispatch(setMinMaxCardsPackCount(value1, value2));
-      dispatch(getPackSearch(search));
       dispatch(setPacksCurrentPageAC(1));
       dispatch(getCardPacksTC());
     }
@@ -66,7 +57,6 @@ export const Search: FC<PropsType> = ({ min, max, defaultMin, defaultMax, token 
         />
         <span style={{ marginLeft: '5%' }}>{value2}</span>
       </div>
-      <SuperInputText value={search} onChangeText={onChangeSearch} />
       <Button onClick={onSubmit}>Search</Button>
     </div>
   );

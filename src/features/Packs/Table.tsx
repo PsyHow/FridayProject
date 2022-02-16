@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { ChangeEvent, FC, useEffect } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useDebounce } from 'use-debounce/lib';
 
 import Button from '../../components/common/Button/Button';
-import SuperCheckbox from '../../components/common/Checkbox/Checkbox';
-import { setCardsCurrentPageAC, setCardsError } from '../Cards/bll/cardsActions';
+import { setCardsError } from '../Cards/bll/cardsActions';
 
 import { setPackId } from './bll/CardPacksActions';
 import {
@@ -19,15 +19,14 @@ import { CardPack } from './CardPack/CardPack';
 import style from './Table.module.scss';
 
 import { AppRootStoreType } from 'bll/Store';
+import { DoubleRange } from 'components/common/DoubleRange/DoubleRange';
 import { Paginator } from 'components/common/Paginator/Paginator';
-import { Search } from 'components/common/Search/Search';
 import { Sorting } from 'components/common/Sorting/Sorting';
 import { Preloader } from 'components/Preloader/Preloader';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
 
 export const Table: FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const userId = useSelector<AppRootStoreType, string>(st => st.profileReducer.user._id);
   const {
@@ -41,18 +40,49 @@ export const Table: FC = () => {
     maxCardsCount,
     error,
   } = useSelector((state: AppRootStoreType) => state.cardPacksReducer);
-
   const isFetching = useSelector<AppRootStoreType, boolean>(
     state => state.registrationReducer.isFetching,
   );
+  const navigate = useNavigate();
+  const [search, setSearch] = useState<string>('');
+  const [debouncingValue] = useDebounce(search, 1000);
+  const setSearchValueHandler = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSearch(event.currentTarget.value);
+  };
+
+  // double range
+  const [minCount, setMinCount] = useState(minCardsCount);
+  const [maxCount, setMaxCount] = useState(maxCardsCount);
+
+  const onChangeHandler = (values: number | number[]): void => {
+    if (Array.isArray(values)) {
+      setMinCount(values[0]);
+      setMaxCount(values[1]);
+    }
+  };
+  const [debounceMinCount] = useDebounce(minCount, 2000);
+  const [debounceMaxCount] = useDebounce(maxCount, 2000);
 
   useEffect(() => {
     dispatch(setCardsError(''));
-    dispatch(getCardPacksTC());
-    return () => {
-      dispatch(setCardsCurrentPageAC(1));
-    };
-  }, [dispatch]);
+    dispatch(
+      getCardPacksTC({
+        min: debounceMinCount,
+        max: debounceMaxCount,
+        packName: debouncingValue,
+        page,
+        pageCount,
+        sortPacks: '',
+        user_id: '',
+      }),
+    );
+  }, [dispatch, debouncingValue, debounceMinCount, debounceMaxCount]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('login');
+    }
+  }, [isLoggedIn]);
 
   const deleteCardPack = (id: string): void => {
     dispatch(deleteCardPackTC(id));
@@ -69,19 +99,17 @@ export const Table: FC = () => {
   const changePacks = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.currentTarget.checked) {
       dispatch(setPackId(userId));
-      dispatch(getCardPacksTC());
+      dispatch(getCardPacksTC({ user_id: userId }));
     } else {
       dispatch(setPackId(''));
       dispatch(getCardPacksTC());
     }
   };
 
-  if (!isLoggedIn) navigate('/login');
-
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
-        <span>Show packs cards</span>
+        <span className={style.description}>Show packs cards</span>
         <div className={style.checkBoxInput}>
           <label className={style.toggle}>
             <input onChange={changePacks} type="checkbox" />
@@ -89,58 +117,74 @@ export const Table: FC = () => {
             <span className={style.labels} data-on="MY" data-off="ALL" />
           </label>
         </div>
-        <span>Number of cards</span>
+        <span className={style.description}>Number of cards</span>
+        <div className={style.Search}>
+          <DoubleRange
+            min={min}
+            max={max}
+            value={[minCount, maxCount]}
+            onChangeRange={onChangeHandler}
+          />
+        </div>
       </div>
-      <Button style={{ marginRight: '20px' }} onClick={createCardPack}>
-        {' '}
-        add cardpack
-      </Button>
-      <Search min={min} max={max} defaultMin={minCardsCount} defaultMax={maxCardsCount} />
-      <table className={style.table}>
-        <thead>
-          <tr>
-            <td>
-              Name
-              <Sorting sortName="name" />
-            </td>
-            <td>
-              CardsCount
-              <Sorting sortName="cardsCount" />
-            </td>
-            <td>
-              Last Updated
-              <Sorting sortName="updated" />
-            </td>
-            <td>
-              Created by
-              <Sorting sortName="created" />
-            </td>
-            <td>Actions</td>
-          </tr>
-        </thead>
+      <div className={style.rightContent}>
+        <span className={style.title}>Packs list</span>
+        <div className={style.searchBox}>
+          <input
+            type="search"
+            placeholder="Search"
+            value={search}
+            onChange={setSearchValueHandler}
+          />
+          <Button onClick={createCardPack}>Add new pack</Button>
+        </div>
+        <table className={style.table}>
+          <thead>
+            <tr>
+              <td>
+                Name
+                {/* <Sorting sortName="name" /> */}
+              </td>
+              <td>
+                Cards
+                {/* <Sorting sortName="cardsCount" /> */}
+              </td>
+              <td>
+                Last Updated
+                {/* <Sorting sortName="updated" /> */}
+              </td>
+              <td>
+                Created by
+                {/* <Sorting sortName="created" /> */}
+              </td>
+              <td>Actions</td>
+            </tr>
+          </thead>
 
-        {isFetching ? (
-          <Preloader />
-        ) : (
-          <tbody>
-            {cardPacks.map(cardPack => (
-              <CardPack
-                key={cardPack._id}
-                cardPack={cardPack}
-                deleteCardPack={deleteCardPack}
-                editCardPack={editCardPack}
-              />
-            ))}
-          </tbody>
+          {isFetching ? (
+            <Preloader />
+          ) : (
+            <tbody>
+              {cardPacks.map(cardPack => (
+                <CardPack
+                  key={cardPack._id}
+                  cardPack={cardPack}
+                  deleteCardPack={deleteCardPack}
+                  editCardPack={editCardPack}
+                />
+              ))}
+            </tbody>
+          )}
+        </table>
+        {!isFetching && (
+          <Paginator
+            page={page}
+            pageCount={pageCount}
+            totalItemsCount={cardPacksTotalCount}
+          />
         )}
-      </table>
-      {!isFetching && (
-        <Paginator
-          page={page}
-          pageCount={pageCount}
-          totalItemsCount={cardPacksTotalCount}
-        />
-      )}
+      </div>
+
       {error && <span className={style.error}>{error}</span>}
     </div>
   );

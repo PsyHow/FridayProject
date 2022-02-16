@@ -1,3 +1,4 @@
+import { CardsRequest } from '../dal/CardPackApiTypes';
 import { cardPacksAPI } from '../dal/CardPacksAPI';
 
 import { setCardPacks, setTotalPacksCount } from './CardPacksActions';
@@ -7,22 +8,15 @@ import { handleCatchError } from 'const';
 import { isFetching } from 'features/authorization/dal/registrationReducer/registrationActions';
 
 export const getCardPacksTC =
-  (): AppThunkType => async (dispatch, getState: () => AppRootStoreType) => {
-    const { pageCount, page, sortPacks, packName, min, max, user_id } =
-      getState().cardPacksReducer;
+  (data?: CardsRequest): AppThunkType =>
+  async (dispatch, getState: () => AppRootStoreType) => {
+    // const { pageCount, page, sortPacks, packName, min, max, user_id } =
+    //   getState().cardPacksReducer;
 
     dispatch(isFetching(true));
 
     try {
-      const res = await cardPacksAPI.getCardPacks({
-        page,
-        sortPacks,
-        packName,
-        min,
-        max,
-        user_id,
-        pageCount,
-      });
+      const res = await cardPacksAPI.getCardPacks({ ...data });
       dispatch(isFetching(false));
       dispatch(setCardPacks(res.data.cardPacks));
       dispatch(setTotalPacksCount(res.data.cardPacksTotalCount));

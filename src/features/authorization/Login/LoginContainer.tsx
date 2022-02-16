@@ -7,15 +7,14 @@ import { AppRootStoreType } from 'bll/Store';
 import { loginTC } from 'features/authorization/dal/authReducer/authThunks';
 import { setError } from 'features/authorization/dal/registrationReducer/registrationActions';
 import { Login } from 'features/authorization/Login/Login';
+import { selectIsLoggedIn } from 'selectors/authSelectors';
 
 export const LoginContainer: FC = () => {
   const dispatch = useDispatch();
   const error = useSelector<AppRootStoreType, string | null>(
     state => state.registrationReducer.error,
   );
-  const isLogged = useSelector<AppRootStoreType, boolean>(
-    state => state.authReducer.isLogged,
-  );
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const [email, setEmail] = useState('nya-admin@nya.nya');
   const [password, setPassword] = useState('1qazxcvBG');
@@ -36,7 +35,7 @@ export const LoginContainer: FC = () => {
     dispatch(loginTC({ email, rememberMe, password }));
   };
 
-  if (isLogged) {
+  if (isLoggedIn) {
     return <Navigate to="/profile" />;
   }
 

@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
 
 import styles from './Profile.module.css';
 
@@ -24,9 +23,7 @@ export const Profile: FC = () => {
     height: '200px',
   };
 
-  if (!loggedIn) {
-    return <Navigate to="/login" />;
-  }
+  // if (!loggedIn) navigate(PATH.LOGIN);
 
   return (
     <div className={styles.box}>

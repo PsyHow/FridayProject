@@ -12,3 +12,10 @@ export const handleCatchError = (error: unknown, dispatch: Dispatch): void => {
     dispatch(setCardsError(error.message));
   }
 };
+
+export const lastUpdateDate = (value: string): string =>
+  new Date(value).toLocaleString('ru', {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  });
