@@ -1,9 +1,11 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FC, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { getTokenSourceMapRange } from 'typescript';
 
 import { SuperSelect } from '../Select/SuperSelect';
 
@@ -40,11 +42,11 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
   const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
   const rightPortionPageNumber = portionNumber * portionSize;
   const onPageChanged = (pageC: number): void => {
-    dispatch(setCardsCurrentPageAC(pageC));
-    dispatch(setPacksCurrentPageAC(pageC));
-    dispatch(setCardsError(''));
+    // dispatch(setCardsCurrentPageAC(pageC));
+    // dispatch(setPacksCurrentPageAC(pageC));
+    // dispatch(setCardsError(''));
     if (token) {
-      dispatch(getCardsTC(token));
+      dispatch(getCardsTC({ cardsPack_id: token, page: pageC }));
     } else
       dispatch(
         getCardPacksTC({
@@ -55,11 +57,18 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
 
   const onChangeSelect = (items: 3 | 5 | 10): void => {
     setValue(items);
-    dispatch(setCardsPageCount(items));
-    dispatch(setPacksPageCount(items));
+    // dispatch(setCardsPageCount(items));
+    // dispatch(setPacksPageCount(items));
     if (token) {
-      dispatch(getCardsTC(token));
-    } else dispatch(getCardPacksTC());
+      dispatch(getCardsTC({ cardsPack_id: token, pageCount: items }));
+    } else {
+      setValue(items);
+      dispatch(
+        getCardPacksTC({
+          pageCount: items,
+        }),
+      );
+    }
   };
 
   return (
@@ -74,11 +83,9 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
       )}
       {pages
         .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-        .map(m => (
-          // eslint-disable-next-line react/jsx-key
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          // eslint-disable-next-line react/jsx-key
+        .map((m, index) => (
           <span
+            key={index}
             className={page === m ? style.selectedPage : style.pageNumber}
             onClick={() => {
               onPageChanged(m);

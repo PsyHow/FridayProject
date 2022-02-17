@@ -23,7 +23,6 @@ export const DoubleRange: React.FC<SuperDoubleRangePropsType> = ({
   return (
     <Slider
       value={value}
-      aria-label=""
       min={restProps.min}
       max={restProps.max}
       style={{ width: '133px', color: '#7676EE7D' }}

@@ -18,6 +18,7 @@ export const loginTC =
         dispatch(setUser(res.data));
       }
     } catch (error) {
+      dispatch(loggingInAC(false));
       const errorMessage = (error as Error).message || errorString;
       dispatch(setError(errorMessage));
     }

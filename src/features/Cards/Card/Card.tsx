@@ -6,6 +6,7 @@ import Button from '../../../components/common/Button/Button';
 import { CardsType } from '../bll/cardsTypes';
 
 import { AppRootStoreType } from 'bll/Store';
+import { lastUpdateDate } from 'const';
 
 type CardsPropsType = {
   card: CardsType;
@@ -28,12 +29,12 @@ export const Card: FC<CardsPropsType> = ({ card, deleteCard, getUpdateCard }) =>
     <tr>
       <td>{card.question}</td>
       <td>{card.answer}</td>
+      <td>{lastUpdateDate(card.updated)}</td>
       <td>{card.grade}</td>
-      <td>{card.updated}</td>
-      <td>
+      {/* <td>
         {card.user_id === userId && <Button onClick={deleteCardId}>Delete</Button>}
         {card.user_id === userId && <Button onClick={editCardPack}>Edit</Button>}
-      </td>
+      </td> */}
     </tr>
   );
 };

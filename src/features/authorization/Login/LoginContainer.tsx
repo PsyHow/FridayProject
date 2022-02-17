@@ -11,9 +11,9 @@ import { selectIsLoggedIn } from 'selectors/authSelectors';
 
 export const LoginContainer: FC = () => {
   const dispatch = useDispatch();
-  const error = useSelector<AppRootStoreType, string | null>(
-    state => state.registrationReducer.error,
-  );
+  // const error = useSelector<AppRootStoreType, string | null>(
+  //   state => state.registrationReducer.error,
+  // );
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const [email, setEmail] = useState('viktorburnyshev@gmail.com');
@@ -42,7 +42,7 @@ export const LoginContainer: FC = () => {
   return (
     <Login
       email={email}
-      error={error}
+      // error={error}
       onLoginButtonClick={onLoginButtonClick}
       onEmailChangeHandler={onEmailChangeHandler}
       onPasswordChangeHandler={onPasswordChangeHandler}

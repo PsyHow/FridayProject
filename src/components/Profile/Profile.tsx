@@ -14,13 +14,10 @@ export const Profile: FC = () => {
   const user = useSelector<AppRootStoreType, UserType>(
     state => state.profileReducer.user,
   );
-  const loggedIn = useSelector<AppRootStoreType, boolean>(
-    state => state.authReducer.isLogged,
-  );
 
   const style = {
-    width: '200px',
-    height: '200px',
+    width: '150px',
+    height: '150px',
   };
 
   // if (!loggedIn) navigate(PATH.LOGIN);

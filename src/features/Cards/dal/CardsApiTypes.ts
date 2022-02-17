@@ -11,11 +11,11 @@ export type CardsResponseType = {
 };
 
 export type CardsData = {
-  cardsPack_id: string;
-  sortCards: string;
-  min: number;
-  max: number;
-  pageCount: number;
-  page: number;
-  cardQuestion: string;
+  cardsPack_id?: string;
+  sortCards?: string;
+  min?: number;
+  max?: number;
+  pageCount?: number;
+  page?: number;
+  cardQuestion?: string;
 };

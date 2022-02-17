@@ -1,28 +1,20 @@
 import { cardsAPI } from '../dal/CardsAPI';
+import { CardsData } from '../dal/CardsApiTypes';
 
 import { getCardsAC, setTotalCardsCount, updateGradeAC } from './cardsActions';
 
-import { AppRootStoreType, AppThunkType } from 'bll/Store';
+import { AppThunkType } from 'bll/Store';
 import { handleCatchError } from 'const';
 import { isFetching } from 'features/authorization/dal/registrationReducer/registrationActions';
 
 export const getCardsTC =
-  (token: string): AppThunkType =>
-  async (dispatch, getState: () => AppRootStoreType) => {
-    const { sortCards, min, max, pageCount, page, cardQuestion } =
-      getState().cardsReducer;
-
+  (data?: CardsData): AppThunkType =>
+  async dispatch => {
     dispatch(isFetching(true));
 
     try {
       const res = await cardsAPI.getCards({
-        cardsPack_id: token,
-        sortCards,
-        min,
-        max,
-        pageCount,
-        page,
-        cardQuestion,
+        ...data,
       });
       dispatch(isFetching(false));
       dispatch(getCardsAC(res.data.cards));
@@ -41,7 +33,7 @@ export const deleteCardTC =
     try {
       await cardsAPI.deleteCard(id);
       dispatch(isFetching(false));
-      dispatch(getCardsTC(token));
+      dispatch(getCardsTC({ cardsPack_id: token }));
     } catch (error) {
       dispatch(isFetching(false));
       handleCatchError(error, dispatch);
@@ -56,7 +48,7 @@ export const createCardTC =
     try {
       await cardsAPI.createCard(token);
       dispatch(isFetching(false));
-      dispatch(getCardsTC(token));
+      dispatch(getCardsTC({ cardsPack_id: token }));
     } catch (error) {
       dispatch(isFetching(false));
       handleCatchError(error, dispatch);
@@ -71,7 +63,7 @@ export const updateCardTC =
     try {
       await cardsAPI.updateCard(id, question, answer);
       dispatch(isFetching(false));
-      dispatch(getCardsTC(token));
+      dispatch(getCardsTC({ cardsPack_id: token }));
     } catch (error) {
       dispatch(isFetching(false));
       handleCatchError(error, dispatch);

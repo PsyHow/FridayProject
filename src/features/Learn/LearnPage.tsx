@@ -60,7 +60,7 @@ export const LearnPage: FC = () => {
 
   useEffect(() => {
     if (first) {
-      dispatch(getCardsTC(token || ''));
+      dispatch(getCardsTC({ cardsPack_id: token } || ''));
       setFirst(false);
     }
     if (cards.length > 0) {

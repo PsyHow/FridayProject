@@ -160,6 +160,13 @@
                 background: url(../../assets/Union.png) no-repeat center right 10px;
             }
 
+            & input::-webkit-search-decoration,
+            & input::-webkit-search-cancel-button,
+            & input::-webkit-search-results-button,
+            & input::-webkit-search-results-decoration {
+                display: none;
+            }
+
             & button {
                 width: 184px;
                 height: 36px;
@@ -239,12 +246,13 @@
 
             & tbody td {
                 padding-left: 20px;
-            }
+                font-family: "SF UI Display" Thin;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 13px;
+                line-height: 16px;
 
-            & table thead tr td:hover {
-                background: #8686d2;
-                transition-duration: 0.2s;
-                cursor: pointer;
+                color: #000000;
             }
         }
 

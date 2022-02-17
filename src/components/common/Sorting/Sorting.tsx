@@ -18,10 +18,14 @@ export const Sorting: FC<PropsType> = ({ sortName, token }) => {
     dispatch(setCardsCurrentPageAC(1));
     if (token) {
       dispatch(getCardsSorting(`0${sortName}`));
-      dispatch(getCardsTC(token));
+      dispatch(getCardsTC({ cardsPack_id: token }));
     } else {
-      dispatch(getPackSorting(`0${sortName}`));
-      dispatch(getCardPacksTC());
+      // dispatch(getPackSorting(`0${sortName}`));
+      dispatch(
+        getCardPacksTC({
+          sortPacks: `0${sortName}`,
+        }),
+      );
     }
   };
   const setSortDown = (): void => {
@@ -29,10 +33,14 @@ export const Sorting: FC<PropsType> = ({ sortName, token }) => {
     dispatch(setPacksCurrentPageAC(1));
     if (token) {
       dispatch(getCardsSorting(`1${sortName}`));
-      dispatch(getCardsTC(token));
+      dispatch(getCardsTC({ cardsPack_id: token }));
     } else {
-      dispatch(getPackSorting(`1${sortName}`));
-      dispatch(getCardPacksTC());
+      // dispatch(getPackSorting(`1${sortName}`));
+      dispatch(
+        getCardPacksTC({
+          sortPacks: `1${sortName}`,
+        }),
+      );
     }
   };
   return (

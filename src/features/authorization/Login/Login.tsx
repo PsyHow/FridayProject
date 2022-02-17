@@ -6,7 +6,7 @@ import styles from 'features/authorization/Login/Login.module.css';
 
 export const Login: FC<PropsType> = ({
   email,
-  error,
+  // error,
   onLoginButtonClick,
   onEmailChangeHandler,
   onPasswordChangeHandler,
@@ -31,13 +31,17 @@ export const Login: FC<PropsType> = ({
         Forgot Password
       </NavLink>
 
-      {error ? (
+      {/* {error ? (
         <span className={styles.error}>{error}</span>
       ) : (
         <button type="button" onClick={onLoginButtonClick} className={styles.button}>
           Login
         </button>
-      )}
+      )} */}
+
+      <button type="button" onClick={onLoginButtonClick} className={styles.button}>
+        Login
+      </button>
 
       <span className={styles.dontHaveAcc}>Don’t have an account?</span>
       <NavLink to="/signup" className={styles.signUp}>
@@ -52,6 +56,6 @@ type PropsType = {
   onEmailChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   password: string;
   onPasswordChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
-  error: string | null;
+  // error: string | null;
   onLoginButtonClick: () => Promise<void>;
 };

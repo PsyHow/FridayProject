@@ -7,7 +7,6 @@ export const cardPacksAPI = {
     return instance.get<CardsPackResponseType>(`cards/pack`, {
       params: {
         ...data,
-        pageCount: 10,
       },
     });
   },

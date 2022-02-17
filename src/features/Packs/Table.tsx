@@ -21,6 +21,7 @@ import style from './Table.module.scss';
 import { AppRootStoreType } from 'bll/Store';
 import { DoubleRange } from 'components/common/DoubleRange/DoubleRange';
 import { Paginator } from 'components/common/Paginator/Paginator';
+import { Search } from 'components/common/Search/Search';
 import { Sorting } from 'components/common/Sorting/Sorting';
 import { Preloader } from 'components/Preloader/Preloader';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
@@ -38,17 +39,11 @@ export const Table: FC = () => {
     pageCount,
     minCardsCount,
     maxCardsCount,
-    error,
   } = useSelector((state: AppRootStoreType) => state.cardPacksReducer);
   const isFetching = useSelector<AppRootStoreType, boolean>(
     state => state.registrationReducer.isFetching,
   );
   const navigate = useNavigate();
-  const [search, setSearch] = useState<string>('');
-  const [debouncingValue] = useDebounce(search, 1000);
-  const setSearchValueHandler = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSearch(event.currentTarget.value);
-  };
 
   // double range
   const [minCount, setMinCount] = useState(minCardsCount);
@@ -69,20 +64,14 @@ export const Table: FC = () => {
       getCardPacksTC({
         min: debounceMinCount,
         max: debounceMaxCount,
-        packName: debouncingValue,
+        packName: '',
         page,
         pageCount,
         sortPacks: '',
         user_id: '',
       }),
     );
-  }, [dispatch, debouncingValue, debounceMinCount, debounceMaxCount]);
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate('login');
-    }
-  }, [isLoggedIn]);
+  }, [dispatch, debounceMinCount, debounceMaxCount]);
 
   const deleteCardPack = (id: string): void => {
     dispatch(deleteCardPackTC(id));
@@ -105,6 +94,10 @@ export const Table: FC = () => {
       dispatch(getCardPacksTC());
     }
   };
+
+  if (!isLoggedIn) {
+    navigate('/login');
+  }
 
   return (
     <div className={style.container}>
@@ -130,12 +123,7 @@ export const Table: FC = () => {
       <div className={style.rightContent}>
         <span className={style.title}>Packs list</span>
         <div className={style.searchBox}>
-          <input
-            type="search"
-            placeholder="Search"
-            value={search}
-            onChange={setSearchValueHandler}
-          />
+          <Search />
           <Button onClick={createCardPack}>Add new pack</Button>
         </div>
         {isFetching ? (
@@ -150,7 +138,7 @@ export const Table: FC = () => {
                 </td>
                 <td>
                   Cards
-                  {/* <Sorting sortName="cardsCount" /> */}
+                  <Sorting sortName="cardsCount" />
                 </td>
                 <td>
                   Last Updated
@@ -175,14 +163,11 @@ export const Table: FC = () => {
             </tbody>
           </table>
         )}
-
-        {!isFetching && (
-          <Paginator
-            page={page}
-            pageCount={pageCount}
-            totalItemsCount={cardPacksTotalCount}
-          />
-        )}
+        <Paginator
+          page={page}
+          pageCount={pageCount}
+          totalItemsCount={cardPacksTotalCount}
+        />
       </div>
 
       {/* {error && <span className={style.error}>{error}</span>} */}
