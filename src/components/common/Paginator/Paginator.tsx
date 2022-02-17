@@ -5,22 +5,14 @@ import { FC, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getTokenSourceMapRange } from 'typescript';
 
 import { SuperSelect } from '../Select/SuperSelect';
 
 import style from './Paginator.module.scss';
 
-import {
-  setCardsCurrentPageAC,
-  setCardsError,
-  setCardsPageCount,
-} from 'features/Cards/bll/cardsActions';
+import {} from 'features/Cards/bll/cardsActions';
 import { getCardsTC } from 'features/Cards/bll/cardsThunks';
-import {
-  setPacksCurrentPageAC,
-  setPacksPageCount,
-} from 'features/Packs/bll/CardPacksActions';
+import { setPacksCurrentPageAC } from 'features/Packs/bll/CardPacksActions';
 import { getCardPacksTC } from 'features/Packs/bll/CardPacksThunk';
 
 export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) => {
@@ -42,9 +34,7 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
   const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
   const rightPortionPageNumber = portionNumber * portionSize;
   const onPageChanged = (pageC: number): void => {
-    // dispatch(setCardsCurrentPageAC(pageC));
-    // dispatch(setPacksCurrentPageAC(pageC));
-    // dispatch(setCardsError(''));
+    dispatch(setPacksCurrentPageAC(pageC));
     if (token) {
       dispatch(getCardsTC({ cardsPack_id: token, page: pageC }));
     } else

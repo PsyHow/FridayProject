@@ -1,10 +1,9 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useDebounce } from 'use-debounce/lib';
 
-import { createCardTC, deleteCardTC, getCardsTC, updateCardTC } from './bll/cardsThunks';
+import { deleteCardTC, getCardsTC, updateCardTC } from './bll/cardsThunks';
 import { Card } from './Card/Card';
 import style from './CardsTable.module.scss';
 
@@ -15,6 +14,7 @@ import { Sorting } from 'components/common/Sorting/Sorting';
 import { Preloader } from 'components/Preloader/Preloader';
 import { CardsType } from 'features/Cards/bll/cardsTypes';
 import { setPacksCurrentPageAC } from 'features/Packs/bll/CardPacksActions';
+import { useSearch } from 'hooks/useSearch';
 
 export const CardsTable: FC = () => {
   const dispatch = useDispatch();
@@ -27,11 +27,7 @@ export const CardsTable: FC = () => {
     state => state.registrationReducer.isFetching,
   );
   const { token } = useParams();
-  const [search, setSearch] = useState<string>('');
-  const [debouncingValue] = useDebounce(search, 1000);
-  const setSearchValueHandler = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSearch(event.currentTarget.value);
-  };
+  const { debouncingValue, search, handleChangeSearch } = useSearch();
 
   useEffect(() => {
     if (token) {
@@ -48,9 +44,9 @@ export const CardsTable: FC = () => {
 
   const cardPackName = cardPacks.filter(pack => pack._id === token)[0];
 
-  const createCard = (): void => {
-    if (token) dispatch(createCardTC(token));
-  };
+  // const createCard = (): void => {
+  //   if (token) dispatch(createCardTC(token));
+  // };
 
   const updateCard = (id: string, question: string, answer: string): void => {
     if (token) dispatch(updateCardTC(token, question, answer, id));
@@ -60,13 +56,7 @@ export const CardsTable: FC = () => {
       <span className={style.title}>
         {(cardPackName && cardPackName.name) || 'Card Name'}
       </span>
-      <Search id={token} />
-      {/* <input
-        type="search"
-        placeholder="Search"
-        value={search}
-        onChange={setSearchValueHandler}
-      /> */}
+      <Search search={search} handleChangeSearch={handleChangeSearch} />
       <table className={style.table}>
         <thead>
           <tr>

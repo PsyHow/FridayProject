@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useDebounce } from 'use-debounce/lib';
 
 import Button from '../../components/common/Button/Button';
 import { setCardsError } from '../Cards/bll/cardsActions';
@@ -24,39 +23,24 @@ import { Paginator } from 'components/common/Paginator/Paginator';
 import { Search } from 'components/common/Search/Search';
 import { Sorting } from 'components/common/Sorting/Sorting';
 import { Preloader } from 'components/Preloader/Preloader';
+import { useCardCountChange } from 'hooks/useCardCountChange';
+import { useSearch } from 'hooks/useSearch';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
 
 export const Table: FC = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const userId = useSelector<AppRootStoreType, string>(st => st.profileReducer.user._id);
-  const {
-    cardPacksTotalCount,
-    cardPacks,
-    min,
-    max,
-    page,
-    pageCount,
-    minCardsCount,
-    maxCardsCount,
-  } = useSelector((state: AppRootStoreType) => state.cardPacksReducer);
+  const { cardPacksTotalCount, cardPacks, min, max, page, pageCount } = useSelector(
+    (state: AppRootStoreType) => state.cardPacksReducer,
+  );
   const isFetching = useSelector<AppRootStoreType, boolean>(
     state => state.registrationReducer.isFetching,
   );
   const navigate = useNavigate();
-
-  // double range
-  const [minCount, setMinCount] = useState(minCardsCount);
-  const [maxCount, setMaxCount] = useState(maxCardsCount);
-
-  const onChangeHandler = (values: number | number[]): void => {
-    if (Array.isArray(values)) {
-      setMinCount(values[0]);
-      setMaxCount(values[1]);
-    }
-  };
-  const [debounceMinCount] = useDebounce(minCount, 2000);
-  const [debounceMaxCount] = useDebounce(maxCount, 2000);
+  const { debouncingValue, handleChangeSearch, search } = useSearch();
+  const { debounceMaxCount, debounceMinCount, maxCount, minCount, onChangeHandler } =
+    useCardCountChange();
 
   useEffect(() => {
     dispatch(setCardsError(''));
@@ -64,14 +48,10 @@ export const Table: FC = () => {
       getCardPacksTC({
         min: debounceMinCount,
         max: debounceMaxCount,
-        packName: '',
-        page,
-        pageCount,
-        sortPacks: '',
-        user_id: '',
+        packName: debouncingValue,
       }),
     );
-  }, [dispatch, debounceMinCount, debounceMaxCount]);
+  }, [dispatch, debouncingValue, debounceMinCount, debounceMaxCount]);
 
   const deleteCardPack = (id: string): void => {
     dispatch(deleteCardPackTC(id));
@@ -123,7 +103,7 @@ export const Table: FC = () => {
       <div className={style.rightContent}>
         <span className={style.title}>Packs list</span>
         <div className={style.searchBox}>
-          <Search />
+          <Search search={search} handleChangeSearch={handleChangeSearch} />
           <Button onClick={createCardPack}>Add new pack</Button>
         </div>
         {isFetching ? (
