@@ -31,11 +31,11 @@ export const SignUp: FC<PropsType> = ({
   onChangeConfirmPassword,
   isFetching,
 }) => (
-  <div>
+  <div className={style.container}>
     {isFetching ? (
       <Preloader />
     ) : (
-      <div className={style.container}>
+      <form>
         <div className={style.title}>It-incubator</div>
         <span>Sign Up</span>
 
@@ -50,25 +50,29 @@ export const SignUp: FC<PropsType> = ({
           placeholder="Password"
           onChangeText={onChangePassword}
           value={password}
-          error={error}
         />
         <SuperInputText
           type="password"
           placeholder="Confirm password"
           onChangeText={onChangeConfirmPassword}
           value={confirm}
-          error={error}
         />
+
+        {error ? (
+          <span className={style.error}>{error}</span>
+        ) : (
+          <span className={style.error} />
+        )}
 
         <div className={style.buttons}>
           <NavLink to="/login">
             <button type="button">Cancel</button>
           </NavLink>
-          <button type="button" onClick={onClickHandler} disabled={isFetching}>
+          <button type="submit" onClick={onClickHandler} disabled={isFetching}>
             Register
           </button>
         </div>
-      </div>
+      </form>
     )}
   </div>
 );

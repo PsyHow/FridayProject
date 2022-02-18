@@ -1,8 +1,11 @@
 .cardsContainer {
   width: 1008px;
-  height: 660px;
+  height: 636px;
   display: flex;
   flex-direction: column;
+  align-self: center;
+  margin-top: 25px;
+
   background: #fefeff;
   border-radius: 8px;
   padding: 24px;
@@ -93,6 +96,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 }

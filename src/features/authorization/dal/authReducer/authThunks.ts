@@ -3,7 +3,10 @@ import { AppThunkType } from 'bll/Store';
 import { handleCatchError } from 'const';
 import { authAPI } from 'features/authorization/api/authApit';
 import { LoginData } from 'features/authorization/api/authTypes';
-import { loggingInAC } from 'features/authorization/dal/authReducer/authActions';
+import {
+  loggingInAC,
+  setError,
+} from 'features/authorization/dal/authReducer/authActions';
 
 export const loginTC =
   (data: LoginData): AppThunkType =>
@@ -16,7 +19,7 @@ export const loginTC =
       }
     } catch (error) {
       dispatch(loggingInAC(false));
-      handleCatchError(error, dispatch);
+      dispatch(setError('Not correct email/password'));
     }
   };
 

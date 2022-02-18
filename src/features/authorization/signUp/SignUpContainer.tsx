@@ -41,9 +41,14 @@ export const SignUpContainer: FC = () => {
   const onClickHandle = (): void => {
     if (email === '') {
       dispatch(setError('Required'));
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+    }
+
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
       dispatch(setError('Invalid email address'));
-      return;
+    }
+
+    if (password !== confirm) {
+      dispatch(setError('Passwords should be match'));
     }
 
     if (password.length < 7) {

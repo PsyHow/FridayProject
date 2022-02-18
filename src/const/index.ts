@@ -8,9 +8,9 @@ export const errorString = 'Something wrong, try again later';
 export const handleCatchError = (error: unknown, dispatch: Dispatch): void => {
   if (axios.isAxiosError(error) && error.response)
     dispatch(setError(error.response.data.error));
-  else if (axios.isAxiosError(error)) {
-    dispatch(setError(error.message));
-  }
+  // else if (axios.isAxiosError(error)) {
+  //   dispatch(setError(error.message));
+  // }
 };
 
 export const lastUpdateDate = (value: string): string =>
