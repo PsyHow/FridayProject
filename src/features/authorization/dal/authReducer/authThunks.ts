@@ -1,12 +1,9 @@
-import axios from 'axios';
-
 import { setUser } from 'bll/profileReducer';
 import { AppThunkType } from 'bll/Store';
-import { errorString } from 'const';
+import { handleCatchError } from 'const';
 import { authAPI } from 'features/authorization/api/authApit';
 import { LoginData } from 'features/authorization/api/authTypes';
 import { loggingInAC } from 'features/authorization/dal/authReducer/authActions';
-import { setError } from 'features/authorization/dal/registrationReducer/registrationActions';
 
 export const loginTC =
   (data: LoginData): AppThunkType =>
@@ -19,8 +16,7 @@ export const loginTC =
       }
     } catch (error) {
       dispatch(loggingInAC(false));
-      const errorMessage = (error as Error).message || errorString;
-      dispatch(setError(errorMessage));
+      handleCatchError(error, dispatch);
     }
   };
 
@@ -30,12 +26,7 @@ export const authMe = (): AppThunkType => async dispatch => {
     dispatch(loggingInAC(true));
     dispatch(setUser(res.data));
   } catch (error) {
-    dispatch(loggingInAC(false));
-    if (axios.isAxiosError(error) && error.response)
-      dispatch(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      dispatch(setError(error.message));
-    }
+    handleCatchError(error, dispatch);
   }
 };
 
@@ -44,10 +35,7 @@ export const logout = (): AppThunkType => async dispatch => {
     await authAPI.logout();
     dispatch(loggingInAC(false));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      dispatch(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      dispatch(setError(error.message));
-    }
+    dispatch(loggingInAC(true));
+    handleCatchError(error, dispatch);
   }
 };

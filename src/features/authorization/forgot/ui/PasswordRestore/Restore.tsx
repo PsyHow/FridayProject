@@ -34,7 +34,9 @@ export const Restore: FC<PropsType> = ({
     ) : !sendEmail ? (
       <div className={style.container}>
         <div className={style.title}>It-incubator</div>
+
         <div className={style.question}>Forgot your password?</div>
+
         <Input
           type="email"
           placeholder="Email"
@@ -42,11 +44,21 @@ export const Restore: FC<PropsType> = ({
           value={email}
           error={error}
         />
+
         <h5>Enter your email address and we will send you further instructions</h5>
+
+        {error ? (
+          <span className={style.error}>{error}</span>
+        ) : (
+          <span className={style.error} />
+        )}
+
         <Button onClick={onClickHandler} disabled={isFetching}>
           Send Instructions
         </Button>
+
         <span>Did you remember your password?</span>
+
         <NavLink to="/">
           <div className={style.logginIn}>Try logging in</div>
         </NavLink>

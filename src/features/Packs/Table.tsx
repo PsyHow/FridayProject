@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../../components/common/Button/Button';
-import { setCardsError } from '../Cards/bll/cardsActions';
 
 import { setPackId } from './bll/CardPacksActions';
 import {
@@ -23,9 +22,10 @@ import { Paginator } from 'components/common/Paginator/Paginator';
 import { Search } from 'components/common/Search/Search';
 import { Sorting } from 'components/common/Sorting/Sorting';
 import { Preloader } from 'components/Preloader/Preloader';
+import { setError } from 'features/authorization/dal/authReducer/authActions';
 import { useCardCountChange } from 'hooks/useCardCountChange';
 import { useSearch } from 'hooks/useSearch';
-import { selectIsLoggedIn } from 'selectors/authSelectors';
+import { selectIsFetching, selectIsLoggedIn } from 'selectors/authSelectors';
 
 export const Table: FC = () => {
   const dispatch = useDispatch();
@@ -34,21 +34,20 @@ export const Table: FC = () => {
   const { cardPacksTotalCount, cardPacks, min, max, page, pageCount } = useSelector(
     (state: AppRootStoreType) => state.cardPacksReducer,
   );
-  const isFetching = useSelector<AppRootStoreType, boolean>(
-    state => state.registrationReducer.isFetching,
-  );
+  const isFetching = useSelector(selectIsFetching);
   const navigate = useNavigate();
   const { debouncingValue, handleChangeSearch, search } = useSearch();
   const { debounceMaxCount, debounceMinCount, maxCount, minCount, onChangeHandler } =
     useCardCountChange();
 
   useEffect(() => {
-    dispatch(setCardsError(''));
+    dispatch(setError(''));
     dispatch(
       getCardPacksTC({
         min: debounceMinCount,
         max: debounceMaxCount,
         packName: debouncingValue,
+        pageCount: 5,
       }),
     );
   }, [dispatch, debouncingValue, debounceMinCount, debounceMaxCount]);

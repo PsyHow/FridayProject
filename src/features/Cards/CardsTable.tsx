@@ -15,17 +15,16 @@ import { Preloader } from 'components/Preloader/Preloader';
 import { CardsType } from 'features/Cards/bll/cardsTypes';
 import { setPacksCurrentPageAC } from 'features/Packs/bll/CardPacksActions';
 import { useSearch } from 'hooks/useSearch';
+import { selectIsFetching } from 'selectors/authSelectors';
 
 export const CardsTable: FC = () => {
   const dispatch = useDispatch();
-  const { cards, cardsTotalCount, pageCount, page, error } = useSelector(
+  const { cards, cardsTotalCount, pageCount, page } = useSelector(
     (state: AppRootStoreType) => state.cardsReducer,
   );
 
   const { cardPacks } = useSelector((state: AppRootStoreType) => state.cardPacksReducer);
-  const isFetching = useSelector<AppRootStoreType, boolean>(
-    state => state.registrationReducer.isFetching,
-  );
+  const isFetching = useSelector(selectIsFetching);
   const { token } = useParams();
   const { debouncingValue, search, handleChangeSearch } = useSearch();
 
@@ -91,7 +90,7 @@ export const CardsTable: FC = () => {
         <Paginator page={page} pageCount={pageCount} totalItemsCount={cardsTotalCount} />
       </div>
 
-      {error && <span className={style.error}>{error}</span>}
+      {/* {error && <span className={style.error}>{error}</span>} */}
     </div>
   );
 };

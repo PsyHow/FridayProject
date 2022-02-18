@@ -3,18 +3,16 @@ import { ChangeEvent, FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { AppRootStoreType } from 'bll/Store';
+import { setError } from '../dal/authReducer/authActions';
+
 import { loginTC } from 'features/authorization/dal/authReducer/authThunks';
-import { setError } from 'features/authorization/dal/registrationReducer/registrationActions';
 import { Login } from 'features/authorization/Login/Login';
-import { selectIsLoggedIn } from 'selectors/authSelectors';
+import { selectError, selectIsLoggedIn } from 'selectors/authSelectors';
 
 export const LoginContainer: FC = () => {
   const dispatch = useDispatch();
-  // const error = useSelector<AppRootStoreType, string | null>(
-  //   state => state.registrationReducer.error,
-  // );
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const error = useSelector(selectError);
 
   const [email, setEmail] = useState('viktorburnyshev@gmail.com');
   const [password, setPassword] = useState('12345Qwe');
@@ -42,7 +40,7 @@ export const LoginContainer: FC = () => {
   return (
     <Login
       email={email}
-      // error={error}
+      error={error}
       onLoginButtonClick={onLoginButtonClick}
       onEmailChangeHandler={onEmailChangeHandler}
       onPasswordChangeHandler={onPasswordChangeHandler}

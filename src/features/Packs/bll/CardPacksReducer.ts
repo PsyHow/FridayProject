@@ -21,23 +21,21 @@ export const cardPacksReducer = (
 ): InitStateType => {
   switch (action.type) {
     case 'SET-CARD-PACKS':
-      return { ...state, cardPacks: action.cards };
+      return { ...state, cardPacks: action.payload.cards };
     case 'SET_TOTAL_PACKS_COUNT':
-      return { ...state, cardPacksTotalCount: action.totalPacksCount };
+      return { ...state, cardPacksTotalCount: action.payload.totalPacksCount };
     case 'SET_PACKS_CURRENT_PAGE':
-      return { ...state, page: action.page };
+      return { ...state, page: action.payload.page };
     case 'SET_PACKS_PAGE_COUNT':
-      return { ...state, pageCount: action.pageCount };
+      return { ...state, pageCount: action.payload.pageCount };
     case 'GET_PACK_SORTING':
-      return { ...state, sortPacks: action.item };
+      return { ...state, sortPacks: action.payload.item };
     case 'GET_PACK_SEARCH':
-      return { ...state, packName: action.value };
+      return { ...state, packName: action.payload.value };
     case 'SET_MIN_MAX_CARDS_PACK_COUNT':
-      return { ...state, min: action.min, max: action.max };
-    case 'SET_CARDS_ERROR':
-      return { ...state, error: action.error };
+      return { ...state, min: action.payload.min, max: action.payload.max };
     case 'SET_PACK_ID':
-      return { ...state, user_id: action.id };
+      return { ...state, user_id: action.payload.id };
     default:
       return state;
   }

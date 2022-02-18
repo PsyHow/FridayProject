@@ -1,5 +1,3 @@
-import { SetCardsErrorType } from '../../Cards/bll/cardsTypes';
-
 import {
   getPackSearch,
   getPackSorting,
@@ -17,7 +15,6 @@ export type SetCardPacksActionType =
   | ReturnType<typeof getPackSearch>
   | ReturnType<typeof setMinMaxCardsPackCount>
   | ReturnType<typeof getPackSorting>
-  | SetCardsErrorType
   | ReturnType<typeof setPackId>
   | ReturnType<typeof setPacksPageCount>
   | ReturnType<typeof setPacksCurrentPageAC>
@@ -31,12 +28,12 @@ export type CardPackType = {
   created: string;
   grade: number;
   more_id: string;
-  name: 'PackName2';
-  path: '/def';
+  name: string;
+  path: string;
   private: false;
   rating: number;
   shots: number;
-  type: 'pack';
+  type: string;
   updated: string;
   user_id: string;
   user_name: string;

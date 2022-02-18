@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 import { AppRootStoreType } from '../../../bll/Store';
+import { setError } from '../dal/authReducer/authActions';
 
 import { SignUp } from './SignUp';
 
-import { setError } from 'features/authorization/dal/registrationReducer/registrationActions';
 import { signUpTC } from 'features/authorization/dal/registrationReducer/registrationThunks';
+import { selectError, selectIsFetching } from 'selectors/authSelectors';
 
 export const SignUpContainer: FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -16,9 +17,8 @@ export const SignUpContainer: FC = () => {
   const [confirm, setConfirm] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { error, isFetching } = useSelector(
-    (state: AppRootStoreType) => state.registrationReducer,
-  );
+  const isFetching = useSelector(selectIsFetching);
+  const error = useSelector(selectError);
   const confirmRegistrationDataAC = useSelector<AppRootStoreType, boolean>(
     state => state.registrationReducer.confirmRegistrationData,
   );

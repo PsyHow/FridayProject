@@ -12,12 +12,6 @@ export const getCardsIdAC = (id: string) =>
     id,
   } as const);
 
-export const setCardsError = (error: string) =>
-  ({
-    type: 'SET_CARDS_ERROR',
-    error,
-  } as const);
-
 export const setMinMaxCardsCountAC = (min: number, max: number) =>
   ({
     type: 'SET_MIN_MAN_CARDS_COUNT',

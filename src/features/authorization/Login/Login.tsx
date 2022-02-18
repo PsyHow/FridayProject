@@ -2,60 +2,64 @@ import { ChangeEvent, FC } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import styles from 'features/authorization/Login/Login.module.css';
+import style from './Login.module.scss';
 
-export const Login: FC<PropsType> = ({
+type LoginProps = {
+  email: string;
+  onEmailChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+  password: string;
+  onPasswordChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+  error: string | null;
+  onLoginButtonClick: () => Promise<void>;
+};
+
+export const Login: FC<LoginProps> = ({
   email,
-  // error,
+  error,
   onLoginButtonClick,
   onEmailChangeHandler,
   onPasswordChangeHandler,
   password,
 }) => (
-  <div className={styles.loginPage}>
-    <form className={styles.formWrapper}>
-      <h1 className={styles.pageTitle}>It-incubator</h1>
-      <h2 className={styles.signIn}>Sign In</h2>
-      <span className={styles.label}>Email</span>
-      <input value={email} onChange={onEmailChangeHandler} className={styles.input} />
+  <div className={style.loginPage}>
+    <form className={style.formWrapper}>
+      <h1>It-incubator</h1>
+      <h2>Sign In</h2>
+      <div className={style.inputs}>
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={onEmailChangeHandler}
+          className={style.input}
+        />
+        <input
+          value={password}
+          type="password"
+          placeholder="Password"
+          onChange={onPasswordChangeHandler}
+          className={style.input}
+        />
+      </div>
 
-      <span className={styles.label}>Password</span>
-      <input
-        value={password}
-        type="password"
-        onChange={onPasswordChangeHandler}
-        className={styles.input}
-      />
-
-      <NavLink to="/restore" className={styles.forgot}>
+      <NavLink to="/restore" className={style.forgot}>
         Forgot Password
       </NavLink>
 
-      {/* {error ? (
-        <span className={styles.error}>{error}</span>
+      {error ? (
+        <span className={style.error}>{error}</span>
       ) : (
-        <button type="button" onClick={onLoginButtonClick} className={styles.button}>
-          Login
-        </button>
-      )} */}
+        <span className={style.error} />
+      )}
 
-      <button type="button" onClick={onLoginButtonClick} className={styles.button}>
+      <button type="button" onClick={onLoginButtonClick} className={style.button}>
         Login
       </button>
 
-      <span className={styles.dontHaveAcc}>Don’t have an account?</span>
-      <NavLink to="/signup" className={styles.signUp}>
+      <span className={style.dontHaveAcc}>Don’t have an account?</span>
+
+      <NavLink to="/signup" className={style.signUp}>
         Sign Up
       </NavLink>
     </form>
   </div>
 );
-
-type PropsType = {
-  email: string;
-  onEmailChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
-  password: string;
-  onPasswordChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
-  // error: string | null;
-  onLoginButtonClick: () => Promise<void>;
-};

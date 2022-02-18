@@ -6,18 +6,15 @@ import { AppRootStoreType } from '../../../../../bll/Store';
 
 import { Restore } from './Restore';
 
-import { setError } from 'features/authorization/dal/registrationReducer/registrationActions';
+import { setError } from 'features/authorization/dal/authReducer/authActions';
 import { recoverTC } from 'features/authorization/dal/registrationReducer/registrationThunks';
+import { selectError, selectIsFetching } from 'selectors/authSelectors';
 
 export const PasswordRestoreContainer: FC = () => {
   const [email, setEmail] = useState<string>('');
 
-  const error = useSelector<AppRootStoreType, null | string>(
-    state => state.registrationReducer.error,
-  );
-  const isFetching = useSelector<AppRootStoreType, boolean>(
-    state => state.registrationReducer.isFetching,
-  );
+  const error = useSelector(selectError);
+  const isFetching = useSelector(selectIsFetching);
   const sendEmail = useSelector<AppRootStoreType, boolean>(
     state => state.registrationReducer.sendEmail,
   );

@@ -4,7 +4,6 @@ import {
   getCardsSearch,
   getCardsSorting,
   setCardsCurrentPageAC,
-  setCardsError,
   setCardsPageCount,
   setMinMaxCardsCountAC,
   setTotalCardsCount,
@@ -20,14 +19,10 @@ export type ActionCardTypes =
   | ReturnType<typeof getCardsSorting>
   | ReturnType<typeof getCardsSearch>
   | ReturnType<typeof setCardsPageCount>
-  | SetCardsErrorType
   | ReturnType<typeof setMinMaxCardsCountAC>
   | ReturnType<typeof setCardsCurrentPageAC>
   | ReturnType<typeof setTotalCardsCount>
   | ReturnType<typeof updateGradeAC>;
-
-export type SetCardsErrorType = ReturnType<typeof setCardsError>;
-
 export type CardsType = {
   cardsPack_id: string;
   grade: number;

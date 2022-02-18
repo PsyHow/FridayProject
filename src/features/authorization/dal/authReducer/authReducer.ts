@@ -4,8 +4,9 @@ import {
 } from 'features/authorization/dal/authReducer/authTypes';
 
 export const initialState = {
-  isLogged: false,
-  error: '',
+  isLoggedIn: false,
+  error: null as null | string,
+  isFetching: false,
 };
 
 export const authReducer = (
@@ -13,11 +14,10 @@ export const authReducer = (
   action: AuthReducerTypes,
 ): InitialStateType => {
   switch (action.type) {
-    case 'LOGGING_IN': {
-      return { ...state, isLogged: action.isLogged };
-    }
-    case 'LOGIN_FAILED': {
-      return { ...state, error: action.error };
+    case 'AUTH_LOGGING_IN':
+    case 'AUTH_SET_ERROR':
+    case 'AUTH_SET_FETCHING': {
+      return { ...state, ...action.payload };
     }
     default:
       return state;

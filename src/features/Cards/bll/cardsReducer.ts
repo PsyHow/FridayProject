@@ -12,7 +12,6 @@ export const initialState = {
   cardQuestion: '',
   maxGradeCount: 5,
   minGradeCount: 0,
-  error: '',
 };
 
 export const cardsReducer = (
@@ -36,8 +35,6 @@ export const cardsReducer = (
       return { ...state, pageCount: action.pageCount };
     case 'GET_CARDS_SEARCH':
       return { ...state, cardQuestion: action.value };
-    case 'SET_CARDS_ERROR':
-      return { ...state, error: action.error };
     case 'UPDATE_GRADE':
       return {
         ...state,
