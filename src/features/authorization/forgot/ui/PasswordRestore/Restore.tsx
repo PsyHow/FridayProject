@@ -1,7 +1,6 @@
-/* eslint-disable no-nested-ternary */
 import { ReactElement, useEffect } from 'react';
 
-import { useFormik } from 'formik';
+import { FormikProvider, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -10,6 +9,7 @@ import Button from '../../../../../components/common/Button/Button';
 import style from './Restore.module.scss';
 
 import { AppRootStoreType } from 'bll/Store';
+import { TextField } from 'components/common/TextField/TextField';
 import { Preloader } from 'components/Preloader/Preloader';
 import { PATH } from 'components/Routes';
 import { validateEmail } from 'const';
@@ -50,48 +50,36 @@ export const Restore = (): ReactElement => {
     },
   });
 
-  const inputEmailStyle = `${style.input} ${
-    formik.errors.email ? style.errorInput : style.input
-  }`;
-
   return (
     <div className={style.restorePage}>
       {isFetching ? (
         <Preloader />
       ) : (
-        <form onSubmit={formik.handleSubmit}>
-          <h1>It-incubator</h1>
+        <FormikProvider value={formik}>
+          <form onSubmit={formik.handleSubmit}>
+            <h1>It-incubator</h1>
 
-          <h2>Forgot your password?</h2>
+            <h2>Forgot your password?</h2>
 
-          <input
-            className={inputEmailStyle}
-            type="email"
-            placeholder="Email"
-            {...formik.getFieldProps('email')}
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <span className={style.error}>{formik.errors.email}</span>
-          ) : (
-            <span className={style.error} />
-          )}
+            <TextField name="email" type="text" label="Email" />
 
-          <h5>Enter your email address and we will send you further instructions</h5>
+            <h5>Enter your email address and we will send you further instructions</h5>
 
-          {error ? (
-            <span className={style.error}>{error}</span>
-          ) : (
-            <span className={style.error} />
-          )}
+            {error ? (
+              <span className={style.error}>{error}</span>
+            ) : (
+              <span className={style.error} />
+            )}
 
-          <Button type="submit">Send Instructions</Button>
+            <Button type="submit">Send Instructions</Button>
 
-          <span className={style.description}>Did you remember your password?</span>
+            <span className={style.description}>Did you remember your password?</span>
 
-          <NavLink to="/">
-            <div className={style.logginIn}>Try logging in</div>
-          </NavLink>
-        </form>
+            <NavLink to="/">
+              <div className={style.logginIn}>Try logging in</div>
+            </NavLink>
+          </form>
+        </FormikProvider>
       )}
     </div>
   );

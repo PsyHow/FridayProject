@@ -1,0 +1,41 @@
+.textFieldContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    .input {
+        width: 347px;
+        height: 48px;
+        background: #f9f9fe;
+        border: none;
+        border-bottom: 1px solid #24254a;
+        outline: none;
+    }
+    & label {
+        position: absolute;
+        top: -5px;
+        left: 0;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 20px;
+
+        color: #24254a;
+
+        opacity: 0.5;
+    }
+
+    .errorInput {
+        border-bottom: 1px solid red;
+    }
+
+    .error {
+        text-align: left;
+        margin-top: 2px;
+        font-size: 0.7rem;
+        height: 20px;
+        width: 100%;
+        color: red;
+        align-self: center;
+    }
+}

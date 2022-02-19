@@ -1,6 +1,6 @@
 import { ReactElement, useEffect } from 'react';
 
-import { useFormik } from 'formik';
+import { FormikProvider, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import { loginTC } from '../dal/authReducer/authThunks';
 
 import style from './Login.module.scss';
 
+import { TextField } from 'components/common/TextField/TextField';
 import { PATH } from 'components/Routes';
 import { validateEmail } from 'const';
 import { selectError } from 'selectors/appSelectors';
@@ -22,8 +23,8 @@ export const Login = (): ReactElement => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: 'viktorburnyshev@gmail.com',
+      password: '12345Qwe',
       rememberMe: true,
     },
     validate: values => {
@@ -34,7 +35,7 @@ export const Login = (): ReactElement => {
         errors.email = 'Invalid email address';
       }
       if (!values.password) {
-        errors.email = 'Required';
+        errors.password = 'Required';
       } else if (values.password.length <= 5) {
         errors.password = 'must be more than five characters';
       }
@@ -45,13 +46,6 @@ export const Login = (): ReactElement => {
     },
   });
 
-  const inputEmailStyle = `${style.input} ${
-    formik.errors.email ? style.errorInput : style.input
-  }`;
-  const inputPasswordStyle = `${style.input} ${
-    formik.errors.password ? style.errorInput : style.input
-  }`;
-
   useEffect(() => {
     if (isLoggedIn === true) {
       navigate(PATH.PROFILE);
@@ -60,53 +54,38 @@ export const Login = (): ReactElement => {
 
   return (
     <div className={style.loginPage}>
-      <form onSubmit={formik.handleSubmit}>
-        <h1>It-incubator</h1>
-        <h2>Sign In</h2>
-        <div className={style.inputs}>
-          <input
-            className={inputEmailStyle}
-            placeholder="Email"
-            {...formik.getFieldProps('email')}
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <span className={style.error}>{formik.errors.email}</span>
+      <FormikProvider value={formik}>
+        <form onSubmit={formik.handleSubmit}>
+          <h1>It-incubator</h1>
+
+          <h2>Sign In</h2>
+
+          <div className={style.inputs}>
+            <TextField name="email" type="text" label="Email" />
+            <TextField name="password" type="password" label="Password" />
+          </div>
+
+          <NavLink to="/restore" className={style.forgot}>
+            Forgot Password
+          </NavLink>
+
+          {error ? (
+            <span className={style.errorServer}>{error}</span>
           ) : (
-            <span className={style.error} />
+            <span className={style.errorServer} />
           )}
-          <input
-            className={inputPasswordStyle}
-            type="password"
-            placeholder="Password"
-            {...formik.getFieldProps('password')}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <span className={style.error}>{formik.errors.password}</span>
-          ) : (
-            <span className={style.error} />
-          )}
-        </div>
 
-        <NavLink to="/restore" className={style.forgot}>
-          Forgot Password
-        </NavLink>
+          <button type="submit" className={style.button}>
+            Login
+          </button>
 
-        {error ? (
-          <span className={style.error}>{error}</span>
-        ) : (
-          <span className={style.error} />
-        )}
+          <span className={style.dontHaveAcc}>Don’t have an account?</span>
 
-        <button type="submit" className={style.button}>
-          Login
-        </button>
-
-        <span className={style.dontHaveAcc}>Don’t have an account?</span>
-
-        <NavLink to="/signup" className={style.signUp}>
-          Sign Up
-        </NavLink>
-      </form>
+          <NavLink to="/signup" className={style.signUp}>
+            Sign Up
+          </NavLink>
+        </form>
+      </FormikProvider>
     </div>
   );
 };

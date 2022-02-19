@@ -42,24 +42,6 @@
             margin-top: 40px;
             display: flex;
             flex-direction: column;
-            .input {
-                width: 347px;
-                height: 48px;
-                background: #f9f9fe;
-                border: none;
-                border-bottom: 1px solid #24254a;
-                outline: none;
-            }
-
-            & input[type="password"] {
-                margin-top: 5px;
-            }
-
-            .errorInput {
-                border: 1 px solid red;
-                background: red;
-                opacity: 0.5;
-            }
         }
 
         .forgot {
@@ -71,7 +53,7 @@
             color: #21268f;
         }
 
-        .error {
+        .errorServer {
             height: 20px;
             width: 100%;
             color: red;

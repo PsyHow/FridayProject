@@ -9,10 +9,11 @@ import { NewPasswordContainer } from 'features/authorization/forgot/ui/NewPasswo
 import { Restore } from 'features/authorization/forgot/ui/PasswordRestore/Restore';
 import { SendEmail } from 'features/authorization/forgot/ui/SendEmail/SendEmail';
 import { Login } from 'features/authorization/Login/Login';
-import { SignUpContainer } from 'features/authorization/signUp/SignUpContainer';
+import { SignUp } from 'features/authorization/signUp/SignUp';
 import { CardsTable } from 'features/Cards/CardsTable';
 import { LearnPage } from 'features/Learn/LearnPage';
 import { Table } from 'features/Packs/Table';
+import { Basic } from 'hoc/testHoc';
 
 export const PATH = {
   LOGIN: '/',
@@ -30,8 +31,9 @@ export const PATH = {
 export const Routing: FC = () => (
   <Routes>
     <Route path={PATH.LOGIN} element={<Login />} />
+    {/* <Route path={PATH.LOGIN} element={<Basic />} /> */}
     <Route path={PATH.PROFILE} element={<Profile />} />
-    <Route path={PATH.SIGN_UP} element={<SignUpContainer />} />
+    <Route path={PATH.SIGN_UP} element={<SignUp />} />
     <Route path={PATH.PASSWORD_RESTORE} element={<Restore />} />
     <Route path={PATH.SEND_EMAIL} element={<SendEmail />} />
     <Route path={PATH.NEW_PASSWORD} element={<NewPasswordContainer />} />
