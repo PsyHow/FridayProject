@@ -6,7 +6,8 @@ import { Error } from './Error';
 import { Profile } from './Profile/Profile';
 
 import { NewPasswordContainer } from 'features/authorization/forgot/ui/NewPassword/NewPasswordContainer';
-import { PasswordRestoreContainer } from 'features/authorization/forgot/ui/PasswordRestore/PasswordRestoreContainer';
+import { Restore } from 'features/authorization/forgot/ui/PasswordRestore/Restore';
+import { SendEmail } from 'features/authorization/forgot/ui/SendEmail/SendEmail';
 import { Login } from 'features/authorization/Login/Login';
 import { SignUpContainer } from 'features/authorization/signUp/SignUpContainer';
 import { CardsTable } from 'features/Cards/CardsTable';
@@ -14,7 +15,7 @@ import { LearnPage } from 'features/Learn/LearnPage';
 import { Table } from 'features/Packs/Table';
 
 export const PATH = {
-  LOGIN: 'login',
+  LOGIN: '/',
   PROFILE: 'profile',
   SIGN_UP: 'signup',
   PASSWORD_RESTORE: 'restore',
@@ -23,6 +24,7 @@ export const PATH = {
   CARD_PACKS: 'packs',
   CARD: '/card/:token',
   LEARN: '/learn/:token',
+  SEND_EMAIL: '/sendEmail',
 };
 
 export const Routing: FC = () => (
@@ -30,7 +32,8 @@ export const Routing: FC = () => (
     <Route path={PATH.LOGIN} element={<Login />} />
     <Route path={PATH.PROFILE} element={<Profile />} />
     <Route path={PATH.SIGN_UP} element={<SignUpContainer />} />
-    <Route path={PATH.PASSWORD_RESTORE} element={<PasswordRestoreContainer />} />
+    <Route path={PATH.PASSWORD_RESTORE} element={<Restore />} />
+    <Route path={PATH.SEND_EMAIL} element={<SendEmail />} />
     <Route path={PATH.NEW_PASSWORD} element={<NewPasswordContainer />} />
     <Route path={PATH.CARD_PACKS} element={<Table />} />
     <Route path={PATH.CARD} element={<CardsTable />} />

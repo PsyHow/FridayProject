@@ -7,6 +7,7 @@ import SuperInputText from '../../../components/common/Input/Input';
 import style from './signup.module.scss';
 
 import { Preloader } from 'components/Preloader/Preloader';
+import { PATH } from 'components/Routes';
 
 type PropsType = {
   email: string;
@@ -65,7 +66,7 @@ export const SignUp: FC<PropsType> = ({
         )}
 
         <div className={style.buttons}>
-          <NavLink to="/login">
+          <NavLink to={PATH.LOGIN}>
             <button type="button">Cancel</button>
           </NavLink>
           <button type="submit" onClick={onClickHandler} disabled={isFetching}>

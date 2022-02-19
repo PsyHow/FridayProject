@@ -1,5 +1,3 @@
-import { SetError } from '../authReducer/authTypes';
-
 import { initialState } from './registrationReducer';
 
 import {
@@ -13,5 +11,4 @@ export type InitialStateType = typeof initialState;
 export type RegistrationTypes =
   | ReturnType<typeof setNewPassword>
   | ReturnType<typeof sendEmail>
-  | ReturnType<typeof confirmRegistrationDataAC>
-  | SetError;
+  | ReturnType<typeof confirmRegistrationDataAC>;

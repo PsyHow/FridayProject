@@ -1,6 +1,7 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk, { ThunkAction } from 'redux-thunk';
 
+import { appReducer, AppReducerActions } from './appReducer';
 import { profileReducer, ProfileReducerActionsType } from './profileReducer';
 
 import { authReducer } from 'features/authorization/dal/authReducer/authReducer';
@@ -18,6 +19,7 @@ const reducers = combineReducers({
   registrationReducer,
   cardPacksReducer,
   authReducer,
+  appReducer,
 });
 
 export const store = createStore(reducers, applyMiddleware(thunk));
@@ -30,7 +32,8 @@ type AppActionsType =
   | ActionCardTypes
   | RegistrationTypes
   | AuthReducerTypes
-  | ProfileReducerActionsType;
+  | ProfileReducerActionsType
+  | AppReducerActions;
 
 export type AppThunkType<ReturnType = void> = ThunkAction<
   ReturnType,

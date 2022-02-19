@@ -7,9 +7,10 @@ import { AppRootStoreType } from '../../../../../bll/Store';
 
 import { NewPassword } from './NewPassword';
 
-import { setError } from 'features/authorization/dal/authReducer/authActions';
+import { setError } from 'bll/appReducer';
 import { newPassword } from 'features/authorization/dal/registrationReducer/registrationThunks';
-import { selectError, selectIsFetching } from 'selectors/authSelectors';
+import { selectError } from 'selectors/appSelectors';
+import { selectIsFetching } from 'selectors/authSelectors';
 
 export const NewPasswordContainer: FC = () => {
   const { token } = useParams<'token'>();

@@ -24,7 +24,7 @@ export const Header: FC = () => {
     <div className={style.container}>
       {isLoggedIn ? (
         <div>
-          <NavLink to="/login" className={style.login} onClick={handleClickLogout}>
+          <NavLink to={PATH.LOGIN} className={style.login} onClick={handleClickLogout}>
             logout
           </NavLink>
           <div className={style.selectPage}>
@@ -43,7 +43,7 @@ export const Header: FC = () => {
           </div>
         </div>
       ) : (
-        <NavLink to="/login" className={style.login}>
+        <NavLink to={PATH.LOGIN} className={style.login}>
           Login
         </NavLink>
       )}

@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 import { AppRootStoreType } from '../../../bll/Store';
-import { setError } from '../dal/authReducer/authActions';
 
 import { SignUp } from './SignUp';
 
+import { setError } from 'bll/appReducer';
+import { PATH } from 'components/Routes';
 import { signUpTC } from 'features/authorization/dal/registrationReducer/registrationThunks';
-import { selectError, selectIsFetching } from 'selectors/authSelectors';
+import { selectError } from 'selectors/appSelectors';
+import { selectIsFetching } from 'selectors/authSelectors';
 
 export const SignUpContainer: FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -61,7 +63,7 @@ export const SignUpContainer: FC = () => {
   };
 
   if (confirmRegistrationDataAC) {
-    return <Navigate to="/login" />;
+    return <Navigate to={PATH.LOGIN} />;
   }
 
   return (

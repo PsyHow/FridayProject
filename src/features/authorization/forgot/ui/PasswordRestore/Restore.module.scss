@@ -1,10 +1,6 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    align-self: center;
+.restorePage {
     margin-top: 25px;
+    align-self: center;
 
     width: 413px;
     height: 540px;
@@ -16,94 +12,112 @@
     background: #f9f9fe;
     border-radius: 8px;
 
-    .title {
-        width: 163px;
-        height: 39px;
-        margin-top: 25px;
+    & form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
 
         font-family: "Poppins";
-        font-size: 26px;
-        line-height: 39px;
 
-        color: #2d2e46;
-    }
+        & h1 {
+            width: 163px;
+            height: 39px;
+            margin-top: 25px;
 
-    .question {
-        width: 256px;
-        height: 33px;
-        margin-top: 30px;
+            font-size: 26px;
+            line-height: 39px;
 
-        font-family: "Poppins";
-        font-size: 22px;
-        line-height: 33px;
+            color: #2d2e46;
+        }
 
-        color: #2d2e46;
-    }
+        & h2 {
+            width: 256px;
+            height: 33px;
+            margin-top: 30px;
 
-    & a {
-        text-decoration: none;
-    }
+            font-size: 22px;
+            line-height: 33px;
 
-    & input {
-        margin-top: 40px;
-        width: 347px;
-        border: none;
-        border-bottom: 1px solid black;
+            color: #2d2e46;
+        }
 
-        background: #f9f9fe;
-    }
+        & a {
+            text-decoration: none;
+        }
 
-    & h5 {
-        width: 347px;
-        height: 48px;
-        margin-top: 30px;
+        .input {
+            margin-top: 40px;
+            width: 347px;
+            height: 48px;
+            border: none;
+            border-bottom: 1px solid black;
 
-        font-weight: normal;
-        line-height: 24px;
-        text-align: left;
+            background: #f9f9fe;
+        }
 
-        color: #2d2e46;
+        .errorInput {
+            border: 1 px solid red;
+            background: red;
+            opacity: 0.5;
+        }
 
-        opacity: 0.5;
-    }
+        & h5 {
+            width: 347px;
+            height: 48px;
 
-    .error {
-        height: 20px;
-        color: red;
-    }
+            font-weight: normal;
+            line-height: 24px;
+            text-align: left;
 
-    & button {
-        width: 266px;
-        height: 36px;
-        margin-top: 60px;
-        border-radius: 30px;
+            color: #2d2e46;
 
-        background: #21268f;
-        box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+            opacity: 0.5;
+        }
 
-        font-weight: 500;
-        line-height: 19px;
-        letter-spacing: 0.01em;
+        .error {
+            font-family: "SF UI Display" Thin;
+            font-weight: 600;
+            margin-top: 5px;
+            height: 20px;
+            width: 100%;
+            color: red;
+            align-self: center;
+        }
 
-        color: #ececf9;
+        & button {
+            width: 266px;
+            height: 36px;
+            margin-top: 25px;
+            border-radius: 30px;
 
-        text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
-    }
+            background: #21268f;
+            box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 
-    & span {
-        margin-top: 20px;
+            font-weight: 500;
+            line-height: 19px;
+            letter-spacing: 0.01em;
 
-        font-weight: normal;
-        line-height: 24px;
+            color: #ececf9;
 
-        color: #2d2e46;
+            text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+        }
 
-        opacity: 0.5;
-    }
+        .description {
+            margin-top: 20px;
 
-    .logginIn {
-        line-height: 24px;
+            font-weight: normal;
+            line-height: 24px;
 
-        color: #21268f;
+            color: #2d2e46;
+
+            opacity: 0.5;
+        }
+
+        .logginIn {
+            line-height: 24px;
+
+            color: #21268f;
+        }
     }
 }

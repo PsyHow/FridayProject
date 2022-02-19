@@ -16,13 +16,14 @@ import {
 import { CardPack } from './CardPack/CardPack';
 import style from './Table.module.scss';
 
+import { setError } from 'bll/appReducer';
 import { AppRootStoreType } from 'bll/Store';
 import { DoubleRange } from 'components/common/DoubleRange/DoubleRange';
 import { Paginator } from 'components/common/Paginator/Paginator';
 import { Search } from 'components/common/Search/Search';
 import { Sorting } from 'components/common/Sorting/Sorting';
 import { Preloader } from 'components/Preloader/Preloader';
-import { setError } from 'features/authorization/dal/authReducer/authActions';
+import { PATH } from 'components/Routes';
 import { useCardCountChange } from 'hooks/useCardCountChange';
 import { useSearch } from 'hooks/useSearch';
 import { selectIsFetching, selectIsLoggedIn } from 'selectors/authSelectors';
@@ -52,6 +53,12 @@ export const Table: FC = () => {
     );
   }, [dispatch, debouncingValue, debounceMinCount, debounceMaxCount]);
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate(PATH.LOGIN);
+    }
+  }, [isLoggedIn]);
+
   const deleteCardPack = (id: string): void => {
     dispatch(deleteCardPackTC(id));
   };
@@ -73,10 +80,6 @@ export const Table: FC = () => {
       dispatch(getCardPacksTC());
     }
   };
-
-  if (!isLoggedIn) {
-    navigate('/login');
-  }
 
   return (
     <div className={style.container}>

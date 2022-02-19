@@ -5,8 +5,8 @@ import {
 
 export const initialState = {
   isLoggedIn: false,
-  error: null as null | string,
   isFetching: false,
+  authError: null as null | string,
 };
 
 export const authReducer = (
@@ -15,9 +15,11 @@ export const authReducer = (
 ): InitialStateType => {
   switch (action.type) {
     case 'AUTH_LOGGING_IN':
-    case 'AUTH_SET_ERROR':
+      return { ...state, isLoggedIn: action.payload.isLoggedIn };
+    case 'AUTH_SET_AUTH_ERROR':
+      return { ...state, authError: action.payload.authError };
     case 'AUTH_SET_FETCHING': {
-      return { ...state, ...action.payload };
+      return { ...state, isFetching: action.payload.isFetching };
     }
     default:
       return state;

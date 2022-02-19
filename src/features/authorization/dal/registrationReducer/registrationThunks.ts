@@ -1,5 +1,6 @@
-import { setError, setFetching } from '../authReducer/authActions';
+import { setFetching } from '../authReducer/authActions';
 
+import { setError } from 'bll/appReducer';
 import { AppThunkType } from 'bll/Store';
 import { handleCatchError } from 'const';
 import { authAPI } from 'features/authorization/api/authApit';
@@ -13,11 +14,13 @@ export const recoverTC =
   (email: string): AppThunkType =>
   async dispatch => {
     dispatch(setFetching(true));
+
     try {
       await authAPI.forgot(email);
-      dispatch(sendEmail(true));
       dispatch(setFetching(false));
+      dispatch(sendEmail(true));
     } catch (error) {
+      dispatch(setFetching(false));
       handleCatchError(error, dispatch);
     }
   };
@@ -26,10 +29,11 @@ export const newPassword =
   (password: string, token: string): AppThunkType =>
   async dispatch => {
     dispatch(setFetching(true));
+
     try {
       await authAPI.newPassword({ password, resetPasswordToken: token });
-      dispatch(setNewPassword(true));
       dispatch(setFetching(false));
+      dispatch(setNewPassword(true));
       dispatch(setError(''));
     } catch (error) {
       dispatch(setFetching(false));
@@ -41,10 +45,11 @@ export const signUpTC =
   (email: string, password: string): AppThunkType =>
   async dispatch => {
     dispatch(setFetching(true));
+
     try {
       await authAPI.signUp(email, password);
-      dispatch(confirmRegistrationDataAC(true));
       dispatch(setFetching(false));
+      dispatch(confirmRegistrationDataAC(true));
     } catch (error) {
       dispatch(setFetching(false));
       handleCatchError(error, dispatch);

@@ -1,19 +1,24 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { LoginData } from '../api/authTypes';
 import { loginTC } from '../dal/authReducer/authThunks';
 
 import style from './Login.module.scss';
 
-import { selectError } from 'selectors/authSelectors';
+import { PATH } from 'components/Routes';
+import { validateEmail } from 'const';
+import { selectError } from 'selectors/appSelectors';
+import { selectIsLoggedIn } from 'selectors/authSelectors';
 
 export const Login = (): ReactElement => {
   const dispatch = useDispatch();
   const error = useSelector(selectError);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -25,7 +30,7 @@ export const Login = (): ReactElement => {
       const errors: Partial<LoginData> = {};
       if (!values.email) {
         errors.email = 'Required';
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      } else if (validateEmail(values.email)) {
         errors.email = 'Invalid email address';
       }
       if (!values.password) {
@@ -40,33 +45,54 @@ export const Login = (): ReactElement => {
     },
   });
 
-  const errorsField = formik.errors.email || formik.errors.password || error;
+  const inputEmailStyle = `${style.input} ${
+    formik.errors.email ? style.errorInput : style.input
+  }`;
+  const inputPasswordStyle = `${style.input} ${
+    formik.errors.password ? style.errorInput : style.input
+  }`;
+
+  useEffect(() => {
+    if (isLoggedIn === true) {
+      navigate(PATH.PROFILE);
+    }
+  }, [isLoggedIn]);
 
   return (
     <div className={style.loginPage}>
-      <form onSubmit={formik.handleSubmit} className={style.formWrapper}>
+      <form onSubmit={formik.handleSubmit}>
         <h1>It-incubator</h1>
         <h2>Sign In</h2>
         <div className={style.inputs}>
           <input
+            className={inputEmailStyle}
             placeholder="Email"
-            className={style.input}
             {...formik.getFieldProps('email')}
           />
+          {formik.touched.email && formik.errors.email ? (
+            <span className={style.error}>{formik.errors.email}</span>
+          ) : (
+            <span className={style.error} />
+          )}
           <input
+            className={inputPasswordStyle}
             type="password"
             placeholder="Password"
-            className={style.input}
             {...formik.getFieldProps('password')}
           />
+          {formik.touched.password && formik.errors.password ? (
+            <span className={style.error}>{formik.errors.password}</span>
+          ) : (
+            <span className={style.error} />
+          )}
         </div>
 
         <NavLink to="/restore" className={style.forgot}>
           Forgot Password
         </NavLink>
 
-        {errorsField ? (
-          <span className={style.error}>{errorsField}</span>
+        {error ? (
+          <span className={style.error}>{error}</span>
         ) : (
           <span className={style.error} />
         )}

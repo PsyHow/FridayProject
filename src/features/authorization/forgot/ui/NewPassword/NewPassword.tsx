@@ -8,6 +8,7 @@ import SuperInputText from '../../../../../components/common/Input/Input';
 import style from './NewPassword.module.scss';
 
 import { Preloader } from 'components/Preloader/Preloader';
+import { PATH } from 'components/Routes';
 
 type PropsType = {
   onChange: (value: string) => void;
@@ -31,7 +32,7 @@ export const NewPassword: FC<PropsType> = ({
   setNewPassword,
 }) => {
   if (setNewPassword) {
-    return <Navigate to="/login" />;
+    return <Navigate to={PATH.LOGIN} />;
   }
 
   return (

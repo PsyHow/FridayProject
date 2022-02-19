@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { setUser } from 'bll/profileReducer';
 import { AppThunkType } from 'bll/Store';
 import { handleCatchError } from 'const';
@@ -5,7 +7,7 @@ import { authAPI } from 'features/authorization/api/authApit';
 import { LoginData } from 'features/authorization/api/authTypes';
 import {
   loggingInAC,
-  setError,
+  setAuthError,
 } from 'features/authorization/dal/authReducer/authActions';
 
 export const loginTC =
@@ -19,7 +21,7 @@ export const loginTC =
       }
     } catch (error) {
       dispatch(loggingInAC(false));
-      dispatch(setError('Not correct email/password'));
+      handleCatchError(error, dispatch);
     }
   };
 
@@ -29,16 +31,19 @@ export const authMe = (): AppThunkType => async dispatch => {
     dispatch(loggingInAC(true));
     dispatch(setUser(res.data));
   } catch (error) {
-    handleCatchError(error, dispatch);
+    if (axios.isAxiosError(error) && error.response)
+      dispatch(setAuthError(error.response.data.error));
+    else if (axios.isAxiosError(error)) {
+      dispatch(setAuthError(error.message));
+    }
   }
 };
 
 export const logout = (): AppThunkType => async dispatch => {
   try {
-    await authAPI.logout();
     dispatch(loggingInAC(false));
+    await authAPI.logout();
   } catch (error) {
-    dispatch(loggingInAC(true));
     handleCatchError(error, dispatch);
   }
 };
