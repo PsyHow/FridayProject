@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import { ChangeEvent, FC, useEffect } from 'react';
+import { ChangeEvent, ReactElement, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +16,6 @@ import { CardPack } from './CardPack/CardPack';
 import style from './Table.module.scss';
 
 import { setError } from 'bll/appReducer';
-import { AppRootStoreType } from 'bll/Store';
 import { DoubleRange } from 'components/common/DoubleRange/DoubleRange';
 import { Paginator } from 'components/common/Paginator/Paginator';
 import { Search } from 'components/common/Search/Search';
@@ -27,14 +25,16 @@ import { PATH } from 'components/Routes';
 import { useCardCountChange } from 'hooks/useCardCountChange';
 import { useSearch } from 'hooks/useSearch';
 import { selectIsFetching, selectIsLoggedIn } from 'selectors/authSelectors';
+import { selectCardPacks } from 'selectors/cardPacksSelectors';
+import { selectCurrentUserId } from 'selectors/profileSelectors';
 
-export const Table: FC = () => {
+export const Table = (): ReactElement => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const userId = useSelector<AppRootStoreType, string>(st => st.profileReducer.user._id);
-  const { cardPacksTotalCount, cardPacks, min, max, page, pageCount } = useSelector(
-    (state: AppRootStoreType) => state.cardPacksReducer,
-  );
+  const userId = useSelector(selectCurrentUserId);
+  const { cardPacksTotalCount, cardPacks, min, max, page, pageCount } =
+    useSelector(selectCardPacks);
+
   const isFetching = useSelector(selectIsFetching);
   const navigate = useNavigate();
   const { debouncingValue, handleChangeSearch, search } = useSearch();
@@ -85,6 +85,7 @@ export const Table: FC = () => {
     <div className={style.container}>
       <div className={style.leftContent}>
         <span className={style.description}>Show packs cards</span>
+
         <div className={style.checkBoxInput}>
           <label className={style.toggle}>
             <input onChange={changePacks} type="checkbox" />
@@ -92,7 +93,9 @@ export const Table: FC = () => {
             <span className={style.labels} data-on="MY" data-off="ALL" />
           </label>
         </div>
+
         <span className={style.description}>Number of cards</span>
+
         <div className={style.Search}>
           <DoubleRange
             min={min}
@@ -102,12 +105,15 @@ export const Table: FC = () => {
           />
         </div>
       </div>
+
       <div className={style.rightContent}>
         <span className={style.title}>Packs list</span>
+
         <div className={style.searchBox}>
           <Search search={search} handleChangeSearch={handleChangeSearch} />
           <Button onClick={createCardPack}>Add new pack</Button>
         </div>
+
         {isFetching ? (
           <Preloader />
         ) : (
@@ -145,6 +151,7 @@ export const Table: FC = () => {
             </tbody>
           </table>
         )}
+
         <Paginator
           page={page}
           pageCount={pageCount}

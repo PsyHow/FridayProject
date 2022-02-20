@@ -13,7 +13,6 @@ import { SignUp } from 'features/authorization/signUp/SignUp';
 import { CardsTable } from 'features/Cards/CardsTable';
 import { LearnPage } from 'features/Learn/LearnPage';
 import { Table } from 'features/Packs/Table';
-import { Basic } from 'hoc/testHoc';
 
 export const PATH = {
   LOGIN: '/',
@@ -31,7 +30,6 @@ export const PATH = {
 export const Routing: FC = () => (
   <Routes>
     <Route path={PATH.LOGIN} element={<Login />} />
-    {/* <Route path={PATH.LOGIN} element={<Basic />} /> */}
     <Route path={PATH.PROFILE} element={<Profile />} />
     <Route path={PATH.SIGN_UP} element={<SignUp />} />
     <Route path={PATH.PASSWORD_RESTORE} element={<Restore />} />

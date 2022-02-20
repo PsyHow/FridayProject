@@ -36,11 +36,11 @@ export type UserType = {
   email: string;
   name: string;
   avatar?: string;
-  publicCardPacksCount: number; // количество колод
+  publicCardPacksCount: number;
   created: Date | null;
   updated: Date | null;
   isAdmin: boolean;
-  verified: boolean; // подтвердил ли почту
+  verified: boolean;
   rememberMe: boolean;
   error?: string;
 };
