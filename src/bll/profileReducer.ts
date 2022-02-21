@@ -1,17 +1,5 @@
-const initialState: InitialStateType = {
-  user: {
-    _id: 'fake_ID',
-    email: 'here is my email',
-    name: 'Heizenberg',
-    publicCardPacksCount: 0,
-    created: null,
-    updated: null,
-    isAdmin: false,
-    verified: false,
-    rememberMe: false,
-    error: 'no errors',
-    avatar: 'some link will be here',
-  },
+const initialState = {
+  user: {} as UserType,
 };
 
 export const profileReducer = (
@@ -45,9 +33,7 @@ export type UserType = {
   error?: string;
 };
 
-type InitialStateType = {
-  user: UserType;
-};
+type InitialStateType = typeof initialState;
 
 type randomProfileActionsActionType = ReturnType<typeof setUser>;
 export type ProfileReducerActionsType = randomProfileActionsActionType;

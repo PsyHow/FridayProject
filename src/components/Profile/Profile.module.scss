@@ -1,0 +1,271 @@
+.container {
+    width: 1008px;
+    height: 660px;
+    display: flex;
+    align-self: center;
+    margin-top: 25px;
+
+    background: #fefeff;
+    border-radius: 8px;
+
+    .leftContent {
+        width: 243px;
+        height: 660px;
+        display: flex;
+        flex-direction: column;
+
+        background: #ececf9;
+        border-radius: 8px 0 0 8px;
+
+        .profileEdit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 216px;
+
+            background-color: #d9d9f1;
+
+            & img {
+                width: 96px;
+                height: 96px;
+                border-radius: 50px;
+                margin-top: 25px;
+            }
+
+            .userName {
+                height: 27px;
+                margin-top: 5px;
+
+                font-family: "Poppins";
+                font-style: normal;
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 27px;
+
+                color: #2d2e46;
+            }
+
+            .specialization {
+                width: 124px;
+                height: 17px;
+                margin-top: 5px;
+
+                font-family: "SF UI Display";
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 17px;
+
+                color: #2d2e46;
+                opacity: 0.5;
+            }
+
+            .editButton {
+                width: 75px;
+                height: 24px;
+                margin-top: 10px;
+
+                font-family: "SF UI Display";
+                font-style: normal;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 14px;
+
+                text-align: center;
+
+                color: #21268f;
+
+                border: 1px solid #635d80;
+                box-sizing: border-box;
+                border-radius: 2px;
+                cursor: pointer;
+            }
+        }
+
+        .description {
+            width: 132px;
+            height: 19px;
+            margin: 33px 0 0 24px;
+
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 19px;
+
+            color: #2d2e46;
+        }
+
+        .Search {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+        }
+    }
+
+    .rightContent {
+        display: flex;
+        flex-direction: column;
+        margin-left: 50px;
+        .title {
+            height: 33px;
+            margin-top: 25px;
+
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 33px;
+
+            color: #2d2e46;
+        }
+
+        .searchBox {
+            display: flex;
+            margin: 15px 0 25px 0;
+            & input[type="search"] {
+                width: 461px;
+                height: 36px;
+                padding: 0 20px;
+                background-color: #ececf9;
+                border: 1px solid #635d80;
+                box-sizing: border-box;
+                border-radius: 2px;
+                background: url(../../assets/Union.png) no-repeat center right 10px;
+            }
+
+            & input::-webkit-search-decoration,
+            & input::-webkit-search-cancel-button,
+            & input::-webkit-search-results-button,
+            & input::-webkit-search-results-decoration {
+                display: none;
+            }
+
+            & button {
+                width: 184px;
+                height: 36px;
+                margin-left: 30px;
+
+                background: #21268f;
+                box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+                border-radius: 30px;
+
+                font-family: "SF UI Display" Thin;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 19px;
+                cursor: pointer;
+
+                text-align: center;
+                letter-spacing: 0.01em;
+
+                color: #ececf9;
+
+                text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+            }
+        }
+        .table {
+            width: 670px;
+            text-align: center;
+            border-collapse: collapse;
+
+            & tr td {
+                width: 20%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            & thead tr {
+                height: 42px;
+                text-align: left;
+
+                font-family: "SF UI Display" Thin;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 13px;
+                line-height: 16px;
+
+                color: #2d2e46;
+
+                & td {
+                    background: #ececf9;
+                    padding-left: 20px;
+                }
+            }
+
+            & tr td:nth-child(1) {
+                max-width: 60px;
+            }
+
+            & tr td:nth-child(2) {
+                max-width: 5%;
+            }
+            & tr td:nth-child(3) {
+                max-width: 10%;
+            }
+
+            & tr td:nth-child(4) {
+                max-width: 80px;
+            }
+
+            & tbody tr {
+                height: 42px;
+                text-align: left;
+            }
+
+            & tbody tr:nth-child(even) {
+                background-color: #f8f7fd;
+            }
+
+            & tbody td {
+                padding-left: 20px;
+                font-family: "SF UI Display" Thin;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 13px;
+                line-height: 16px;
+
+                color: #000000;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            & button {
+                height: 24px;
+                padding: 0 3px 0 3px;
+
+                font-family: "SF UI Display" Thin;
+                font-style: normal;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 14px;
+                border-radius: 2px;
+                border: 1px solid transparent;
+                cursor: pointer;
+
+                text-align: center;
+
+                color: #21268f;
+            }
+
+            & button[id="delete"] {
+                background: #f1453d;
+                color: #ffffff;
+            }
+        }
+    }
+
+    .error {
+        padding-top: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        color: red;
+    }
+}

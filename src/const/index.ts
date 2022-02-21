@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 
 import { setError } from 'bll/appReducer';
 
-export const errorString = 'Something wrong, try again later';
+export type Nullabale<T> = T | null;
 
 export const handleCatchError = (error: unknown, dispatch: Dispatch): void => {
   if (axios.isAxiosError(error) && error.response)

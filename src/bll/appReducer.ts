@@ -1,10 +1,11 @@
 import { AppThunkType } from './Store';
 
+import { Nullabale } from 'const';
 import { authMe } from 'features/authorization/dal/authReducer/authThunks';
 
 const initialState = {
   initialized: false,
-  error: null as null | string,
+  error: null as Nullabale<string>,
 };
 
 export const appReducer = (
@@ -30,7 +31,7 @@ export const setInitialized = (isInitialized: boolean) =>
     payload: { isInitialized },
   } as const);
 
-export const setError = (error: null | string) =>
+export const setError = (error: Nullabale<string>) =>
   ({
     type: 'APP_SET_ERROR',
     payload: { error },

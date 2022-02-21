@@ -30,12 +30,14 @@ export const CardsTable: FC = () => {
 
   useEffect(() => {
     if (token) {
-      dispatch(getCardsTC({ cardsPack_id: token, cardQuestion: debouncingValue }));
+      dispatch(
+        getCardsTC({ cardsPack_id: token, cardQuestion: debouncingValue, pageCount: 5 }),
+      );
     }
-    return () => {
-      dispatch(setPacksCurrentPageAC(1));
-    };
-  }, [dispatch, token, debouncingValue]);
+    // return () => {
+    //   dispatch(setPacksCurrentPageAC(1));
+    // };
+  }, [token, debouncingValue]);
 
   const deleteCard = (id: string): void => {
     if (token) dispatch(deleteCardTC(token, id));

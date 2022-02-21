@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../../components/common/Button/Button';
 
-import { setPackId } from './bll/CardPacksActions';
 import {
   createCardPackTC,
   deleteCardPackTC,
@@ -73,10 +72,10 @@ export const Table = (): ReactElement => {
 
   const changePacks = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.currentTarget.checked) {
-      dispatch(setPackId(userId));
+      // dispatch(setPackId(userId));
       dispatch(getCardPacksTC({ user_id: userId }));
     } else {
-      dispatch(setPackId(''));
+      // dispatch(setPackId(''));
       dispatch(getCardPacksTC());
     }
   };

@@ -1,3 +1,4 @@
+import { Nullabale } from 'const';
 import {
   AuthReducerTypes,
   InitialStateType,
@@ -6,7 +7,7 @@ import {
 export const initialState = {
   isLoggedIn: false,
   isFetching: false,
-  authError: null as null | string,
+  authError: null as Nullabale<string>,
 };
 
 export const authReducer = (

@@ -1,22 +1,25 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FC, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { SuperSelect } from '../Select/SuperSelect';
 
 import style from './Paginator.module.scss';
 
-import {} from 'features/Cards/bll/cardsActions';
+import { setCardsCurrentPageAC } from 'features/Cards/bll/cardsActions';
 import { getCardsTC } from 'features/Cards/bll/cardsThunks';
 import { setPacksCurrentPageAC } from 'features/Packs/bll/CardPacksActions';
 import { getCardPacksTC } from 'features/Packs/bll/CardPacksThunk';
+import { selectCurrentUserId } from 'selectors/profileSelectors';
 
 export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) => {
   const dispatch = useDispatch();
+  const userId = useSelector(selectCurrentUserId);
   const { token } = useParams();
 
   const pageItems = [3, 5, 10];
@@ -34,25 +37,36 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
   const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
   const rightPortionPageNumber = portionNumber * portionSize;
   const onPageChanged = (pageC: number): void => {
-    dispatch(setPacksCurrentPageAC(pageC));
     if (token) {
+      dispatch(setCardsCurrentPageAC(pageC));
       dispatch(getCardsTC({ cardsPack_id: token, page: pageC }));
-    } else
+    }
+    // if (userId) {
+    //   dispatch(setPacksCurrentPageAC(pageC));
+    //   dispatch(getCardPacksTC({ user_id: userId, page: pageC }));
+    // }
+    if (userId === '') {
+      dispatch(setPacksCurrentPageAC(pageC));
       dispatch(
         getCardPacksTC({
           page: pageC,
         }),
       );
+    }
   };
 
   const onChangeSelect = (items: 3 | 5 | 10): void => {
     setValue(items);
     // dispatch(setCardsPageCount(items));
     // dispatch(setPacksPageCount(items));
+
     if (token) {
       dispatch(getCardsTC({ cardsPack_id: token, pageCount: items }));
-    } else {
-      setValue(items);
+    }
+    // if (userId) {
+    //   dispatch(getCardPacksTC({ user_id: userId, pageCount: items }));
+    // }
+    if (userId === '') {
       dispatch(
         getCardPacksTC({
           pageCount: items,

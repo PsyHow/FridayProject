@@ -1,3 +1,5 @@
+import { Nullabale } from 'const';
+
 export const loggingInAC = (isLoggedIn: boolean) =>
   ({
     type: 'AUTH_LOGGING_IN',
@@ -10,7 +12,7 @@ export const setFetching = (isFetching: boolean) =>
     payload: { isFetching },
   } as const);
 
-export const setAuthError = (authError: null | string) =>
+export const setAuthError = (authError: Nullabale<string>) =>
   ({
     type: 'AUTH_SET_AUTH_ERROR',
     payload: { authError },
