@@ -1,43 +1,41 @@
-import { FC, useState } from 'react';
+import { ReactElement, useCallback, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { AppRootStoreType } from '../../../../../bll/Store';
-
-import { NewPassword } from './NewPassword';
-
 import { setError } from 'bll/appReducer';
-import { newPassword } from 'features/authorization/dal/registrationReducer/registrationThunks';
+import { NewPassword, fetchNewPassword } from 'features/authorization';
 import { selectError } from 'selectors/appSelectors';
 import { selectIsFetching } from 'selectors/authSelectors';
+import { selectSetNewPassword } from 'selectors/registrationReducer';
 
-export const NewPasswordContainer: FC = () => {
-  const { token } = useParams<'token'>();
-  const [pass, setPass] = useState<string>('');
-  const [confirmPass, setConfirmPass] = useState<string>('');
+export const NewPasswordContainer = (): ReactElement => {
   const dispatch = useDispatch();
+  const { token } = useParams();
+
   const error = useSelector(selectError);
   const isFetching = useSelector(selectIsFetching);
-  const setNewPassword = useSelector<AppRootStoreType, boolean>(
-    state => state.registrationReducer.setNewPassword,
-  );
+  const setNewPassword = useSelector(selectSetNewPassword);
 
-  const onSubmit = (): void => {
+  const [pass, setPass] = useState<string>('');
+  const [confirmPass, setConfirmPass] = useState<string>('');
+
+  const onSubmit = useCallback(() => {
     if (pass !== confirmPass) {
       dispatch(setError('passwords must be match'));
     } else {
-      dispatch(newPassword(pass, token || ''));
+      dispatch(fetchNewPassword(pass, token || ''));
     }
-  };
+  }, [pass, confirmPass, token]);
 
-  const onChangePass = (value: string): void => {
+  const onChangePass = useCallback((value: string) => {
     setPass(value);
     dispatch(setError(null));
-  };
-  const onChangeConfirmPass = (value: string): void => {
+  }, []);
+
+  const onChangeConfirmPass = useCallback((value: string) => {
     setConfirmPass(value);
-  };
+  }, []);
 
   return (
     <NewPassword

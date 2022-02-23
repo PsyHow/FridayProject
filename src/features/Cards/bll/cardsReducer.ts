@@ -21,20 +21,12 @@ export const cardsReducer = (
   switch (action.type) {
     case 'CARDS_GET_CARDS':
       return { ...state, cards: action.cards };
-    case 'CARDS_GET_ID':
-      return { ...state, id: action.id };
     case 'GET_CARDS_SORTING':
       return { ...state, sortCards: action.item };
-    case 'SET_MIN_MAN_CARDS_COUNT':
-      return { ...state, min: action.min, max: action.max };
     case 'SET_CARDS_CURRENT_PAGE':
       return { ...state, page: action.page };
     case 'SET_TOTAL_CARDS_COUNT':
       return { ...state, cardsTotalCount: action.totalCardsCount };
-    case 'SET_CARDS_PAGE_COUNT':
-      return { ...state, pageCount: action.pageCount };
-    case 'GET_CARDS_SEARCH':
-      return { ...state, cardQuestion: action.value };
     case 'UPDATE_GRADE':
       return {
         ...state,

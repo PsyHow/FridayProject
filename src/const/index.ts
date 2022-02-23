@@ -22,3 +22,6 @@ export const lastUpdateDate = (value: string): string =>
 
 export const validateEmail = (value: string): boolean =>
   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
+
+export const avatar =
+  'https://habrastorage.org/r/w780/webt/fs/uc/ng/fsucngwjrulpxpcwgrrmehvhhf0.jpeg';

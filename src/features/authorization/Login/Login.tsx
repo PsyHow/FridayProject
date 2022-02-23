@@ -4,14 +4,12 @@ import { FormikProvider, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { LoginData } from '../api/authTypes';
-import { loginTC } from '../dal/authReducer/authThunks';
-
 import style from './Login.module.scss';
 
-import { TextField } from 'components/common/TextField/TextField';
-import { PATH } from 'components/Routes';
+import { TextField } from 'components/common/TextField';
 import { validateEmail } from 'const';
+import { PATH } from 'enums';
+import { loginTC, LoginData } from 'features/authorization';
 import { selectError } from 'selectors/appSelectors';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
 

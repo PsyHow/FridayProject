@@ -12,11 +12,9 @@ type DefaultButtonPropsType = DetailedHTMLProps<
 
 type SuperButtonPropsType = DefaultButtonPropsType;
 
-const SuperButton: React.FC<SuperButtonPropsType> = ({ className, ...restProps }) => (
+export const Button: React.FC<SuperButtonPropsType> = ({ className, ...restProps }) => (
   <button
     className={style.button}
     {...restProps} // отдаём кнопке остальные пропсы если они есть (children там внутри)
   />
 );
-
-export default SuperButton;

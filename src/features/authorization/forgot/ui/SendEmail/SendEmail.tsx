@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
-import { FC } from 'react';
+import { ReactElement } from 'react';
 
 import style from './SendEmail.module.scss';
 
 import iconPng from 'assets/sendEmail.png';
 
-export const SendEmail: FC = () => (
+export const SendEmail = (): ReactElement => (
   <div className={style.container}>
     <div className={style.title}>It-incubator</div>
     <img alt="logo" src={iconPng} />

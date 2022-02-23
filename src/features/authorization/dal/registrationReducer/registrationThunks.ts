@@ -25,7 +25,7 @@ export const recoverTC =
     }
   };
 
-export const newPassword =
+export const fetchNewPassword =
   (password: string, token: string): AppThunkType =>
   async dispatch => {
     dispatch(setFetching(true));

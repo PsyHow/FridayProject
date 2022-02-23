@@ -4,25 +4,26 @@ import { FormikProvider, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { signUpTC } from '../dal/registrationReducer/registrationThunks';
-
 import style from './signup.module.scss';
 
-import { TextField } from 'components/common/TextField/TextField';
-import { Preloader } from 'components/Preloader/Preloader';
-import { PATH } from 'components/Routes';
+import { Button } from 'components/common/Button';
+import { TextField } from 'components/common/TextField';
+import { Preloader } from 'components/Preloader';
 import { validateEmail } from 'const';
+import { PATH } from 'enums';
+import { signUpTC } from 'features/authorization';
 import { selectError } from 'selectors/appSelectors';
 import { selectIsFetching } from 'selectors/authSelectors';
 
-type SignUpData = {
+interface SignUpData {
   email: string;
   password: string;
   confirmPassword: string;
-};
+}
 
 export const SignUp = (): ReactElement => {
   const dispatch = useDispatch();
+
   const isFetching = useSelector(selectIsFetching);
   const error = useSelector(selectError);
 
@@ -81,10 +82,10 @@ export const SignUp = (): ReactElement => {
 
             <div className={style.buttons}>
               <NavLink to={PATH.LOGIN}>
-                <button type="button">Cancel</button>
+                <Button type="button">Cancel</Button>
               </NavLink>
 
-              <button type="submit">Register</button>
+              <Button type="submit">Register</Button>
             </div>
           </form>
         </FormikProvider>

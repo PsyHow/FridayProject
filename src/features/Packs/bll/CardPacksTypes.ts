@@ -3,6 +3,7 @@ import {
   getPackSorting,
   setCardPacks,
   setMinMaxCardsPackCount,
+  setMode,
   setPackId,
   setPacksCurrentPageAC,
   setPacksPageCount,
@@ -18,7 +19,8 @@ export type SetCardPacksActionType =
   | ReturnType<typeof setPackId>
   | ReturnType<typeof setPacksPageCount>
   | ReturnType<typeof setPacksCurrentPageAC>
-  | ReturnType<typeof setTotalPacksCount>;
+  | ReturnType<typeof setTotalPacksCount>
+  | ReturnType<typeof setMode>;
 export type CardPacksActionsType = SetCardPacksActionType;
 
 export type InitStateType = typeof initialState;
@@ -40,3 +42,5 @@ export type CardPackType = {
   __v: number;
   _id: string;
 };
+
+export type ModeType = 'ALL' | 'OWNER';

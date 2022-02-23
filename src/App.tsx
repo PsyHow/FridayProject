@@ -5,16 +5,14 @@ import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { initializeApp } from 'bll/appReducer';
-import { AppRootStoreType } from 'bll/Store';
-import { Header } from 'components/common/Header/Header';
-import { Preloader } from 'components/Preloader/Preloader';
+import { Header } from 'components/Header';
+import { Preloader } from 'components/Preloader';
 import { Routing } from 'components/Routes';
+import { selectInitialized } from 'selectors/appSelectors';
 
 export const App = (): ReactElement => {
   const dispatch = useDispatch();
-  const isInitialized = useSelector<AppRootStoreType, boolean>(
-    state => state.appReducer.initialized,
-  );
+  const isInitialized = useSelector(selectInitialized);
 
   useEffect(() => {
     dispatch(initializeApp());

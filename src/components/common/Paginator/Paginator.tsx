@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { FC, useState } from 'react';
+import { FC, memo, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -15,12 +15,21 @@ import { setCardsCurrentPageAC } from 'features/Cards/bll/cardsActions';
 import { getCardsTC } from 'features/Cards/bll/cardsThunks';
 import { setPacksCurrentPageAC } from 'features/Packs/bll/CardPacksActions';
 import { getCardPacksTC } from 'features/Packs/bll/CardPacksThunk';
+import { selectMode } from 'selectors/cardPacksSelectors';
 import { selectCurrentUserId } from 'selectors/profileSelectors';
 
-export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) => {
+interface Pagination {
+  page: number;
+  pageCount: number;
+  totalItemsCount: number;
+}
+
+export const Paginator: FC<Pagination> = memo(({ page, pageCount, totalItemsCount }) => {
   const dispatch = useDispatch();
-  const userId = useSelector(selectCurrentUserId);
   const { token } = useParams();
+
+  const userId = useSelector(selectCurrentUserId);
+  const mode = useSelector(selectMode);
 
   const pageItems = [3, 5, 10];
 
@@ -41,11 +50,11 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
       dispatch(setCardsCurrentPageAC(pageC));
       dispatch(getCardsTC({ cardsPack_id: token, page: pageC }));
     }
-    // if (userId) {
-    //   dispatch(setPacksCurrentPageAC(pageC));
-    //   dispatch(getCardPacksTC({ user_id: userId, page: pageC }));
-    // }
-    if (userId === '') {
+    if (!token && mode === 'OWNER') {
+      dispatch(setPacksCurrentPageAC(pageC));
+      dispatch(getCardPacksTC({ user_id: userId, page: pageC }));
+    }
+    if (!token && mode === 'ALL') {
       dispatch(setPacksCurrentPageAC(pageC));
       dispatch(
         getCardPacksTC({
@@ -56,17 +65,16 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
   };
 
   const onChangeSelect = (items: 3 | 5 | 10): void => {
-    setValue(items);
-    // dispatch(setCardsPageCount(items));
-    // dispatch(setPacksPageCount(items));
-
     if (token) {
+      setValue(items);
       dispatch(getCardsTC({ cardsPack_id: token, pageCount: items }));
     }
-    // if (userId) {
-    //   dispatch(getCardPacksTC({ user_id: userId, pageCount: items }));
-    // }
-    if (userId === '') {
+    if (!token && mode === 'OWNER') {
+      setValue(items);
+      dispatch(getCardPacksTC({ user_id: userId, pageCount: items }));
+    }
+    if (!token && mode === 'ALL') {
+      setValue(items);
       dispatch(
         getCardPacksTC({
           pageCount: items,
@@ -113,10 +121,4 @@ export const Paginator: FC<PropsType> = ({ page, pageCount, totalItemsCount }) =
       </div>
     </div>
   );
-};
-
-type PropsType = {
-  page: number;
-  pageCount: number;
-  totalItemsCount: number;
-};
+});

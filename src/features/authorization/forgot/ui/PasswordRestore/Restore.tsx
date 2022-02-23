@@ -4,26 +4,24 @@ import { FormikProvider, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import Button from '../../../../../components/common/Button/Button';
-
 import style from './Restore.module.scss';
 
-import { AppRootStoreType } from 'bll/Store';
-import { TextField } from 'components/common/TextField/TextField';
-import { Preloader } from 'components/Preloader/Preloader';
-import { PATH } from 'components/Routes';
+import { Button } from 'components/common/Button';
+import { TextField } from 'components/common/TextField';
+import { Preloader } from 'components/Preloader';
 import { validateEmail } from 'const';
-import { recoverTC } from 'features/authorization/dal/registrationReducer/registrationThunks';
+import { PATH } from 'enums';
+import { recoverTC } from 'features/authorization';
 import { selectError } from 'selectors/appSelectors';
 import { selectIsFetching } from 'selectors/authSelectors';
+import { selectHasSendMail } from 'selectors/registrationReducer';
 
 export const Restore = (): ReactElement => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const isFetching = useSelector(selectIsFetching);
-  const sendEmail = useSelector<AppRootStoreType, boolean>(
-    state => state.registrationReducer.sendEmail,
-  );
+  const sendEmail = useSelector(selectHasSendMail);
   const error = useSelector(selectError);
 
   useEffect(() => {

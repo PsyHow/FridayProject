@@ -1,23 +1,23 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import Button from '../../../components/common/Button/Button';
 import { CardPackType } from '../bll/CardPacksTypes';
 import style from '../Table.module.scss';
 
-import { AppRootStoreType } from 'bll/Store';
+import { Button } from 'components/common/Button';
 import { lastUpdateDate } from 'const';
+import { selectCurrentUserId } from 'selectors/profileSelectors';
 
-type CardPackPropsType = {
+interface CartPack {
   cardPack: CardPackType;
   deleteCardPack: (id: string) => void;
   editCardPack: (id: string, name: string) => void;
-};
+}
 
-export const CardPack: FC<CardPackPropsType> = ({ cardPack, ...restProps }) => {
-  const userId = useSelector<AppRootStoreType, string>(st => st.profileReducer.user._id);
+export const CardPack: FC<CartPack> = memo(({ cardPack, ...restProps }) => {
+  const userId = useSelector(selectCurrentUserId);
 
   const deleteCardPack = (): void => {
     restProps.deleteCardPack(cardPack._id);
@@ -57,4 +57,4 @@ export const CardPack: FC<CardPackPropsType> = ({ cardPack, ...restProps }) => {
       </td>
     </tr>
   );
-};
+});

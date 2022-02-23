@@ -1,11 +1,7 @@
 import {
   getCardsAC,
-  getCardsIdAC,
-  getCardsSearch,
   getCardsSorting,
   setCardsCurrentPageAC,
-  setCardsPageCount,
-  setMinMaxCardsCountAC,
   setTotalCardsCount,
   updateGradeAC,
 } from './cardsActions';
@@ -15,11 +11,7 @@ export type InitialStateType = typeof initialState;
 
 export type ActionCardTypes =
   | ReturnType<typeof getCardsAC>
-  | ReturnType<typeof getCardsIdAC>
   | ReturnType<typeof getCardsSorting>
-  | ReturnType<typeof getCardsSearch>
-  | ReturnType<typeof setCardsPageCount>
-  | ReturnType<typeof setMinMaxCardsCountAC>
   | ReturnType<typeof setCardsCurrentPageAC>
   | ReturnType<typeof setTotalCardsCount>
   | ReturnType<typeof updateGradeAC>;

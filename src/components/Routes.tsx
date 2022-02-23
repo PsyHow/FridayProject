@@ -3,29 +3,19 @@ import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { Error } from './Error';
-import { Profile } from './Profile/Profile';
 
-import { NewPasswordContainer } from 'features/authorization/forgot/ui/NewPassword/NewPasswordContainer';
-import { Restore } from 'features/authorization/forgot/ui/PasswordRestore/Restore';
-import { SendEmail } from 'features/authorization/forgot/ui/SendEmail/SendEmail';
-import { Login } from 'features/authorization/Login/Login';
-import { SignUp } from 'features/authorization/signUp/SignUp';
-import { CardsTable } from 'features/Cards/CardsTable';
-import { LearnPage } from 'features/Learn/LearnPage';
-import { Table } from 'features/Packs/Table';
-
-export const PATH = {
-  LOGIN: '/',
-  PROFILE: 'profile',
-  SIGN_UP: 'signup',
-  PASSWORD_RESTORE: 'restore',
-  NEW_PASSWORD: 'set-new-password/:token',
-  TEST: 'test',
-  CARD_PACKS: 'packs',
-  CARD: '/card/:token',
-  LEARN: '/learn/:token',
-  SEND_EMAIL: '/sendEmail',
-};
+import { PATH } from 'enums/pathRoutes';
+import {
+  NewPasswordContainer,
+  Restore,
+  SendEmail,
+  Login,
+  SignUp,
+} from 'features/authorization';
+import { CardsTable } from 'features/Cards';
+import { LearnPage } from 'features/Learn';
+import { Table } from 'features/Packs';
+import { Profile } from 'features/Profile';
 
 export const Routing: FC = () => (
   <Routes>

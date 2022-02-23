@@ -1,32 +1,37 @@
-import { FC, useEffect, useState } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import style from './Profile.module.scss';
 
-import { Paginator } from 'components/common/Paginator/Paginator';
-import { Search } from 'components/common/Search/Search';
-import { PATH } from 'components/Routes';
-import { getCardPacksTC } from 'features/Packs/bll/CardPacksThunk';
-import { CardPack } from 'features/Packs/CardPack/CardPack';
+import { Paginator } from 'components/common/Paginator';
+import { Search } from 'components/common/Search';
+import { avatar } from 'const';
+import { PATH } from 'enums';
+import { setMode, getCardPacksTC, CardPack } from 'features/Packs';
 import { useSearch } from 'hooks/useSearch';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
-import { selectCardPacks } from 'selectors/cardPacksSelectors';
+import {
+  selectCardPacks,
+  selectCardPackTotalCount,
+  selectPackPage,
+  selectPackPageCount,
+} from 'selectors/cardPacksSelectors';
 import { selectCurrentUserId, selectUser } from 'selectors/profileSelectors';
 
-const avatar =
-  'https://habrastorage.org/r/w780/webt/fs/uc/ng/fsucngwjrulpxpcwgrrmehvhhf0.jpeg';
-
-export const Profile: FC = () => {
+export const Profile = (): ReactElement => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { debouncingValue, handleChangeSearch, search } = useSearch();
+
   const user = useSelector(selectUser);
   const userId = useSelector(selectCurrentUserId);
-  const { cardPacksTotalCount, cardPacks, min, max, page, pageCount } =
-    useSelector(selectCardPacks);
-  const navigate = useNavigate();
+  const cardPacksTotalCount = useSelector(selectCardPackTotalCount);
+  const page = useSelector(selectPackPage);
+  const pageCount = useSelector(selectPackPageCount);
+  const cardPacks = useSelector(selectCardPacks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const { debouncingValue, handleChangeSearch, search } = useSearch();
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -35,6 +40,7 @@ export const Profile: FC = () => {
   }, [isLoggedIn]);
 
   useEffect(() => {
+    dispatch(setMode('OWNER'));
     dispatch(
       getCardPacksTC({
         user_id: userId,
@@ -44,17 +50,23 @@ export const Profile: FC = () => {
     );
   }, [userId, debouncingValue]);
 
+  console.log('rerender profile');
+
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
         <div className={style.profileEdit}>
           <img src={user.avatar || avatar} alt="user avatar" />
+
           <span className={style.userName}>{user.name}</span>
+
           <span className={style.specialization}>Front-end developer</span>
+
           <button className={style.editButton} type="button">
             Edit profile
           </button>
         </div>
+
         <span className={style.description}>Number of cards</span>
       </div>
 

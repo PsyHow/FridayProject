@@ -1,16 +1,15 @@
-import React, { FC } from 'react';
+import { FC, memo } from 'react';
 
 import { Navigate } from 'react-router-dom';
 
-import Button from '../../../../../components/common/Button/Button';
-import SuperInputText from '../../../../../components/common/Input/Input';
-
 import style from './NewPassword.module.scss';
 
-import { Preloader } from 'components/Preloader/Preloader';
-import { PATH } from 'components/Routes';
+import { Button } from 'components/common/Button';
+import { Input } from 'components/common/Input/Input';
+import { Preloader } from 'components/Preloader';
+import { PATH } from 'enums';
 
-type PropsType = {
+interface NewPasswordType {
   onChange: (value: string) => void;
   password: string;
   error: string | null;
@@ -19,49 +18,51 @@ type PropsType = {
   confirmPass: string;
   onChangeConfirmPass: (value: string) => void;
   setNewPassword: boolean;
-};
+}
 
-export const NewPassword: FC<PropsType> = ({
-  onChange,
-  password,
-  error,
-  onSubmit,
-  isFetching,
-  confirmPass,
-  onChangeConfirmPass,
-  setNewPassword,
-}) => {
-  if (setNewPassword) {
-    return <Navigate to={PATH.LOGIN} />;
-  }
+export const NewPassword: FC<NewPasswordType> = memo(
+  ({
+    onChange,
+    password,
+    onSubmit,
+    isFetching,
+    confirmPass,
+    onChangeConfirmPass,
+    setNewPassword,
+  }) => {
+    if (setNewPassword) {
+      return <Navigate to={PATH.LOGIN} />;
+    }
 
-  return (
-    <div>
-      {isFetching ? (
-        <Preloader />
-      ) : (
-        <div className={style.container}>
-          <div className={style.title}>It-incubator</div>
-          <span>Create new password</span>
-          <SuperInputText
-            type="password"
-            placeholder="Enter new password"
-            onChangeText={onChange}
-            value={password}
-          />
-          <SuperInputText
-            type="password"
-            placeholder="Confirm new password"
-            onChangeText={onChangeConfirmPass}
-            value={confirmPass}
-            error={error}
-          />
-          <h5>Create new password and we will send you further instructions to email</h5>
-          <Button onClick={onSubmit} disabled={isFetching}>
-            Create new password
-          </Button>
-        </div>
-      )}
-    </div>
-  );
-};
+    return (
+      <div>
+        {isFetching ? (
+          <Preloader />
+        ) : (
+          <form className={style.container}>
+            <div className={style.title}>It-incubator</div>
+            <span>Create new password</span>
+            <Input
+              type="password"
+              placeholder="Enter new password"
+              onChangeText={onChange}
+              value={password}
+            />
+            <Input
+              type="password"
+              placeholder="Confirm new password"
+              onChangeText={onChangeConfirmPass}
+              value={confirmPass}
+            />
+            <h5>
+              Create new password and we will send you further instructions to email
+            </h5>
+            <Button onClick={onSubmit} disabled={isFetching}>
+              Create new password
+            </Button>
+          </form>
+        )}
+      </div>
+    );
+  },
+);

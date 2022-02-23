@@ -1,4 +1,9 @@
-import { CardPacksActionsType, CardPackType, InitStateType } from './CardPacksTypes';
+import {
+  CardPacksActionsType,
+  CardPackType,
+  InitStateType,
+  ModeType,
+} from './CardPacksTypes';
 
 export const initialState = {
   cardPacks: [] as CardPackType[],
@@ -13,6 +18,7 @@ export const initialState = {
   max: 103,
   error: '',
   user_id: '',
+  mode: 'ALL' as ModeType,
 };
 
 export const cardPacksReducer = (
@@ -34,6 +40,8 @@ export const cardPacksReducer = (
       return { ...state, packName: action.payload.value };
     case 'SET_MIN_MAX_CARDS_PACK_COUNT':
       return { ...state, min: action.payload.min, max: action.payload.max };
+    case 'SET_MODE':
+      return { ...state, mode: action.payload.mode };
     case 'SET_PACK_ID':
       return { ...state, user_id: action.payload.id };
     default:

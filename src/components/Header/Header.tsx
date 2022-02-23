@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ReactElement } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -7,13 +7,13 @@ import style from './Header.module.scss';
 
 import cardPackLogo from 'assets/cardPack.png';
 import profileLogo from 'assets/profile.png';
-import { PATH } from 'components/Routes';
-import { logout } from 'features/authorization/dal/authReducer/authThunks';
+import { PATH } from 'enums';
+import { logout } from 'features/authorization';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
 
 const activeStyle = ({ isActive }: any): string => (isActive ? style.activeLink : '');
 
-export const Header: FC = () => {
+export const Header = (): ReactElement => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 

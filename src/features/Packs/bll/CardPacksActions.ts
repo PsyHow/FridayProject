@@ -1,4 +1,4 @@
-import { CardPackType } from './CardPacksTypes';
+import { CardPackType, ModeType } from './CardPacksTypes';
 
 export const setCardPacks = (cards: CardPackType[]) =>
   ({
@@ -46,4 +46,10 @@ export const setTotalPacksCount = (totalPacksCount: number) =>
   ({
     type: 'SET_TOTAL_PACKS_COUNT',
     payload: { totalPacksCount },
+  } as const);
+
+export const setMode = (mode: ModeType) =>
+  ({
+    type: 'SET_MODE',
+    payload: { mode },
   } as const);

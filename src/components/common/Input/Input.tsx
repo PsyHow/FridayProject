@@ -1,66 +1,32 @@
 /* eslint-disable no-unused-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/require-default-props */
-import React, {
-  ChangeEvent,
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  KeyboardEvent,
-} from 'react';
+import React, { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, memo } from 'react';
 
-import style from './Input.module.css';
-
-// тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 >;
-
-// здесь мы говорим что у нашего инпута будут такие же пропсы как у обычного инпута
-// (чтоб не писать value: string, onChange: ...; они уже все описаны в DefaultInputPropsType)
 type SuperInputTextPropsType = DefaultInputPropsType & {
   // и + ещё пропсы которых нет в стандартном инпуте
   onChangeText?: (value: string) => void;
   onEnter?: () => void;
-  error?: string | null;
+  error?: string;
   spanClassName?: string;
 };
 
-const SuperInputText: React.FC<SuperInputTextPropsType> = ({
-  onChange,
-  onChangeText,
-  onKeyPress,
-  onEnter,
-  error,
-  className,
-  spanClassName,
+export const Input: React.FC<SuperInputTextPropsType> = memo(
+  ({
+    onChange,
+    onChangeText,
 
-  ...restProps // все остальные пропсы попадут в объект restProps
-}) => {
-  const onChangeCallback = (e: ChangeEvent<HTMLInputElement>): void => {
-    onChange && // если есть пропс onChange
-      onChange(e); // то передать ему е (поскольку onChange не обязателен)
+    ...restProps
+  }) => {
+    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>): void => {
+      onChange;
 
-    onChangeText && onChangeText(e.currentTarget.value);
-  };
-  const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>): void => {
-    onKeyPress && onKeyPress(e);
+      onChangeText && onChangeText(e.currentTarget.value);
+    };
 
-    onEnter && // если есть пропс onEnter
-      e.key === 'Enter' && // и если нажата кнопка Enter
-      onEnter(); // то вызвать его
-  };
-
-  const finalInputClassName = `${style.input} ${error ? style.errorInput : style.input}`;
-
-  return (
-    <input
-      onChange={onChangeCallback}
-      onKeyPress={onKeyPressCallback}
-      className={style.input}
-      {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
-    />
-  );
-};
-
-export default SuperInputText;
+    return <input type="text" onChange={onChangeCallback} {...restProps} />;
+  },
+);

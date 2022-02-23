@@ -1,10 +1,9 @@
-import { ChangeEvent, ReactElement, useEffect } from 'react';
+import { ChangeEvent, ReactElement, useCallback, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import Button from '../../components/common/Button/Button';
-
+import { setMode, setPacksCurrentPageAC } from './bll/CardPacksActions';
 import {
   createCardPackTC,
   deleteCardPackTC,
@@ -15,26 +14,39 @@ import { CardPack } from './CardPack/CardPack';
 import style from './Table.module.scss';
 
 import { setError } from 'bll/appReducer';
+import { Button } from 'components/common/Button';
 import { DoubleRange } from 'components/common/DoubleRange/DoubleRange';
 import { Paginator } from 'components/common/Paginator/Paginator';
 import { Search } from 'components/common/Search/Search';
 import { Sorting } from 'components/common/Sorting/Sorting';
 import { Preloader } from 'components/Preloader/Preloader';
-import { PATH } from 'components/Routes';
+import { PATH } from 'enums';
 import { useCardCountChange } from 'hooks/useCardCountChange';
 import { useSearch } from 'hooks/useSearch';
 import { selectIsFetching, selectIsLoggedIn } from 'selectors/authSelectors';
-import { selectCardPacks } from 'selectors/cardPacksSelectors';
+import {
+  selectCardMaxValue,
+  selectCardMinValue,
+  selectCardPacks,
+  selectCardPackTotalCount,
+  selectPackPage,
+  selectPackPageCount,
+} from 'selectors/cardPacksSelectors';
 import { selectCurrentUserId } from 'selectors/profileSelectors';
 
 export const Table = (): ReactElement => {
   const dispatch = useDispatch();
+
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const userId = useSelector(selectCurrentUserId);
-  const { cardPacksTotalCount, cardPacks, min, max, page, pageCount } =
-    useSelector(selectCardPacks);
-
+  const cardPacksTotalCount = useSelector(selectCardPackTotalCount);
+  const cardPacks = useSelector(selectCardPacks);
+  const page = useSelector(selectPackPage);
+  const pageCount = useSelector(selectPackPageCount);
+  const min = useSelector(selectCardMinValue);
+  const max = useSelector(selectCardMaxValue);
   const isFetching = useSelector(selectIsFetching);
+
   const navigate = useNavigate();
   const { debouncingValue, handleChangeSearch, search } = useSearch();
   const { debounceMaxCount, debounceMinCount, maxCount, minCount, onChangeHandler } =
@@ -42,6 +54,7 @@ export const Table = (): ReactElement => {
 
   useEffect(() => {
     dispatch(setError(''));
+    dispatch(setMode('ALL'));
     dispatch(
       getCardPacksTC({
         min: debounceMinCount,
@@ -50,7 +63,7 @@ export const Table = (): ReactElement => {
         pageCount: 5,
       }),
     );
-  }, [dispatch, debouncingValue, debounceMinCount, debounceMaxCount]);
+  }, [debouncingValue, debounceMinCount, debounceMaxCount]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -58,13 +71,19 @@ export const Table = (): ReactElement => {
     }
   }, [isLoggedIn]);
 
-  const deleteCardPack = (id: string): void => {
-    dispatch(deleteCardPackTC(id));
-  };
+  const deleteCardPack = useCallback(
+    (id: string): void => {
+      dispatch(deleteCardPackTC(id));
+    },
+    [dispatch],
+  );
 
-  const editCardPack = (id: string, name: string): void => {
-    dispatch(updateCardPackTC(id, name));
-  };
+  const editCardPack = useCallback(
+    (id: string, name: string): void => {
+      dispatch(updateCardPackTC(id, name));
+    },
+    [dispatch],
+  );
 
   const createCardPack = (): void => {
     dispatch(createCardPackTC());
@@ -72,10 +91,11 @@ export const Table = (): ReactElement => {
 
   const changePacks = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.currentTarget.checked) {
-      // dispatch(setPackId(userId));
+      dispatch(setMode('OWNER'));
       dispatch(getCardPacksTC({ user_id: userId }));
+      dispatch(setPacksCurrentPageAC(1));
     } else {
-      // dispatch(setPackId(''));
+      dispatch(setMode('ALL'));
       dispatch(getCardPacksTC());
     }
   };

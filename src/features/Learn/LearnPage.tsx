@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AppRootStoreType } from 'bll/Store';
-import Button from 'components/common/Button/Button';
+import { Button } from 'components/common/Button';
 import { getCardsTC, updateCardGradeTC } from 'features/Cards/bll/cardsThunks';
 import { CardsType } from 'features/Cards/bll/cardsTypes';
 
