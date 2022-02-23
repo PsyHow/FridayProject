@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { FC, memo, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -64,24 +64,27 @@ export const Paginator: FC<Pagination> = memo(({ page, pageCount, totalItemsCoun
     }
   };
 
-  const onChangeSelect = (items: 3 | 5 | 10): void => {
-    if (token) {
-      setValue(items);
-      dispatch(getCardsTC({ cardsPack_id: token, pageCount: items }));
-    }
-    if (!token && mode === 'OWNER') {
-      setValue(items);
-      dispatch(getCardPacksTC({ user_id: userId, pageCount: items }));
-    }
-    if (!token && mode === 'ALL') {
-      setValue(items);
-      dispatch(
-        getCardPacksTC({
-          pageCount: items,
-        }),
-      );
-    }
-  };
+  const onChangeSelect = useCallback(
+    (items: 3 | 5 | 10): void => {
+      if (token) {
+        setValue(items);
+        dispatch(getCardsTC({ cardsPack_id: token, pageCount: items }));
+      }
+      if (!token && mode === 'OWNER') {
+        setValue(items);
+        dispatch(getCardPacksTC({ user_id: userId, pageCount: items }));
+      }
+      if (!token && mode === 'ALL') {
+        setValue(items);
+        dispatch(
+          getCardPacksTC({
+            pageCount: items,
+          }),
+        );
+      }
+    },
+    [token],
+  );
 
   return (
     <div className={style.paginator}>

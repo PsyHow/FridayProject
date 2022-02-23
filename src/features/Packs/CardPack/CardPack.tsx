@@ -28,6 +28,7 @@ export const CardPack: FC<CartPack> = memo(({ cardPack, ...restProps }) => {
     restProps.editCardPack(cardPack._id, 'ssssss');
   };
 
+  // console.log('rerender cardPack');
   return (
     <tr>
       <td>

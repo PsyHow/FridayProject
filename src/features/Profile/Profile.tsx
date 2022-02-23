@@ -50,8 +50,6 @@ export const Profile = (): ReactElement => {
     );
   }, [userId, debouncingValue]);
 
-  console.log('rerender profile');
-
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
