@@ -1,22 +1,14 @@
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AppRootStoreType } from 'bll/Store';
 import { Button } from 'components/common/Button';
+import { grades } from 'const';
 import { getCardsTC, updateCardGradeTC } from 'features/Cards/bll/cardsThunks';
 import { CardsType } from 'features/Cards/bll/cardsTypes';
-
-const grades = [
-  'Did not know',
-  'Forgot',
-  'A lot of thought',
-  'Confused',
-  'Knew the answer',
-];
 
 const getCard = (cards: CardsType[]): CardsType => {
   const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
@@ -31,7 +23,7 @@ const getCard = (cards: CardsType[]): CardsType => {
   return cards[res.id + 1];
 };
 
-export const LearnPage: FC = () => {
+export const LearnPage = (): ReactElement => {
   const dispatch = useDispatch();
   const packId = useSelector<AppRootStoreType, string>(state => state.cardsReducer.id);
   const cards = useSelector<AppRootStoreType, CardsType[]>(

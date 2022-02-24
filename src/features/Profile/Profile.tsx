@@ -7,11 +7,18 @@ import style from './Profile.module.scss';
 
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
+import { Preloader } from 'components/Preloader';
 import { avatar } from 'const';
 import { PATH } from 'enums';
-import { setMode, getCardPacksTC, CardPack } from 'features/Packs';
+import {
+  getCardPacksTC,
+  CardPack,
+  setMode,
+  setPacksCurrentPageAC,
+  setPacksPageCount,
+} from 'features/Packs';
 import { useSearch } from 'hooks/useSearch';
-import { selectIsLoggedIn } from 'selectors/authSelectors';
+import { selectIsFetching, selectIsLoggedIn } from 'selectors/authSelectors';
 import {
   selectCardPacks,
   selectCardPackTotalCount,
@@ -32,6 +39,7 @@ export const Profile = (): ReactElement => {
   const pageCount = useSelector(selectPackPageCount);
   const cardPacks = useSelector(selectCardPacks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isFetching = useSelector(selectIsFetching);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -41,11 +49,14 @@ export const Profile = (): ReactElement => {
 
   useEffect(() => {
     dispatch(setMode('OWNER'));
+    dispatch(setPacksCurrentPageAC(1));
+    dispatch(setPacksPageCount(5));
     dispatch(
       getCardPacksTC({
         user_id: userId,
         packName: debouncingValue,
         pageCount: 5,
+        page: 1,
       }),
     );
   }, [userId, debouncingValue]);
@@ -75,41 +86,46 @@ export const Profile = (): ReactElement => {
           <Search search={search} handleChangeSearch={handleChangeSearch} />
         </div>
 
-        <table className={style.table}>
-          <thead>
-            <tr>
-              <td>
-                Name
-                {/* <Sorting sortName="name" /> */}
-              </td>
-              <td>
-                Cards
-                {/* <Sorting sortName="cardsCount" /> */}
-              </td>
-              <td>
-                Last Updated
-                {/* <Sorting sortName="updated" /> */}
-              </td>
-              <td>
-                Created by
-                {/* <Sorting sortName="created" /> */}
-              </td>
-              <td>Actions</td>
-            </tr>
-          </thead>
-          <tbody>
-            {cardPacks.map(cardPack => (
-              <CardPack
-                key={cardPack._id}
-                cardPack={cardPack}
-                deleteCardPack={() => {}}
-                editCardPack={() => {}}
-              />
-            ))}
-          </tbody>
-        </table>
+        {isFetching ? (
+          <Preloader />
+        ) : (
+          <table className={style.table}>
+            <thead>
+              <tr>
+                <td>
+                  Name
+                  {/* <Sorting sortName="name" /> */}
+                </td>
+                <td>
+                  Cards
+                  {/* <Sorting sortName="cardsCount" /> */}
+                </td>
+                <td>
+                  Last Updated
+                  {/* <Sorting sortName="updated" /> */}
+                </td>
+                <td>
+                  Created by
+                  {/* <Sorting sortName="created" /> */}
+                </td>
+                <td>Actions</td>
+              </tr>
+            </thead>
+            <tbody>
+              {cardPacks.map(cardPack => (
+                <CardPack
+                  key={cardPack._id}
+                  cardPack={cardPack}
+                  deleteCardPack={() => {}}
+                  editCardPack={() => {}}
+                />
+              ))}
+            </tbody>
+          </table>
+        )}
 
         <Paginator
+          userId={userId}
           page={page}
           pageCount={pageCount}
           totalItemsCount={cardPacksTotalCount}

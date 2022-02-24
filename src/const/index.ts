@@ -25,3 +25,11 @@ export const validateEmail = (value: string): boolean =>
 
 export const avatar =
   'https://habrastorage.org/r/w780/webt/fs/uc/ng/fsucngwjrulpxpcwgrrmehvhhf0.jpeg';
+
+export const grades = [
+  'Did not know',
+  'Forgot',
+  'A lot of thought',
+  'Confused',
+  'Knew the answer',
+];

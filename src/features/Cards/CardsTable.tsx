@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -7,26 +7,32 @@ import { deleteCardTC, getCardsTC, updateCardTC } from './bll/cardsThunks';
 import { Card } from './Card/Card';
 import style from './CardsTable.module.scss';
 
-import { AppRootStoreType } from 'bll/Store';
-import { Paginator } from 'components/common/Paginator/Paginator';
-import { Search } from 'components/common/Search/Search';
-import { Sorting } from 'components/common/Sorting/Sorting';
-import { Preloader } from 'components/Preloader/Preloader';
+import { Paginator } from 'components/common/Paginator';
+import { Search } from 'components/common/Search';
+import { Sorting } from 'components/common/Sorting';
+import { Preloader } from 'components/Preloader';
 import { CardsType } from 'features/Cards/bll/cardsTypes';
-import { setPacksCurrentPageAC } from 'features/Packs/bll/CardPacksActions';
 import { useSearch } from 'hooks/useSearch';
 import { selectIsFetching } from 'selectors/authSelectors';
+import { selectCardPacks } from 'selectors/cardPacksSelectors';
+import {
+  selectCards,
+  selectCardsCurrentPage,
+  selectCardsPageCount,
+  selectCardsTotalCount,
+} from 'selectors/cardsReducer';
 
-export const CardsTable: FC = () => {
+export const CardsTable = (): ReactElement => {
   const dispatch = useDispatch();
-  const { cards, cardsTotalCount, pageCount, page } = useSelector(
-    (state: AppRootStoreType) => state.cardsReducer,
-  );
-
-  const { cardPacks } = useSelector((state: AppRootStoreType) => state.cardPacksReducer);
-  const isFetching = useSelector(selectIsFetching);
   const { token } = useParams();
   const { debouncingValue, search, handleChangeSearch } = useSearch();
+
+  const cards = useSelector(selectCards);
+  const cardsTotalCount = useSelector(selectCardsTotalCount);
+  const pageCount = useSelector(selectCardsPageCount);
+  const page = useSelector(selectCardsCurrentPage);
+  const cardPacks = useSelector(selectCardPacks);
+  const isFetching = useSelector(selectIsFetching);
 
   useEffect(() => {
     if (token) {
@@ -39,11 +45,11 @@ export const CardsTable: FC = () => {
     // };
   }, [token, debouncingValue]);
 
+  const cardPackName = cardPacks.filter(pack => pack._id === token)[0];
+
   const deleteCard = (id: string): void => {
     if (token) dispatch(deleteCardTC(token, id));
   };
-
-  const cardPackName = cardPacks.filter(pack => pack._id === token)[0];
 
   // const createCard = (): void => {
   //   if (token) dispatch(createCardTC(token));

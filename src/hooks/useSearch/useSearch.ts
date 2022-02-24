@@ -2,11 +2,9 @@ import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 
 import { useDebounce } from 'use-debounce/lib';
 
-export const useSearch = (): {
-  debouncingValue: string;
-  search: string;
-  handleChangeSearch: (event: ChangeEvent<HTMLInputElement>) => void;
-} => {
+import { useSearchReturnType } from './types';
+
+export const useSearch = (): useSearchReturnType => {
   const [search, setSearch] = useState<string>('');
   const [debouncingValue] = useDebounce(search, 1000);
 

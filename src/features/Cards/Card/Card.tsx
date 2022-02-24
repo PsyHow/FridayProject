@@ -1,10 +1,7 @@
 import { FC } from 'react';
 
-import { useSelector } from 'react-redux';
-
 import { CardsType } from '../bll/cardsTypes';
 
-import { AppRootStoreType } from 'bll/Store';
 import { lastUpdateDate } from 'const';
 
 type CardsPropsType = {
