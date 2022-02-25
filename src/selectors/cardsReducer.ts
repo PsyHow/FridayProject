@@ -1,5 +1,5 @@
 import { AppRootStoreType } from 'bll/Store';
-import { CardsType } from 'features/Cards/bll/cardsTypes';
+import { CardsType } from 'bll/types';
 
 export const selectCards = (state: AppRootStoreType): CardsType[] =>
   state.cardsReducer.cards;

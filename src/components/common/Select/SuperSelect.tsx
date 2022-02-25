@@ -1,4 +1,10 @@
-import React, { SelectHTMLAttributes, DetailedHTMLProps, ChangeEvent, memo } from 'react';
+import React, {
+  SelectHTMLAttributes,
+  DetailedHTMLProps,
+  ChangeEvent,
+  memo,
+  useCallback,
+} from 'react';
 
 type DefaultSelectPropsType = DetailedHTMLProps<
   SelectHTMLAttributes<HTMLSelectElement>,
@@ -23,12 +29,15 @@ export const SuperSelect: React.FC<SuperSelectPropsType> = memo(
         ))
       : [];
 
-    const onChangeCallback = (e: ChangeEvent<HTMLSelectElement>): void => {
-      // eslint-disable-next-line no-unused-expressions
-      onChange && onChange(e);
-      // eslint-disable-next-line no-unused-expressions
-      onChangeOption && onChangeOption(e.currentTarget.value);
-    };
+    const onChangeCallback = useCallback(
+      (e: ChangeEvent<HTMLSelectElement>): void => {
+        // eslint-disable-next-line no-unused-expressions
+        onChange && onChange(e);
+        // eslint-disable-next-line no-unused-expressions
+        onChangeOption && onChangeOption(e.currentTarget.value);
+      },
+      [onChange, onChangeOption],
+    );
 
     return (
       <select onChange={onChangeCallback} {...restProps}>

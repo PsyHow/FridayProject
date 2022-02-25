@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
-/* eslint-disable react/require-default-props */
-import { FC, memo } from 'react';
+
+import { FC, memo, useCallback } from 'react';
 
 import { Slider } from '@mui/material';
 
@@ -13,9 +13,12 @@ type SuperDoubleRangePropsType = {
 
 export const DoubleRange: FC<SuperDoubleRangePropsType> = memo(
   ({ onChangeRange, value, ...restProps }) => {
-    const onChangeCallback = (e: Event, valueArr: number | number[]): void => {
-      onChangeRange && onChangeRange(valueArr);
-    };
+    const onChangeCallback = useCallback(
+      (e: Event, valueArr: number | number[]): void => {
+        onChangeRange && onChangeRange(valueArr);
+      },
+      [onChangeRange],
+    );
 
     return (
       <Slider

@@ -3,12 +3,12 @@ import { ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import style from './Header.module.scss';
+import style from './style/header.module.scss';
 
 import cardPackLogo from 'assets/cardPack.png';
 import profileLogo from 'assets/profile.png';
+import { logout } from 'bll/middlewares';
 import { PATH } from 'enums';
-import { logout } from 'features/authorization';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
 
 const activeStyle = ({ isActive }: any): string => (isActive ? style.activeLink : '');
@@ -31,12 +31,15 @@ export const Header = (): ReactElement => {
             <NavLink to={PATH.CARD_PACKS} className={activeStyle}>
               <div>
                 <img alt="logotype" src={cardPackLogo} />
+
                 <span>Pack List</span>
               </div>
             </NavLink>
+
             <NavLink to={PATH.PROFILE} className={activeStyle}>
               <div>
                 <img alt="logotype" src={profileLogo} />
+
                 <span>Profile</span>
               </div>
             </NavLink>

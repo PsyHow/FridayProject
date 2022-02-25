@@ -1,23 +1,22 @@
-import { FC } from 'react';
+import { ReactElement } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
-import { Error } from './Error';
-
-import { PATH } from 'enums/pathRoutes';
 import {
+  CardsTable,
+  LearnPage,
+  Login,
   NewPasswordContainer,
+  Profile,
   Restore,
   SendEmail,
-  Login,
   SignUp,
-} from 'features/authorization';
-import { CardsTable } from 'features/Cards';
-import { LearnPage } from 'features/Learn';
-import { Table } from 'features/Packs';
-import { Profile } from 'features/Profile';
+  Table,
+  Error,
+} from 'components';
+import { PATH } from 'enums';
 
-export const Routing: FC = () => (
+export const Routing = (): ReactElement => (
   <Routes>
     <Route path={PATH.LOGIN} element={<Login />} />
     <Route path={PATH.PROFILE} element={<Profile />} />

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
 
-import { setError } from 'bll/appReducer';
+import { setError } from 'bll/actions';
 
 export type Nullabale<T> = T | null;
 

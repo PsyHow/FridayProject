@@ -1,5 +1,5 @@
 import { AppRootStoreType } from 'bll/Store';
-import { CardPackType, ModeType } from 'features/Packs/bll/CardPacksTypes';
+import { CardPackType, ModeType } from 'bll/types';
 
 export const selectCardPackTotalCount = (state: AppRootStoreType): number =>
   state.cardPacksReducer.cardPacksTotalCount;

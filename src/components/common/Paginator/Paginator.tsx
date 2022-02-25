@@ -1,63 +1,57 @@
-/* eslint-disable react/require-default-props */
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FC, memo, useCallback, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { SuperSelect } from '../Select/SuperSelect';
+import style from './style/paginator.module.scss';
+import { Pagination } from './types';
 
-import style from './Paginator.module.scss';
-
-import { getCardsTC } from 'features/Cards/bll/cardsThunks';
-import { setPacksPageCount } from 'features/Packs';
-import { setPacksCurrentPageAC } from 'features/Packs/bll/CardPacksActions';
-import { getCardPacksTC } from 'features/Packs/bll/CardPacksThunk';
+import {
+  setCardsCurrentPage,
+  setCardsPageCount,
+  setPacksCurrentPage,
+  setPacksPageCount,
+} from 'bll/actions';
+import { fetchCards, fetchCardPacks } from 'bll/middlewares';
+import { SuperSelect } from 'components/common/Select';
 import { selectMode } from 'selectors/cardPacksSelectors';
 
-interface Pagination {
-  page: number;
-  pageCount: number;
-  totalItemsCount: number;
-  userId?: string;
-}
+const pageItems = [3, 5, 10];
+const portionSize = 5;
 
 export const Paginator: FC<Pagination> = memo(
   ({ page, pageCount, totalItemsCount, userId }) => {
     const dispatch = useDispatch();
+
     const { token } = useParams();
 
     const mode = useSelector(selectMode);
 
-    const pageItems = [3, 5, 10];
-
     const [portionNumber, setPortionNumber] = useState<number>(1);
     const [value, setValue] = useState(pageItems[1]);
+
     const pagesCount = Math.ceil(totalItemsCount / pageCount);
-    const pages = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 1; i <= pagesCount; i++) {
-      pages.push(i);
-    }
-    const portionSize = 5;
     const portionCount = Math.ceil(pagesCount / portionSize);
     const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
     const rightPortionPageNumber = portionNumber * portionSize;
+    const pages = [];
+
+    for (let i = 1; i <= pagesCount; i++) {
+      pages.push(i);
+    }
 
     const onPageChanged = (pageC: number): void => {
       if (token) {
-        dispatch(getCardsTC({ cardsPack_id: token, page: pageC, pageCount }));
-      }
-      if (mode === 'OWNER') {
-        dispatch(setPacksCurrentPageAC(pageC));
-        dispatch(getCardPacksTC({ user_id: userId, page: pageC, pageCount }));
-      }
-      if (mode === 'ALL') {
-        dispatch(setPacksCurrentPageAC(pageC));
+        dispatch(setCardsCurrentPage(pageC));
+        dispatch(fetchCards({ cardsPack_id: token, page: pageC, pageCount }));
+      } else if (mode === 'OWNER') {
+        dispatch(setPacksCurrentPage(pageC));
+        dispatch(fetchCardPacks({ user_id: userId, page: pageC, pageCount }));
+      } else if (mode === 'ALL') {
+        dispatch(setPacksCurrentPage(pageC));
         dispatch(
-          getCardPacksTC({
+          fetchCardPacks({
             page: pageC,
             pageCount,
           }),
@@ -67,17 +61,19 @@ export const Paginator: FC<Pagination> = memo(
 
     const onChangeSelect = useCallback(
       (items: 3 | 5 | 10): void => {
-        setValue(items);
         if (token) {
-          dispatch(getCardsTC({ cardsPack_id: token, pageCount: items, page }));
-        }
-        if (mode === 'OWNER') {
+          setValue(items);
+          dispatch(setCardsPageCount(items));
+          dispatch(fetchCards({ cardsPack_id: token, pageCount: items, page }));
+        } else if (mode === 'OWNER') {
+          setValue(items);
           dispatch(setPacksPageCount(items));
-          dispatch(getCardPacksTC({ user_id: userId, pageCount: items, page }));
+          dispatch(fetchCardPacks({ user_id: userId, pageCount: items, page }));
         } else {
+          setValue(items);
           dispatch(setPacksPageCount(items));
           dispatch(
-            getCardPacksTC({
+            fetchCardPacks({
               pageCount: items,
               page,
             }),
@@ -87,44 +83,58 @@ export const Paginator: FC<Pagination> = memo(
       [token, mode],
     );
 
+    const handlePrevPortionChange = (): void => {
+      setPortionNumber(portionNumber - 1);
+    };
+
+    const handleNextPortionChange = (): void => {
+      setPortionNumber(portionNumber + 1);
+    };
+
     return (
       <div className={style.paginator}>
         {portionNumber > 1 && (
           <div
-            onClick={() => {
-              setPortionNumber(portionNumber - 1);
-            }}
+            aria-hidden="true"
+            onClick={handlePrevPortionChange}
             className={style.left}
           />
         )}
+
         {pages
-          .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-          .map((m, index) => (
+          .filter(
+            pageItem =>
+              pageItem >= leftPortionPageNumber && pageItem <= rightPortionPageNumber,
+          )
+          .map((pageItem, index) => (
             <span
               key={index}
-              className={page === m ? style.selectedPage : style.pageNumber}
+              aria-hidden="true"
+              className={page === pageItem ? style.selectedPage : style.pageNumber}
               onClick={() => {
-                onPageChanged(m);
+                onPageChanged(pageItem);
               }}
             >
-              {m}
+              {pageItem}
             </span>
           ))}
+
         {portionCount > portionNumber && (
           <div
-            onClick={() => {
-              setPortionNumber(portionNumber + 1);
-            }}
+            aria-hidden="true"
+            onClick={handleNextPortionChange}
             className={style.right}
           />
         )}
         <div className={style.pageSettings}>
           <span>Show</span>
+
           <SuperSelect
             options={pageItems}
             value={value}
             onChangeOption={onChangeSelect}
           />
+
           <span>Cards per Page</span>
         </div>
       </div>

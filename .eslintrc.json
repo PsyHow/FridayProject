@@ -29,7 +29,7 @@
       "camelcase": ["warn", {"allow": ["cardsPack_id", "card_id", "user_id"]}],
       "no-alert": "error",
       "no-debugger": "off",
-      "no-plusplus": "error",
+      "no-plusplus":  ["error", { "allowForLoopAfterthoughts": true }],
       "no-unused-vars": "off",
       "no-magic-numbers": "off",
       "default-param-last": "off",
