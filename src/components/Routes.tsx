@@ -11,7 +11,7 @@ import {
   Restore,
   SendEmail,
   SignUp,
-  Table,
+  PackList,
   Error,
 } from 'components';
 import { PATH } from 'enums';
@@ -24,7 +24,7 @@ export const Routing = (): ReactElement => (
     <Route path={PATH.PASSWORD_RESTORE} element={<Restore />} />
     <Route path={PATH.SEND_EMAIL} element={<SendEmail />} />
     <Route path={PATH.NEW_PASSWORD} element={<NewPasswordContainer />} />
-    <Route path={PATH.CARD_PACKS} element={<Table />} />
+    <Route path={PATH.CARD_PACKS} element={<PackList />} />
     <Route path={PATH.CARD} element={<CardsTable />} />
     <Route path={PATH.LEARN} element={<LearnPage />} />
     <Route path="*" element={<Error />} />

@@ -33,3 +33,11 @@ export const grades = [
   'Confused',
   'Knew the answer',
 ];
+
+export const tableHeadPackTitle = [
+  { id: 1, name: 'Name' },
+  { id: 2, name: 'Cards' },
+  { id: 3, name: 'LastUpdated' },
+  { id: 4, name: 'Created by' },
+  { id: 5, name: 'Actions' },
+];

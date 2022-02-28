@@ -1,0 +1,33 @@
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & button {
+        height: 24px;
+        padding: 0 3px 0 3px;
+
+        font-family: "SF UI Display" Thin;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 14px;
+        border-radius: 2px;
+        border: 1px solid transparent;
+        cursor: pointer;
+
+        text-align: center;
+
+        color: #21268f;
+    }
+
+    & button[id="delete"] {
+        background: #f1453d;
+        color: #ffffff;
+    }
+}
+
+.modalContent {
+    font-family: "Poppins";
+    font-style: normal;
+}

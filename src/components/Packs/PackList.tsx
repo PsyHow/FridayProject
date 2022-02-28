@@ -3,16 +3,21 @@ import { ChangeEvent, ReactElement, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import style from './style/packList.module.scss';
+
 import { setMode, setPacksPageCount, setPacksCurrentPage } from 'bll/actions';
-import { fetchCardPacks, updateCardPack } from 'bll/middlewares';
+import {
+  createCardPack,
+  deleteCardPack,
+  fetchCardPacks,
+  updateCardPack,
+} from 'bll/middlewares';
 import { Button } from 'components/common/Button';
 import { DoubleRange } from 'components/common/DoubleRange';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
-import { Sorting } from 'components/common/Sorting';
-import { CardPack } from 'components/Packs/CardPack';
-import style from 'components/Packs/style/table.module.scss';
 import { Preloader } from 'components/Preloader';
+import { Table } from 'components/Table';
 import { PATH } from 'enums';
 import { useCardCountChange } from 'hooks/useCardCountChange';
 import { useSearch } from 'hooks/useSearch';
@@ -27,7 +32,7 @@ import {
 } from 'selectors/cardPacksSelectors';
 import { selectCurrentUserId } from 'selectors/profileSelectors';
 
-export const Table = (): ReactElement => {
+export const PackList = (): ReactElement => {
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -66,22 +71,22 @@ export const Table = (): ReactElement => {
     }
   }, [isLoggedIn]);
 
-  const deleteCardPack = useCallback(
+  const handleDeleteClick = useCallback(
     (id: string): void => {
-      dispatch(deleteCardPack(id));
+      dispatch(deleteCardPack(id, userId));
     },
     [dispatch],
   );
 
-  const editCardPack = useCallback(
+  const handleEditClick = useCallback(
     (id: string, name: string): void => {
-      dispatch(updateCardPack(id, name));
+      dispatch(updateCardPack(id, name, userId));
     },
     [dispatch],
   );
 
-  const createCardPack = (): void => {
-    dispatch(createCardPack());
+  const handleCreatePackClick = (): void => {
+    dispatch(createCardPack(userId));
   };
 
   const changePacks = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -126,45 +131,17 @@ export const Table = (): ReactElement => {
 
         <div className={style.searchBox}>
           <Search search={search} handleChangeSearch={handleChangeSearch} />
-          <Button onClick={createCardPack}>Add new pack</Button>
+          <Button onClick={handleCreatePackClick}>Add new pack</Button>
         </div>
 
         {isFetching ? (
           <Preloader />
         ) : (
-          <table className={style.table}>
-            <thead>
-              <tr>
-                <td>
-                  Name
-                  {/* <Sorting sortName="name" /> */}
-                </td>
-                <td>
-                  Cards
-                  <Sorting sortName="cardsCount" />
-                </td>
-                <td>
-                  Last Updated
-                  {/* <Sorting sortName="updated" /> */}
-                </td>
-                <td>
-                  Created by
-                  {/* <Sorting sortName="created" /> */}
-                </td>
-                <td>Actions</td>
-              </tr>
-            </thead>
-            <tbody>
-              {cardPacks.map(cardPack => (
-                <CardPack
-                  key={cardPack._id}
-                  cardPack={cardPack}
-                  deleteCardPack={deleteCardPack}
-                  editCardPack={editCardPack}
-                />
-              ))}
-            </tbody>
-          </table>
+          <Table
+            cardPacks={cardPacks}
+            onDeleteClick={handleDeleteClick}
+            onEditClick={handleEditClick}
+          />
         )}
 
         <Paginator

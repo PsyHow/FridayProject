@@ -40,9 +40,6 @@ export const CardsTable = (): ReactElement => {
         fetchCards({ cardsPack_id: token, cardQuestion: debouncingValue, pageCount: 5 }),
       );
     }
-    // return () => {
-    //   dispatch(setPacksCurrentPageAC(1));
-    // };
   }, [token, debouncingValue]);
 
   const cardPackName = cardPacks.filter(pack => pack._id === token)[0];

@@ -9,4 +9,4 @@ export { SendEmail } from './SendEmail';
 export { SignUp } from './SignUp';
 export { CardsTable } from './Cards';
 export { Error } from './Error';
-export { Table } from './Packs';
+export { PackList } from './Packs';

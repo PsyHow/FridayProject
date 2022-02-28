@@ -1,0 +1,60 @@
+.modal {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        border-radius: 12px;
+        background-color: white;
+        // width: 50vw;
+        width: 400px;
+        transform: scale(0.5);
+        transition: 0.4s all;
+
+        & h1 {
+            width: 106px;
+            height: 27px;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 27px;
+
+            display: flex;
+            align-items: flex-end;
+
+            color: #2d2e46;
+        }
+
+        & span {
+            height: 48px;
+
+            font-family: "SF UI Display";
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 24px;
+
+            color: #000000;
+        }
+    }
+
+    .contentActive {
+        transform: scale(1);
+    }
+}
+
+.modalActive {
+    pointer-events: all;
+    opacity: 1;
+}

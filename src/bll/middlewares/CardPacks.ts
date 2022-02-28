@@ -21,42 +21,44 @@ export const fetchCardPacks =
   };
 
 export const deleteCardPack =
-  (id: string): AppThunkType =>
+  (id: string, userId: string): AppThunkType =>
   async dispatch => {
     dispatch(setFetching(true));
 
     try {
       await cardPacksAPI.deleteCardPack(id);
       dispatch(setFetching(false));
-      dispatch(fetchCardPacks());
+      dispatch(fetchCardPacks({ user_id: userId }));
     } catch (error) {
       dispatch(setFetching(false));
       handleCatchError(error, dispatch);
     }
   };
 
-export const createCardPack = (): AppThunkType => async dispatch => {
-  dispatch(setFetching(true));
+export const createCardPack =
+  (userId: string): AppThunkType =>
+  async dispatch => {
+    dispatch(setFetching(true));
 
-  try {
-    await cardPacksAPI.createCardPack();
-    dispatch(setFetching(false));
-    dispatch(fetchCardPacks());
-  } catch (error) {
-    dispatch(setFetching(false));
-    handleCatchError(error, dispatch);
-  }
-};
+    try {
+      await cardPacksAPI.createCardPack();
+      dispatch(setFetching(false));
+      dispatch(fetchCardPacks({ user_id: userId }));
+    } catch (error) {
+      dispatch(setFetching(false));
+      handleCatchError(error, dispatch);
+    }
+  };
 
 export const updateCardPack =
-  (id: string, name: string): AppThunkType =>
+  (id: string, name: string, userId: string): AppThunkType =>
   async dispatch => {
     dispatch(setFetching(true));
 
     try {
       await cardPacksAPI.updateCardPack(id, name);
       dispatch(setFetching(false));
-      dispatch(fetchCardPacks());
+      dispatch(fetchCardPacks({ user_id: userId }));
     } catch (error) {
       dispatch(setFetching(false));
       handleCatchError(error, dispatch);

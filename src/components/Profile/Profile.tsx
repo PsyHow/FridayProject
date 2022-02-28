@@ -1,15 +1,15 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useCallback, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { setMode, setPacksCurrentPage, setPacksPageCount } from 'bll/actions';
-import { fetchCardPacks } from 'bll/middlewares';
+import { deleteCardPack, fetchCardPacks, updateCardPack } from 'bll/middlewares';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
-import { CardPack } from 'components/Packs/CardPack';
 import { Preloader } from 'components/Preloader';
 import style from 'components/Profile/style/profile.module.scss';
+import { Table } from 'components/Table';
 import { avatar } from 'const';
 import { PATH } from 'enums';
 import { useSearch } from 'hooks/useSearch';
@@ -56,6 +56,20 @@ export const Profile = (): ReactElement => {
     );
   }, [userId, debouncingValue]);
 
+  const handleDeleteClick = useCallback(
+    (id: string): void => {
+      dispatch(deleteCardPack(id, userId));
+    },
+    [dispatch],
+  );
+
+  const handleEditClick = useCallback(
+    (id: string, name: string): void => {
+      dispatch(updateCardPack(id, name, userId));
+    },
+    [dispatch],
+  );
+
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
@@ -84,39 +98,11 @@ export const Profile = (): ReactElement => {
         {isFetching ? (
           <Preloader />
         ) : (
-          <table className={style.table}>
-            <thead>
-              <tr>
-                <td>
-                  Name
-                  {/* <Sorting sortName="name" /> */}
-                </td>
-                <td>
-                  Cards
-                  {/* <Sorting sortName="cardsCount" /> */}
-                </td>
-                <td>
-                  Last Updated
-                  {/* <Sorting sortName="updated" /> */}
-                </td>
-                <td>
-                  Created by
-                  {/* <Sorting sortName="created" /> */}
-                </td>
-                <td>Actions</td>
-              </tr>
-            </thead>
-            <tbody>
-              {cardPacks.map(cardPack => (
-                <CardPack
-                  key={cardPack._id}
-                  cardPack={cardPack}
-                  deleteCardPack={() => {}}
-                  editCardPack={() => {}}
-                />
-              ))}
-            </tbody>
-          </table>
+          <Table
+            cardPacks={cardPacks}
+            onDeleteClick={handleDeleteClick}
+            onEditClick={handleEditClick}
+          />
         )}
 
         <Paginator
@@ -125,6 +111,10 @@ export const Profile = (): ReactElement => {
           pageCount={pageCount}
           totalItemsCount={cardPacksTotalCount}
         />
+
+        {/* <Modal active={activeModal} setActive={setActiveModal}>
+          <div>sdfasdafsdf</div>
+        </Modal> */}
       </div>
     </div>
   );

@@ -9,9 +9,11 @@ export const cardsAPI = {
       },
     });
   },
+
   deleteCard(id: string) {
     return instance.delete(`cards/card`, { params: { id } });
   },
+
   createCard(cardsPack_id: string) {
     return instance.post(`cards/card`, {
       card: {
@@ -21,6 +23,7 @@ export const cardsAPI = {
       },
     });
   },
+
   updateCard(id: string, question: string, answer: string) {
     return instance.put(`cards/card`, {
       card: {
@@ -30,6 +33,7 @@ export const cardsAPI = {
       },
     });
   },
+
   updateCardGrade(id: string, grade: number) {
     return instance.put(`cards/grade`, {
       card_id: id,
