@@ -53,7 +53,7 @@ export const LearnPage = (): ReactElement => {
 
   useEffect(() => {
     if (first) {
-      dispatch(fetchCards({ cardsPack_id: token } || ''));
+      dispatch(fetchCards({ cardsPack_id: token, pageCount: 99999 } || ''));
       setFirst(false);
     }
     if (cards.length > 0) {

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, memo, SetStateAction } from 'react';
 
 import style from './style/modal.module.scss';
 
@@ -9,7 +9,7 @@ interface ModalProps {
   setActive: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Modal: FC<ModalProps> = ({ active, setActive, children }) => {
+export const Modal: FC<ModalProps> = memo(({ active, setActive, children }) => {
   const handleCloseClick = (): void => {
     setActive(!active);
   };
@@ -27,4 +27,4 @@ export const Modal: FC<ModalProps> = ({ active, setActive, children }) => {
       </div>
     </div>
   );
-};
+});

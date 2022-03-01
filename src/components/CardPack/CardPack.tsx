@@ -1,4 +1,4 @@
-import React, { FC, memo, useState } from 'react';
+import { FC, memo, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -7,6 +7,7 @@ import style from './style/cardPack.module.scss';
 
 import { CardPackType } from 'bll/types';
 import { Button } from 'components/common/Button';
+import { Input } from 'components/common/Input';
 import { Modal } from 'components/common/Modal';
 import { lastUpdateDate } from 'const';
 import { selectCurrentUserId } from 'selectors/profileSelectors';
@@ -17,62 +18,94 @@ interface CartPack {
   editCardPack: (id: string, name: string) => void;
 }
 
-export const CardPack: FC<CartPack> = memo(({ cardPack, ...restProps }) => {
-  const userId = useSelector(selectCurrentUserId);
+export const CardPack: FC<CartPack> = memo(
+  ({ cardPack, deleteCardPack, editCardPack }) => {
+    const userId = useSelector(selectCurrentUserId);
 
-  const [activeModal, setActiveModal] = useState<boolean>(false);
+    const [activeDeleteModal, setActiveDeleteModal] = useState<boolean>(false);
+    const [activeEditModal, setActiveEditModal] = useState<boolean>(false);
+    const [editPackName, setEditPackName] = useState<string>('');
 
-  const deleteCardPack = (): void => {
-    restProps.deleteCardPack(cardPack._id);
-  };
+    const handleToggleDeleteModalClick = (): void => {
+      setActiveDeleteModal(!activeDeleteModal);
+    };
 
-  const editCardPack = (): void => {
-    //  захардкодженное имя
-    restProps.editCardPack(cardPack._id, 'ssssss');
-  };
+    const handleToggleEditModalClick = (): void => {
+      setActiveEditModal(!activeEditModal);
+    };
 
-  // console.log('rerender cardPack');
-  return (
-    <tr>
-      <td>
-        <NavLink
-          style={{ textDecoration: 'none', color: '#1d1d1d' }}
-          to={`/card/${cardPack._id}`}
-        >
-          <span>{cardPack.name}</span>
-        </NavLink>
-      </td>
-      <td>{cardPack.cardsCount}</td>
-      <td>{lastUpdateDate(cardPack.created)}</td>
-      <td>{cardPack.user_name}</td>
-      <td>
-        <div className={style.buttons}>
-          {cardPack.user_id === userId && (
-            <>
-              <Button id="delete" onClick={() => setActiveModal(!activeModal)}>
-                Delete
-              </Button>
-              <Modal active={activeModal} setActive={setActiveModal}>
-                <div className={style.modalContent}>
-                  <h1>Delete Pack</h1>
-                  <span>
+    const handleDeleteCardPackClick = (): void => {
+      deleteCardPack(cardPack._id);
+    };
+
+    const handleEditCardPackClick = (): void => {
+      editCardPack(cardPack._id, editPackName);
+    };
+
+    return (
+      <tr>
+        <td>
+          <NavLink
+            style={{ textDecoration: 'none', color: '#1d1d1d' }}
+            to={`/card/${cardPack._id}`}
+          >
+            <span>{cardPack.name}</span>
+          </NavLink>
+        </td>
+        <td>{cardPack.cardsCount}</td>
+        <td>{lastUpdateDate(cardPack.created)}</td>
+        <td>{cardPack.user_name}</td>
+        <td>
+          <div className={style.buttons}>
+            {cardPack.user_id === userId && (
+              <>
+                <Button id="delete" onClick={handleToggleDeleteModalClick}>
+                  Delete
+                </Button>
+                <Modal active={activeDeleteModal} setActive={setActiveDeleteModal}>
+                  <h1 className={style.modalTitle}>Delete Pack</h1>
+
+                  <p className={style.modalDescription}>
                     Do you really want to remove Pack Name - {cardPack.name} ? All cards
                     will be excluded from this course.
-                  </span>
-                </div>
-                {/* <Button id="delete" onClick={deleteCardPack}>
-                  Delete
-                </Button> */}
-              </Modal>
-            </>
-          )}
-          {cardPack.user_id === userId && <Button onClick={editCardPack}>Edit</Button>}
+                  </p>
 
-          <NavLink to={`/learn/${cardPack._id}`}>
-            <Button>Learn</Button>
-          </NavLink>
-        </div>
-      </td>
-    </tr>
-  );
-});
+                  <div className={style.modalButtons}>
+                    <Button onClick={handleToggleDeleteModalClick}>Cancel</Button>
+
+                    <Button id="delete" onClick={handleDeleteCardPackClick}>
+                      Delete
+                    </Button>
+                  </div>
+                </Modal>
+              </>
+            )}
+            {cardPack.user_id === userId && (
+              <>
+                <Button onClick={handleToggleEditModalClick}>Edit</Button>
+                <Modal active={activeEditModal} setActive={setActiveEditModal}>
+                  <h1 className={style.modalTitle}>Edit Pack</h1>
+
+                  <label>{`${'Name pack'}`}</label>
+                  <Input value={editPackName} onChangeText={setEditPackName} />
+
+                  <div className={style.modalButtons}>
+                    <Button onClick={handleToggleEditModalClick}>Cancel</Button>
+
+                    <Button id="save" onClick={handleEditCardPackClick}>
+                      Save
+                    </Button>
+                  </div>
+                </Modal>
+              </>
+            )}
+
+            <NavLink to={`/learn/${cardPack._id}`}>
+              <Button>Learn</Button>
+            </NavLink>
+          </div>
+        </td>
+      </tr>
+    );
+  },
+);

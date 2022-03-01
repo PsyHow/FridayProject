@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 import style from './style/table.module.scss';
 
@@ -12,7 +12,7 @@ interface TableProps {
   onEditClick: (id: string, name: string) => void;
 }
 
-export const Table: FC<TableProps> = ({ cardPacks, onDeleteClick, onEditClick }) => (
+export const Table: FC<TableProps> = memo(({ cardPacks, onDeleteClick, onEditClick }) => (
   <table className={style.table}>
     <thead>
       <tr>
@@ -32,4 +32,4 @@ export const Table: FC<TableProps> = ({ cardPacks, onDeleteClick, onEditClick })
       ))}
     </tbody>
   </table>
-);
+));

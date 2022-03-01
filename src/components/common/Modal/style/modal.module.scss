@@ -13,40 +13,13 @@
     transition: 0.5s;
 
     .content {
-        display: flex;
-        flex-direction: column;
         padding: 20px;
         border-radius: 12px;
         background-color: white;
-        // width: 50vw;
-        width: 400px;
+        width: 50vw;
+        
         transform: scale(0.5);
         transition: 0.4s all;
-
-        & h1 {
-            width: 106px;
-            height: 27px;
-            font-weight: 500;
-            font-size: 18px;
-            line-height: 27px;
-
-            display: flex;
-            align-items: flex-end;
-
-            color: #2d2e46;
-        }
-
-        & span {
-            height: 48px;
-
-            font-family: "SF UI Display";
-            font-style: normal;
-            font-weight: normal;
-            font-size: 14px;
-            line-height: 24px;
-
-            color: #000000;
-        }
     }
 
     .contentActive {

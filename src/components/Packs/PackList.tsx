@@ -6,13 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import style from './style/packList.module.scss';
 
 import { setMode, setPacksPageCount, setPacksCurrentPage } from 'bll/actions';
-import {
-  createCardPack,
-  deleteCardPack,
-  fetchCardPacks,
-  updateCardPack,
-} from 'bll/middlewares';
-import { Button } from 'components/common/Button';
+import { deleteCardPack, fetchCardPacks, updateCardPack } from 'bll/middlewares';
 import { DoubleRange } from 'components/common/DoubleRange';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
@@ -46,6 +40,7 @@ export const PackList = (): ReactElement => {
   const isFetching = useSelector(selectIsFetching);
 
   const navigate = useNavigate();
+
   const { debouncingValue, handleChangeSearch, search } = useSearch();
   const { debounceMaxCount, debounceMinCount, maxCount, minCount, onChangeHandler } =
     useCardCountChange();
@@ -84,10 +79,6 @@ export const PackList = (): ReactElement => {
     },
     [dispatch],
   );
-
-  const handleCreatePackClick = (): void => {
-    dispatch(createCardPack(userId));
-  };
 
   const changePacks = (e: ChangeEvent<HTMLInputElement>): void => {
     dispatch(setPacksCurrentPage(1));
@@ -131,7 +122,6 @@ export const PackList = (): ReactElement => {
 
         <div className={style.searchBox}>
           <Search search={search} handleChangeSearch={handleChangeSearch} />
-          <Button onClick={handleCreatePackClick}>Add new pack</Button>
         </div>
 
         {isFetching ? (
@@ -151,8 +141,6 @@ export const PackList = (): ReactElement => {
           totalItemsCount={cardPacksTotalCount}
         />
       </div>
-
-      {/* {error && <span className={style.error}>{error}</span>} */}
     </div>
   );
 };

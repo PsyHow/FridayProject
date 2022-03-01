@@ -36,12 +36,12 @@ export const deleteCardPack =
   };
 
 export const createCardPack =
-  (userId: string): AppThunkType =>
+  (userId: string, name: string): AppThunkType =>
   async dispatch => {
     dispatch(setFetching(true));
 
     try {
-      await cardPacksAPI.createCardPack();
+      await cardPacksAPI.createCardPack(name);
       dispatch(setFetching(false));
       dispatch(fetchCardPacks({ user_id: userId }));
     } catch (error) {

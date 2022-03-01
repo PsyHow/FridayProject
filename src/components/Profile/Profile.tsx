@@ -1,10 +1,18 @@
-import { ReactElement, useCallback, useEffect } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { setMode, setPacksCurrentPage, setPacksPageCount } from 'bll/actions';
-import { deleteCardPack, fetchCardPacks, updateCardPack } from 'bll/middlewares';
+import {
+  createCardPack,
+  deleteCardPack,
+  fetchCardPacks,
+  updateCardPack,
+} from 'bll/middlewares';
+import { Button } from 'components/common/Button';
+import { Input } from 'components/common/Input';
+import { Modal } from 'components/common/Modal';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
 import { Preloader } from 'components/Preloader';
@@ -25,7 +33,11 @@ import { selectCurrentUserId, selectUser } from 'selectors/profileSelectors';
 export const Profile = (): ReactElement => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { debouncingValue, handleChangeSearch, search } = useSearch();
+
+  const [activeModal, setActiveModal] = useState<boolean>(false);
+  const [newPackName, setNewPackName] = useState<string>('');
 
   const user = useSelector(selectUser);
   const userId = useSelector(selectCurrentUserId);
@@ -56,18 +68,31 @@ export const Profile = (): ReactElement => {
     );
   }, [userId, debouncingValue]);
 
+  const handleTextChange = (value: string): void => {
+    setNewPackName(value);
+  };
+
+  const handleCreatePackClick = (): void => {
+    dispatch(createCardPack(userId, newPackName));
+    setActiveModal(!activeModal);
+  };
+
+  const handleToggleModalClick = (): void => {
+    setActiveModal(!activeModal);
+    setNewPackName('');
+  };
   const handleDeleteClick = useCallback(
     (id: string): void => {
       dispatch(deleteCardPack(id, userId));
     },
-    [dispatch],
+    [userId],
   );
 
   const handleEditClick = useCallback(
     (id: string, name: string): void => {
       dispatch(updateCardPack(id, name, userId));
     },
-    [dispatch],
+    [userId],
   );
 
   return (
@@ -93,6 +118,23 @@ export const Profile = (): ReactElement => {
 
         <div className={style.searchBox}>
           <Search search={search} handleChangeSearch={handleChangeSearch} />
+
+          <Button onClick={handleToggleModalClick}>Add new pack</Button>
+
+          <Modal active={activeModal} setActive={setActiveModal}>
+            <h1 className={style.modalTitle}>Add new pack</h1>
+
+            <label>{`${'Name pack'}`}</label>
+            <Input value={newPackName} onChangeText={handleTextChange} />
+
+            <div className={style.modalButtons}>
+              <Button onClick={handleToggleModalClick}>Cancel</Button>
+
+              <Button id="save" onClick={handleCreatePackClick}>
+                Save
+              </Button>
+            </div>
+          </Modal>
         </div>
 
         {isFetching ? (
@@ -111,10 +153,6 @@ export const Profile = (): ReactElement => {
           pageCount={pageCount}
           totalItemsCount={cardPacksTotalCount}
         />
-
-        {/* <Modal active={activeModal} setActive={setActiveModal}>
-          <div>sdfasdafsdf</div>
-        </Modal> */}
       </div>
     </div>
   );
