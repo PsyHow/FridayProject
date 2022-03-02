@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-array-index-key */
-import { ReactElement, useEffect, useState } from 'react';
+import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import style from './style/learnPage.module.scss';
+
 import { fetchCards, updateCardGrade } from 'bll/middlewares';
-import { AppRootStoreType } from 'bll/Store';
 import { CardsType } from 'bll/types';
-import { Button } from 'components/common/Button';
 import { grades } from 'const';
+import { selectCardPacks } from 'selectors/cardPacksSelectors';
+import { selectCardId, selectCards } from 'selectors/cardsReducer';
 
 const getCard = (cards: CardsType[]): CardsType => {
   const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
@@ -26,10 +28,9 @@ const getCard = (cards: CardsType[]): CardsType => {
 
 export const LearnPage = (): ReactElement => {
   const dispatch = useDispatch();
-  const packId = useSelector<AppRootStoreType, string>(state => state.cardsReducer.id);
-  const cards = useSelector<AppRootStoreType, CardsType[]>(
-    state => state.cardsReducer.cards,
-  );
+  const packId = useSelector(selectCardId);
+  const cards = useSelector(selectCards);
+  const cardPacks = useSelector(selectCardPacks);
 
   const { token } = useParams();
 
@@ -61,6 +62,8 @@ export const LearnPage = (): ReactElement => {
     }
   }, [token, cards, first, dispatch, packId]);
 
+  const cardPackName = cardPacks.filter(card => card._id === token)[0];
+
   const showAnswer = (): void => setIsShowAnswer(true);
 
   const onNext = (): void => {
@@ -69,40 +72,63 @@ export const LearnPage = (): ReactElement => {
     setIsShowAnswer(false);
   };
 
-  const setGradeToCard = (grade: number, event?: any): void => {
-    setGradeValue(grade);
+  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setGradeValue(+event.target.value);
   };
 
   return (
-    <div>
-      <div>
-        <span>Question: </span>
-        <span>{learningCard.question}</span>
-      </div>
+    <div className={style.learnPageContainer}>
+      <div className={style.questionContainer}>
+        <h1 className={style.packName}>Learn {`"${cardPackName.name}"`}</h1>
 
-      {!isShowAnswer ? (
-        <Button onClick={showAnswer}>Show answer</Button>
-      ) : (
-        <>
-          <div>Answer: {learningCard.answer}</div>
-          <div>
-            <span>Rate yourself:</span>
-          </div>
-          {grades.map((grade, i) => (
-            <Button
-              style={{ marginRight: '30px' }}
-              data-tag={i + 1}
-              key={`grade-${i}`}
-              onClick={(event: any) => {
-                setGradeToCard(i + 1, event);
-              }}
-            >
-              {grade}
-            </Button>
-          ))}
-          <Button onClick={onNext}>Next</Button>
-        </>
-      )}
+        <div className={style.questionItems}>
+          <span>Question: </span>
+
+          <span className={style.question}>{learningCard.question}</span>
+        </div>
+
+        {!isShowAnswer ? (
+          <div className={style.answerContainer} />
+        ) : (
+          <>
+            <div className={style.answerContainer}>
+              <span>Answer:</span>
+
+              <span className={style.answer}>{learningCard.answer}</span>
+            </div>
+
+            <span className={style.rateTitle}>Rate yourself:</span>
+
+            <div className={style.rateOptions}>
+              {grades.map((grade, i) => (
+                <label key={`grade-${i}`}>
+                  <input
+                    data-tag={i + 1}
+                    type="radio"
+                    value={i + 1}
+                    onChange={handleRadioChange}
+                    checked={gradeValue === i + 1}
+                  />
+                  {grade}
+                </label>
+              ))}
+            </div>
+          </>
+        )}
+
+        <div className={style.buttonsContainer}>
+          <button type="button">Cancel</button>
+          {!isShowAnswer ? (
+            <button type="button" onClick={showAnswer}>
+              Show answer
+            </button>
+          ) : (
+            <button onClick={onNext} type="button">
+              Next
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

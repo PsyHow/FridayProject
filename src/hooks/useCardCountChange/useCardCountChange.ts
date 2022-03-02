@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { useDebounce } from 'use-debounce/lib';
+import { useDebounce } from 'use-debounce';
 
 import { useCardCountChangeReturnType } from './types';
 

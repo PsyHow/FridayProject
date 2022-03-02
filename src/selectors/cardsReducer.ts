@@ -9,3 +9,4 @@ export const selectCardsCurrentPage = (state: AppRootStoreType): number =>
   state.cardsReducer.page;
 export const selectCardsPageCount = (state: AppRootStoreType): number =>
   state.cardsReducer.pageCount;
+export const selectCardId = (state: AppRootStoreType): string => state.cardsReducer.id;

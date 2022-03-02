@@ -1,0 +1,73 @@
+.learnPageContainer {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .questionContainer {
+        width: 50vw;
+        text-align: center;
+        padding: 20px;
+
+        background: #f9f9fe;
+        border-radius: 8px;
+
+        font-family: "SF UI Display" Thin;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+
+        color: #2d2e46;
+
+        .packName {
+            height: 33px;
+
+            font-family: "Poppins";
+            font-style: normal;
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 33px;
+
+            color: #2d2e46;
+        }
+
+        .questionItems {
+            margin-top: 30px;
+
+            .question {
+                font-weight: 400;
+            }
+        }
+
+        .answerContainer {
+            min-height: 100px;
+            margin-top: 20px;
+
+            .answer {
+                font-weight: 400;
+            }
+        }
+
+        .rateTitle {
+            display: flex;
+        }
+
+        .rateOptions {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+
+            & label {
+                padding: 2px;
+            }
+        }
+
+        .buttonsContainer {
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+}

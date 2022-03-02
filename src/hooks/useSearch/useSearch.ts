@@ -1,6 +1,6 @@
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 
-import { useDebounce } from 'use-debounce/lib';
+import { useDebounce } from 'use-debounce';
 
 import { useSearchReturnType } from './types';
 
