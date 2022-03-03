@@ -1,16 +1,19 @@
 .textFieldContainer {
     position: relative;
+    width: 80%;
     display: flex;
     flex-direction: column;
     align-self: center;
+
     .input {
-        width: 347px;
+        width: 100%;
         height: 48px;
         background: #f9f9fe;
         border: none;
         border-bottom: 1px solid #24254a;
         outline: none;
     }
+
     & label {
         position: absolute;
         top: -5px;
