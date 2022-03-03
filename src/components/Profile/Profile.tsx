@@ -15,13 +15,12 @@ import { Input } from 'components/common/Input';
 import { Modal } from 'components/common/Modal';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
-import { Preloader } from 'components/Preloader';
 import style from 'components/Profile/style/profile.module.scss';
 import { Table } from 'components/Table';
 import { avatar } from 'const';
 import { PATH } from 'enums';
 import { useSearch } from 'hooks/useSearch';
-import { selectIsFetching, selectIsLoggedIn } from 'selectors/authSelectors';
+import { selectIsLoggedIn } from 'selectors/authSelectors';
 import {
   selectCardPacks,
   selectCardPackTotalCount,
@@ -46,7 +45,6 @@ export const Profile = (): ReactElement => {
   const pageCount = useSelector(selectPackPageCount);
   const cardPacks = useSelector(selectCardPacks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isFetching = useSelector(selectIsFetching);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -137,15 +135,12 @@ export const Profile = (): ReactElement => {
           </Modal>
         </div>
 
-        {isFetching ? (
-          <Preloader />
-        ) : (
-          <Table
-            cardPacks={cardPacks}
-            onDeleteClick={handleDeleteClick}
-            onEditClick={handleEditClick}
-          />
-        )}
+        <Table
+          cardPacks={cardPacks}
+          onDeleteClick={handleDeleteClick}
+          onEditClick={handleEditClick}
+          id={userId}
+        />
 
         <Paginator
           userId={userId}

@@ -1,8 +1,4 @@
 .preloader {
-    display: flex;
-    margin-top: 40px;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    position: absolute;
+    left: 50%;
 }

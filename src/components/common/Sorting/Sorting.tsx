@@ -1,59 +1,80 @@
-import { FC } from 'react';
+/* eslint-disable react/require-default-props */
+import { FC, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { getCardsSorting, setCardsCurrentPage } from 'bll/actions';
-import { getPackSorting, setPacksCurrentPage } from 'bll/actions/CardPacks';
-import { fetchCards, fetchCardPacks } from 'bll/middlewares';
+import style from './style/sorting.module.scss';
+import { SortingProps } from './types';
 
-export const Sorting: FC<PropsType> = ({ sortName, token }) => {
+import { getPackSorting, setPacksCurrentPage } from 'bll/actions/CardPacks';
+import { fetchCardPacks } from 'bll/middlewares';
+
+type SortType = 'UP' | 'DOWN';
+
+export const Sorting: FC<SortingProps> = ({ sortName, id }) => {
   const dispatch = useDispatch();
+
+  const [sort, setSort] = useState<SortType>('UP');
 
   const setSortUp = (): void => {
     dispatch(setPacksCurrentPage(1));
-    dispatch(setCardsCurrentPage(1));
-    if (token) {
-      dispatch(getCardsSorting(`0${sortName}`));
-      dispatch(fetchCards({ cardsPack_id: token }));
+    setSort('DOWN');
+
+    if (id) {
+      dispatch(getPackSorting(`0${sortName}`));
+
+      dispatch(
+        fetchCardPacks({
+          user_id: id,
+          sortPacks: `0${sortName}`,
+          pageCount: 5,
+        }),
+      );
     } else {
-      // dispatch(getPackSorting(`0${sortName}`));
+      dispatch(getPackSorting(`0${sortName}`));
+
       dispatch(
         fetchCardPacks({
           sortPacks: `0${sortName}`,
+          pageCount: 5,
         }),
       );
     }
   };
+
   const setSortDown = (): void => {
-    dispatch(setCardsCurrentPage(1));
     dispatch(setPacksCurrentPage(1));
-    if (token) {
-      dispatch(getCardsSorting(`1${sortName}`));
-      dispatch(fetchCards({ cardsPack_id: token }));
+    setSort('UP');
+
+    if (id) {
+      dispatch(getPackSorting(`1${sortName}`));
+
+      dispatch(
+        fetchCardPacks({
+          user_id: id,
+          sortPacks: `1${sortName}`,
+          pageCount: 5,
+        }),
+      );
     } else {
-      // dispatch(getPackSorting(`1${sortName}`));
+      dispatch(getPackSorting(`1${sortName}`));
+
       dispatch(
         fetchCardPacks({
           sortPacks: `1${sortName}`,
+          pageCount: 5,
         }),
       );
     }
   };
+
   return (
     <div>
-      <button type="button" onClick={setSortUp}>
-        ▲
-      </button>
-      <button type="button" onClick={setSortDown}>
-        ▼
-      </button>
+      {sort === 'DOWN' ? (
+        <div aria-hidden="true" onClick={setSortDown} className={style.sortingDown} />
+      ) : (
+        <div aria-hidden="true" onClick={setSortUp} className={style.sortingUp} />
+      )}
     </div>
   );
-};
-
-// types
-type PropsType = {
-  sortName: string;
-  // eslint-disable-next-line react/require-default-props
-  token?: string;
 };

@@ -5,12 +5,11 @@ import { useParams } from 'react-router-dom';
 
 import style from './style/cardsTable.module.scss';
 
-import { deleteCard, fetchCards, updateCard } from 'bll/middlewares';
+import { fetchCards } from 'bll/middlewares';
 import { CardsType } from 'bll/types';
 import { Card } from 'components/Cards/Card';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
-import { Sorting } from 'components/common/Sorting';
 import { Preloader } from 'components/Preloader';
 import { useSearch } from 'hooks/useSearch';
 import { selectIsFetching } from 'selectors/authSelectors';
@@ -44,17 +43,17 @@ export const CardsTable = (): ReactElement => {
 
   const cardPackName = cardPacks.filter(pack => pack._id === token)[0];
 
-  const handleDeleteClick = (id: string): void => {
-    if (token) dispatch(deleteCard(token, id));
-  };
+  // const handleDeleteClick = (id: string): void => {
+  //   if (token) dispatch(deleteCard(token, id));
+  // };
 
   // const createCard = (): void => {
   //   if (token) dispatch(createCardTC(token));
   // };
 
-  const handleUpdateClick = (id: string, question: string, answer: string): void => {
-    if (token) dispatch(updateCard(token, question, answer, id));
-  };
+  // const handleUpdateClick = (id: string, question: string, answer: string): void => {
+  //   if (token) dispatch(updateCard(token, question, answer, id));
+  // };
   return (
     <div className={style.cardsContainer}>
       <span className={style.title}>
@@ -66,14 +65,8 @@ export const CardsTable = (): ReactElement => {
           <tr>
             <td>Question</td>
             <td>Answer</td>
-            <td>
-              Last Updated
-              <Sorting token={token} sortName="grade" />
-            </td>
-            <td>
-              Grade
-              <Sorting token={token} sortName="created" />
-            </td>
+            <td>Last Updated</td>
+            <td>Grade</td>
           </tr>
         </thead>
         {isFetching ? (
@@ -81,12 +74,7 @@ export const CardsTable = (): ReactElement => {
         ) : (
           <tbody>
             {cards.map((card: CardsType) => (
-              <Card
-                key={card._id}
-                card={card}
-                deleteCard={handleDeleteClick}
-                getUpdateCard={handleUpdateClick}
-              />
+              <Card key={card._id} card={card} />
             ))}
           </tbody>
         )}

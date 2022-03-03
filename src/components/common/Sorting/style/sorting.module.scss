@@ -1,0 +1,21 @@
+.sortingUp::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 40%;
+    border: 5px solid transparent;
+    border-bottom: 6px solid #2d2e46;
+
+    cursor: pointer;
+}
+
+.sortingDown::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 30%;
+    border: 5px solid transparent;
+    border-top: 6px solid #2d2e46;
+
+    cursor: pointer;
+}

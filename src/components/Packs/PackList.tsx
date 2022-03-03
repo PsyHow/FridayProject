@@ -10,12 +10,11 @@ import { deleteCardPack, fetchCardPacks, updateCardPack } from 'bll/middlewares'
 import { DoubleRange } from 'components/common/DoubleRange';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
-import { Preloader } from 'components/Preloader';
 import { Table } from 'components/Table';
 import { PATH } from 'enums';
 import { useCardCountChange } from 'hooks/useCardCountChange';
 import { useSearch } from 'hooks/useSearch';
-import { selectIsFetching, selectIsLoggedIn } from 'selectors/authSelectors';
+import { selectIsLoggedIn } from 'selectors/authSelectors';
 import {
   selectCardMaxValue,
   selectCardMinValue,
@@ -37,7 +36,6 @@ export const PackList = (): ReactElement => {
   const pageCount = useSelector(selectPackPageCount);
   const min = useSelector(selectCardMinValue);
   const max = useSelector(selectCardMaxValue);
-  const isFetching = useSelector(selectIsFetching);
 
   const navigate = useNavigate();
 
@@ -124,15 +122,11 @@ export const PackList = (): ReactElement => {
           <Search search={search} handleChangeSearch={handleChangeSearch} />
         </div>
 
-        {isFetching ? (
-          <Preloader />
-        ) : (
-          <Table
-            cardPacks={cardPacks}
-            onDeleteClick={handleDeleteClick}
-            onEditClick={handleEditClick}
-          />
-        )}
+        <Table
+          cardPacks={cardPacks}
+          onDeleteClick={handleDeleteClick}
+          onEditClick={handleEditClick}
+        />
 
         <Paginator
           userId={userId}
