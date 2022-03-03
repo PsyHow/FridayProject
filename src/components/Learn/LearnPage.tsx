@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
 
@@ -9,13 +8,16 @@ import style from './style/learnPage.module.scss';
 
 import { fetchCards, updateCardGrade } from 'bll/middlewares';
 import { CardsType } from 'bll/types';
+import { Button } from 'components/common/Button';
 import { grades } from 'const';
 import { selectCardPacks } from 'selectors/cardPacksSelectors';
 import { selectCardId, selectCards } from 'selectors/cardsReducer';
 
 const getCard = (cards: CardsType[]): CardsType => {
   const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
+
   const rand = Math.random() * sum;
+
   const res = cards.reduce(
     (acc: { sum: number; id: number }, card, i) => {
       const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
@@ -23,6 +25,7 @@ const getCard = (cards: CardsType[]): CardsType => {
     },
     { sum: 0, id: -1 },
   );
+
   return cards[res.id + 1];
 };
 
@@ -64,9 +67,10 @@ export const LearnPage = (): ReactElement => {
 
   const cardPackName = cardPacks.filter(card => card._id === token)[0];
 
-  const showAnswer = (): void => setIsShowAnswer(true);
+  const handleShowAnswerClick = (): void => setIsShowAnswer(true);
+  const handleCloseAnswerClick = (): void => setIsShowAnswer(false);
 
-  const onNext = (): void => {
+  const handleGetNextCardClick = (): void => {
     dispatch(updateCardGrade(learningCard._id, gradeValue));
     setLearningCard(getCard(cards));
     setIsShowAnswer(false);
@@ -103,7 +107,6 @@ export const LearnPage = (): ReactElement => {
               {grades.map((grade, i) => (
                 <label key={`grade-${i}`}>
                   <input
-                    data-tag={i + 1}
                     type="radio"
                     value={i + 1}
                     onChange={handleRadioChange}
@@ -117,15 +120,18 @@ export const LearnPage = (): ReactElement => {
         )}
 
         <div className={style.buttonsContainer}>
-          <button type="button">Cancel</button>
+          <Button id="cancel" type="button" onClick={handleCloseAnswerClick}>
+            Cancel
+          </Button>
+
           {!isShowAnswer ? (
-            <button type="button" onClick={showAnswer}>
+            <Button type="button" onClick={handleShowAnswerClick}>
               Show answer
-            </button>
+            </Button>
           ) : (
-            <button onClick={onNext} type="button">
+            <Button onClick={handleGetNextCardClick} type="button">
               Next
-            </button>
+            </Button>
           )}
         </div>
       </div>

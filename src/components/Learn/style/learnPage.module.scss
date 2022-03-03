@@ -7,7 +7,7 @@
     align-items: center;
 
     .questionContainer {
-        width: 50vw;
+        width: 40vw;
         text-align: center;
         padding: 20px;
 
@@ -68,6 +68,35 @@
         .buttonsContainer {
             display: flex;
             justify-content: space-around;
+            margin-bottom: 20px;
+
+            & button {
+                width: 187px;
+                height: 36px;
+                background: #21268f;
+                border-radius: 30px;
+                border: none;
+                cursor: pointer;
+
+                font-family: "SF UI Display" Thin;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 19px;
+
+                text-align: center;
+                letter-spacing: 0.01em;
+
+                color: #ececf9;
+            }
+
+            & button[id="cancel"] {
+                width: 124px;
+                height: 36px;
+
+                background: #d7d8ef;
+                color: #21268F;
+            }
         }
     }
 }
