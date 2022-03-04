@@ -3,25 +3,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
     margin-top: 25px;
-    width: 413px;
-    height: 468px;
-
+    width: 30%;
     background: #f9f9fe;
     border-radius: 8px;
 
+    @media screen and (max-width: 750px) {
+        width: 80%;
+    }
+
     .title {
-        width: 163px;
         height: 39px;
         margin-top: 22px;
-
-        font-family: Poppins;
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 26px;
         line-height: 39px;
-
         color: #2d2e46;
         text-align: center;
     }
@@ -31,35 +29,27 @@
     }
 
     & span {
-        width: 139px;
         height: 33px;
         margin-top: 25px;
-
-        font-family: Poppins;
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 22px;
         line-height: 33px;
-
         text-align: center;
-
         color: #2d2e46;
     }
 
     & h4 {
-        width: 328px;
         height: 48px;
-        margin-top: 20px;
-
-        font-family: 'SF UI Display' Thin;
+        margin: 20px 0 25px 0;
+        font-family: "SF UI Display" Thin;
         font-style: normal;
         font-weight: normal;
         font-size: 16px;
         line-height: 24px;
         text-align: center;
-
         color: #2d2e46;
-
         opacity: 0.7;
     }
 }

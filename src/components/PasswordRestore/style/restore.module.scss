@@ -1,33 +1,30 @@
 .restorePage {
     margin-top: 25px;
     align-self: center;
-
-    width: 413px;
-    height: 540px;
-
+    width: 30%;
     font-family: "SF UI Display" Thin;
     font-weight: 600;
     font-size: 16px;
-
     background: #f9f9fe;
     border-radius: 8px;
+
+    @media screen and (max-width: 750px) {
+        width: 80%;
+    }
 
     & form {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-
         font-family: "Poppins";
 
         & h1 {
             width: 163px;
             height: 39px;
             margin-top: 25px;
-
             font-size: 26px;
             line-height: 39px;
-
             color: #2d2e46;
         }
 
@@ -35,10 +32,8 @@
             width: 256px;
             height: 33px;
             margin-top: 30px;
-
             font-size: 22px;
             line-height: 33px;
-
             color: #2d2e46;
         }
 
@@ -52,7 +47,6 @@
             height: 48px;
             border: none;
             border-bottom: 1px solid black;
-
             background: #f9f9fe;
         }
 
@@ -62,15 +56,10 @@
         }
 
         & h5 {
-            width: 347px;
             height: 48px;
-
             font-weight: normal;
             line-height: 24px;
-            text-align: left;
-
             color: #2d2e46;
-
             opacity: 0.5;
         }
 
@@ -85,38 +74,31 @@
         }
 
         & button {
-            width: 266px;
+            width: 60%;
             height: 36px;
             margin-top: 25px;
             border-radius: 30px;
-
             background: #21268f;
-            box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
             cursor: pointer;
-
+            border: none;
             font-weight: 500;
             line-height: 19px;
             letter-spacing: 0.01em;
-
             color: #ececf9;
-
             text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
         }
 
         .description {
             margin-top: 20px;
-
             font-weight: normal;
             line-height: 24px;
-
             color: #2d2e46;
-
             opacity: 0.5;
         }
 
         .logginIn {
             line-height: 24px;
-
+            margin-bottom: 25px;
             color: #21268f;
         }
     }

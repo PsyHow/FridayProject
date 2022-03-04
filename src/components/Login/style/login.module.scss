@@ -1,12 +1,9 @@
 .loginPage {
     width: 30%;
-    height: 100vh;
     align-self: center;
     margin-top: 25px;
-
     background: #f9f9fe;
     border-radius: 8px;
-
     color: #2d2e46;
 
     @media screen and (max-width: 750px) {
@@ -18,7 +15,6 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-
         font-family: "SF UI Display" Thin;
         font-weight: 600;
 
@@ -97,6 +93,7 @@
         .signUp {
             font-size: 16px;
             line-height: 24px;
+            margin-bottom: 25px;
 
             color: #21268f;
             text-decoration: none;

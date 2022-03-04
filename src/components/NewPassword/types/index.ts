@@ -1,10 +1,4 @@
-export interface NewPasswordInterface {
-  onChange: (value: string) => void;
+export interface NewPasswordData {
   password: string;
-  error: string | null;
-  onSubmit: () => void;
-  isFetching: boolean;
-  confirmPass: string;
-  onChangeConfirmPass: (value: string) => void;
-  setNewPassword: boolean;
+  confirmPassword: string;
 }
