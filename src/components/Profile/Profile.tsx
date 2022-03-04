@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import {
   fetchCardPacks,
   updateCardPack,
 } from 'bll/middlewares';
+import { editProfileData } from 'bll/middlewares/auth';
 import { Button } from 'components/common/Button';
 import { Input } from 'components/common/Input';
 import { Modal } from 'components/common/Modal';
@@ -36,7 +37,9 @@ export const Profile = (): ReactElement => {
   const { debouncingValue, handleChangeSearch, search } = useSearch();
 
   const [activeModal, setActiveModal] = useState<boolean>(false);
+  const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
   const [newPackName, setNewPackName] = useState<string>('');
+  const [newName, setNewName] = useState<string>('');
 
   const user = useSelector(selectUser);
   const userId = useSelector(selectCurrentUserId);
@@ -79,6 +82,12 @@ export const Profile = (): ReactElement => {
     setActiveModal(!activeModal);
     setNewPackName('');
   };
+
+  const handleOpenEditModalClick = (): void => {
+    setEditProfileModal(!editProfileModal);
+    setNewName('');
+  };
+
   const handleDeleteClick = useCallback(
     (id: string): void => {
       dispatch(deleteCardPack(id, userId));
@@ -93,6 +102,15 @@ export const Profile = (): ReactElement => {
     [userId],
   );
 
+  const handleEditNameClick = (): void => {
+    dispatch(editProfileData({ name: newName }));
+    setEditProfileModal(!editProfileModal);
+  };
+
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setNewName(event.currentTarget.value);
+  };
+
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
@@ -103,10 +121,28 @@ export const Profile = (): ReactElement => {
 
           <span className={style.specialization}>Front-end developer</span>
 
-          <button className={style.editButton} type="button">
+          <button
+            className={style.editButton}
+            type="button"
+            onClick={handleOpenEditModalClick}
+          >
             Edit profile
           </button>
+
+          <Modal active={editProfileModal} setActive={setEditProfileModal}>
+            <h1>Personal Information</h1>
+
+            <input type="text" value={newName} onChange={handleNameChange} />
+
+            <button type="button" onClick={handleEditNameClick}>
+              Save
+            </button>
+          </Modal>
         </div>
+
+        {/* <button type="button" onClick={handleEditNameClick}>
+          edit
+        </button> */}
 
         <span className={style.description}>Number of cards</span>
       </div>

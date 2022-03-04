@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import {
   AuthResponseType,
+  EditProfileData,
+  EditProfileResponse,
   LoginData,
   LoginResponseType,
   NewPasswordData,
@@ -38,5 +40,8 @@ export const authAPI = {
   },
   signUp(email: string, password: string) {
     return instance.post(`auth/register`, { email, password });
+  },
+  editProfile(data: EditProfileData) {
+    return instance.put<EditProfileResponse>(`auth/me`, data);
   },
 };

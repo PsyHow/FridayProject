@@ -4,7 +4,7 @@ import { setUser, setLoggingIn, setAuthError } from 'bll/actions';
 import { AppThunkType } from 'bll/Store';
 import { handleCatchError } from 'const';
 import { authAPI } from 'dal/api';
-import { LoginData } from 'dal/api/types';
+import { EditProfileData, LoginData } from 'dal/api/types';
 
 export const fetchLogin =
   (data: LoginData): AppThunkType =>
@@ -43,3 +43,14 @@ export const logout = (): AppThunkType => async dispatch => {
     handleCatchError(error, dispatch);
   }
 };
+
+export const editProfileData =
+  (data: EditProfileData): AppThunkType =>
+  async dispatch => {
+    try {
+      const res = await authAPI.editProfile({ ...data });
+      dispatch(setUser(res.data.updatedUser));
+    } catch (error) {
+      handleCatchError(error, dispatch);
+    }
+  };
