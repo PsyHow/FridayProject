@@ -1,7 +1,7 @@
 export { LearnPage } from './Learn';
 export { Login } from './Login';
 export { Header } from './Header';
-export { NewPasswordContainer } from './NewPassword';
+export { NewPassword } from './NewPassword';
 export { Restore } from './PasswordRestore';
 export { Preloader } from './Preloader';
 export { Profile } from './Profile';

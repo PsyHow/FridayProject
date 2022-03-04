@@ -1,57 +1,87 @@
-import { FC, memo } from 'react';
+import { ReactElement } from 'react';
 
-import { Navigate } from 'react-router-dom';
+import { FormikProvider, useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useParams } from 'react-router-dom';
 
+import style from './style/newPassword.module.scss';
+import { NewPasswordData } from './types';
+
+import { fetchNewPassword } from 'bll/middlewares';
 import { Button } from 'components/common/Button';
-import { Input } from 'components/common/Input/Input';
-import style from 'components/NewPassword/style/newPassword.module.scss';
-import { NewPasswordInterface } from 'components/NewPassword/types';
+import { TextField } from 'components/common/TextField';
 import { Preloader } from 'components/Preloader';
 import { PATH } from 'enums';
+import { selectIsFetching } from 'selectors/authSelectors';
+import { selectSetNewPassword } from 'selectors/registrationReducer';
 
-export const NewPassword: FC<NewPasswordInterface> = memo(
-  ({
-    onChange,
-    password,
-    onSubmit,
-    isFetching,
-    confirmPass,
-    onChangeConfirmPass,
-    setNewPassword,
-  }) => {
-    if (setNewPassword) {
-      return <Navigate to={PATH.LOGIN} />;
-    }
+export const NewPassword = (): ReactElement => {
+  const dispatch = useDispatch();
+  const { token } = useParams();
 
-    return (
-      <div>
-        {isFetching ? (
-          <Preloader />
-        ) : (
-          <form className={style.container}>
+  const isFetching = useSelector(selectIsFetching);
+  const setNewPassword = useSelector(selectSetNewPassword);
+
+  const formik = useFormik({
+    initialValues: {
+      password: '',
+      confirmPassword: '',
+    },
+    validate: values => {
+      const errors: Partial<NewPasswordData> = {};
+      if (!values.password) {
+        errors.password = 'Required';
+      } else if (values.password.length <= 5) {
+        errors.password = 'must be more than five characters';
+      }
+
+      if (!values.confirmPassword) {
+        errors.confirmPassword = 'Required';
+      } else if (values.password.length <= 5) {
+        errors.confirmPassword = 'must be more than five characters';
+      }
+
+      if (values.password !== values.confirmPassword) {
+        errors.confirmPassword = 'passwords must be match';
+      }
+
+      return errors;
+    },
+    onSubmit: values => {
+      dispatch(fetchNewPassword(values.confirmPassword, token || ''));
+    },
+  });
+
+  if (setNewPassword) {
+    return <Navigate to={PATH.LOGIN} />;
+  }
+
+  return (
+    <div className={style.newPasswordPage}>
+      {isFetching ? (
+        <Preloader />
+      ) : (
+        <FormikProvider value={formik}>
+          <form onSubmit={formik.handleSubmit}>
             <div className={style.title}>It-incubator</div>
             <span>Create new password</span>
-            <Input
-              type="password"
-              placeholder="Enter new password"
-              onChangeText={onChange}
-              value={password}
-            />
-            <Input
-              type="password"
-              placeholder="Confirm new password"
-              onChangeText={onChangeConfirmPass}
-              value={confirmPass}
-            />
+            <div className={style.inputs}>
+              <TextField label="Enter new password" name="password" type="password" />
+              <TextField
+                label="Confirm new password"
+                name="confirmPassword"
+                type="password"
+              />
+            </div>
+
             <h5>
               Create new password and we will send you further instructions to email
             </h5>
-            <Button onClick={onSubmit} disabled={isFetching}>
-              Create new password
-            </Button>
+
+            <Button type="submit">Create new password</Button>
           </form>
-        )}
-      </div>
-    );
-  },
-);
+        </FormikProvider>
+      )}
+    </div>
+  );
+};

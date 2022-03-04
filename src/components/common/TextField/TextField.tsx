@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 import { useField } from 'formik';
 
@@ -10,7 +10,7 @@ type TextFieldProps = {
   type: string;
 };
 
-export const TextField: FC<TextFieldProps> = ({ label, ...props }) => {
+export const TextField: FC<TextFieldProps> = memo(({ label, ...props }) => {
   const [field, meta] = useField(props.name);
 
   const inputStyle = `${style.input} ${
@@ -29,4 +29,4 @@ export const TextField: FC<TextFieldProps> = ({ label, ...props }) => {
       )}
     </div>
   );
-};
+});

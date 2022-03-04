@@ -1,20 +1,20 @@
 .loginPage {
-    width: 413px;
-    height: 600px;
+    width: 30%;
     align-self: center;
     margin-top: 25px;
-
     background: #f9f9fe;
     border-radius: 8px;
-
     color: #2d2e46;
+
+    @media screen and (max-width: 750px) {
+        width: 80%;
+    }
 
     & form {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-
         font-family: "SF UI Display" Thin;
         font-weight: 600;
 
@@ -40,6 +40,7 @@
 
         .inputs {
             margin-top: 40px;
+            width: 100%;
             display: flex;
             flex-direction: column;
         }
@@ -61,7 +62,7 @@
         }
 
         & button {
-            width: 266px;
+            width: 60%;
             height: 36px;
             margin-top: 30px;
 
@@ -82,21 +83,17 @@
         }
 
         .dontHaveAcc {
-            width: 150px;
-            height: 24px;
             margin-top: 5px;
-
             font-size: 14px;
             line-height: 24px;
-
             color: #2d2e46;
-
             opacity: 0.5;
         }
 
         .signUp {
             font-size: 16px;
             line-height: 24px;
+            margin-bottom: 25px;
 
             color: #21268f;
             text-decoration: none;
