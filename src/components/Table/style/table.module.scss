@@ -1,65 +1,74 @@
-.table {
+.tableWrapper {
     width: 90%;
-    text-align: center;
-    border-collapse: collapse;
+    overflow-x: auto;
 
-    & tr td {
-        width: 20%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    @media screen and (max-width: 1135px) {
+        width: 100%;
     }
 
-    & thead tr {
-        height: 42px;
-        text-align: left;
+    .table {
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
 
-        font-family: "SF UI Display" Thin;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 13px;
-        line-height: 16px;
-
-        color: #2d2e46;
-
-        & td {
-            background: #ececf9;
-            padding-left: 20px;
+        & tr td {
+            width: 20%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-    }
 
-    & tr td:nth-child(1) {
-        max-width: 60px;
-    }
+        & thead tr {
+            height: 42px;
+            text-align: left;
 
-    & tr td:nth-child(2) {
-        max-width: 5%;
-    }
-    & tr td:nth-child(3) {
-        max-width: 10%;
-    }
+            font-family: "SF UI Display" Thin;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 13px;
+            line-height: 16px;
 
-    & tr td:nth-child(4) {
-        max-width: 80px;
-    }
+            color: #2d2e46;
 
-    & tbody tr {
-        height: 42px;
-        text-align: left;
-    }
+            & td {
+                background: #ececf9;
+                padding-left: 20px;
+            }
+        }
 
-    & tbody tr:nth-child(even) {
-        background-color: #f8f7fd;
-    }
+        & tr td:nth-child(1) {
+            max-width: 60px;
+        }
 
-    & tbody td {
-        padding-left: 20px;
-        font-family: "SF UI Display" Thin;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 13px;
-        line-height: 16px;
+        & tr td:nth-child(2) {
+            max-width: 5%;
+        }
+        & tr td:nth-child(3) {
+            max-width: 10%;
+        }
 
-        color: #000000;
+        & tr td:nth-child(4) {
+            max-width: 80px;
+        }
+
+        & tbody tr {
+            height: 42px;
+            text-align: left;
+        }
+
+        & tbody tr:nth-child(even) {
+            background-color: #f8f7fd;
+        }
+
+        & tbody td {
+            padding-left: 20px;
+            font-family: "SF UI Display" Thin;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 13px;
+            line-height: 16px;
+
+            color: #000000;
+        }
     }
 }

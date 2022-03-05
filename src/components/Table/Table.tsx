@@ -13,23 +13,25 @@ interface TableProps {
 }
 
 export const Table: FC<TableProps> = memo(({ cardPacks, onDeleteClick, onEditClick }) => (
-  <table className={style.table}>
-    <thead>
-      <tr>
-        {tableHeadPackTitle.map(({ id, name }) => (
-          <td key={id}>{name}</td>
+  <div className={style.tableWrapper}>
+    <table className={style.table}>
+      <thead>
+        <tr>
+          {tableHeadPackTitle.map(({ id, name }) => (
+            <td key={id}>{name}</td>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {cardPacks.map(cardPack => (
+          <CardPack
+            key={cardPack._id}
+            cardPack={cardPack}
+            deleteCardPack={onDeleteClick}
+            editCardPack={onEditClick}
+          />
         ))}
-      </tr>
-    </thead>
-    <tbody>
-      {cardPacks.map(cardPack => (
-        <CardPack
-          key={cardPack._id}
-          cardPack={cardPack}
-          deleteCardPack={onDeleteClick}
-          editCardPack={onEditClick}
-        />
-      ))}
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 ));

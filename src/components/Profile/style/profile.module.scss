@@ -8,6 +8,7 @@
     border-radius: 8px;
 
     @media screen and (max-width: 770px) {
+        width: 100%;
         flex-direction: column;
     }
 
@@ -102,6 +103,11 @@
         width: 80%;
         margin-left: 50px;
 
+        @media screen and (max-width: 770px) {
+            margin: 0;
+            padding: 0 25px 25px 25px;
+        }
+
         .title {
             height: 33px;
             margin-top: 25px;
@@ -166,7 +172,7 @@
             }
 
             & label {
-                font-family: 'SF UI Display' Thin;
+                font-family: "SF UI Display" Thin;
                 font-style: normal;
                 font-weight: normal;
                 font-size: 13px;
