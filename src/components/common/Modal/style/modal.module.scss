@@ -17,9 +17,69 @@
         border-radius: 12px;
         background-color: white;
         width: 35vw;
-        
+        display: flex;
+        flex-direction: column;
+
         transform: scale(0.5);
         transition: 0.4s all;
+
+        @media screen and (max-width: 771px) {
+            width: 60vw;
+        }
+
+        & h1 {
+            width: 130px;
+            height: 27px;
+            margin-bottom: 60px;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 27px;
+            display: flex;
+            align-items: flex-end;
+            color: #2d2e46;
+        }
+
+        & label {
+            font-family: "SF UI Display" Thin;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 13px;
+            line-height: 20px;
+            color: #24254a;
+            opacity: 0.5;
+        }
+
+        & input {
+            width: 100%;
+            height: 48px;
+            border: none;
+            outline: none;
+            border-bottom: 1px solid #24254a;
+        }
+
+        & p {
+            white-space: pre-wrap;
+            font-family: "SF UI Display" Thin;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 24px;
+            color: #000000;
+        }
+
+        & button {
+            margin-top: 20px;
+            cursor: pointer;
+            width: 124px;
+            height: 36px;
+            background: #d7d8ef;
+            color: #21268f;
+        }
+
+        & button[id="save"] {
+            background: #21268f;
+            color: #ffffff;
+        }
     }
 
     .contentActive {

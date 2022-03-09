@@ -69,6 +69,8 @@
 
     .pageSettings {
         margin-left: 40px;
+        display: flex;
+        align-items: center;
 
         & span {
             font-family: Lato;
