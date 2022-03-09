@@ -1,13 +1,14 @@
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { setMode, setPacksCurrentPage, setPacksPageCount } from 'bll/actions';
 import {
   createCardPack,
   deleteCardPack,
   fetchCardPacks,
+  logout,
   updateCardPack,
 } from 'bll/middlewares';
 import { Button } from 'components/common/Button';
@@ -93,6 +94,10 @@ export const Profile = (): ReactElement => {
     [userId],
   );
 
+  const handleClickLogout = (): void => {
+    dispatch(logout());
+  };
+
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
@@ -106,6 +111,10 @@ export const Profile = (): ReactElement => {
           <button className={style.editButton} type="button">
             Edit profile
           </button>
+
+          <NavLink to={PATH.LOGIN} className={style.login} onClick={handleClickLogout}>
+            logout
+          </NavLink>
         </div>
 
         <span className={style.description}>Number of cards</span>

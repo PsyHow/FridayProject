@@ -8,6 +8,7 @@
     border-radius: 8px;
 
     @media screen and (max-width: 770px) {
+        width: 100%;
         flex-direction: column;
     }
 
@@ -28,7 +29,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 216px;
             background-color: #d9d9f1;
 
             & img {
@@ -76,6 +76,17 @@
                 border-radius: 2px;
                 cursor: pointer;
             }
+
+            & a {
+                padding: 10px;
+                text-decoration: none;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 16px;
+                text-align: center;
+                letter-spacing: 0.4px;
+                color: #2d2e46;
+            }
         }
 
         .description {
@@ -101,6 +112,11 @@
         flex-direction: column;
         width: 80%;
         margin-left: 50px;
+
+        @media screen and (max-width: 770px) {
+            margin: 0;
+            padding: 0 25px 25px 25px;
+        }
 
         .title {
             height: 33px;
@@ -151,46 +167,25 @@
                 text-align: center;
                 letter-spacing: 0.01em;
                 color: #ececf9;
-            }
 
-            .modalTitle {
-                width: 130px;
-                height: 27px;
-                margin-bottom: 60px;
-                font-weight: 500;
-                font-size: 18px;
-                line-height: 27px;
-                display: flex;
-                align-items: flex-end;
-                color: #2d2e46;
-            }
+                @media screen and (max-width: 851px) {
+                    width: 30%;
+                }
 
-            & label {
-                font-family: 'SF UI Display' Thin;
-                font-style: normal;
-                font-weight: normal;
-                font-size: 13px;
-                line-height: 20px;
-                color: #24254a;
-                opacity: 0.5;
-            }
-
-            & input {
-                width: 100%;
-                height: 48px;
-                border: none;
-                outline: none;
-                border-bottom: 1px solid #24254a;
+                @media screen and (max-width: 477px) {
+                    font-size: 13px;
+                }
             }
 
             .modalButtons {
-                margin-top: 50px;
+                margin-top: 20px;
                 display: flex;
                 justify-content: space-around;
 
                 & button {
+                    margin: 0;
                     cursor: pointer;
-                    width: 124px;
+                    width: 35%;
                     height: 36px;
                     background: #d7d8ef;
                     color: #21268f;
