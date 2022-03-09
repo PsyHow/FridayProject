@@ -17,14 +17,15 @@ export type UserType = {
   _id: string;
   email: string;
   name: string;
-  avatar?: string;
+  avatar: string;
   publicCardPacksCount: number;
+  token?: string;
   created: Date | null;
   updated: Date | null;
   isAdmin: boolean;
   verified: boolean;
   rememberMe: boolean;
-  error?: string;
+  error: string;
 };
 
 export type CardPackType = {

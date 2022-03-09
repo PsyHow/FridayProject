@@ -24,8 +24,11 @@ import {
   setPacksPageCount,
   setTotalPacksCount,
 } from 'bll/actions';
+import { updateProfileData } from 'bll/actions/profile';
 
-export type ProfileReducerActionsType = ReturnType<typeof setUser>;
+export type ProfileReducerActionsType =
+  | ReturnType<typeof setUser>
+  | ReturnType<typeof updateProfileData>;
 
 export type AppReducerActions =
   | ReturnType<typeof setInitialized>

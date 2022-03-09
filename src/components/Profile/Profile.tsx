@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import { ChangeEvent, ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +29,11 @@ import {
   selectPackPage,
   selectPackPageCount,
 } from 'selectors/cardPacksSelectors';
-import { selectCurrentUserId, selectUser } from 'selectors/profileSelectors';
+import {
+  selectAvatar,
+  selectCurrentUserId,
+  selectUser,
+} from 'selectors/profileSelectors';
 
 export const Profile = (): ReactElement => {
   const dispatch = useDispatch();
@@ -40,8 +45,10 @@ export const Profile = (): ReactElement => {
   const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
   const [newPackName, setNewPackName] = useState<string>('');
   const [newName, setNewName] = useState<string>('');
+  const [newAvatar, setNewAvatar] = useState('');
 
   const user = useSelector(selectUser);
+  const avatar = useSelector(selectAvatar);
   const userId = useSelector(selectCurrentUserId);
   const cardPacksTotalCount = useSelector(selectCardPackTotalCount);
   const page = useSelector(selectPackPage);
@@ -111,11 +118,22 @@ export const Profile = (): ReactElement => {
     setNewName(event.currentTarget.value);
   };
 
+  const changeAvatarHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+    setNewAvatar(e.currentTarget.value.trim());
+  };
+
+  const onSubmitAvatar = () => {
+    if (newAvatar && /\.(gif|jpg|jpeg|webp|png)$/i.test(avatar)) {
+      dispatch(editProfileData({ avatar }));
+      setNewAvatar('');
+    }
+  };
+
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
         <div className={style.profileEdit}>
-          <img src={user.avatar || avatar} alt="user avatar" />
+          <img src={avatar} alt="user avatar" />
 
           <span className={style.userName}>{user.name}</span>
 
@@ -137,6 +155,10 @@ export const Profile = (): ReactElement => {
             <button type="button" onClick={handleEditNameClick}>
               Save
             </button>
+
+            <input type="text" onChange={changeAvatarHandler} />
+
+            <button onClick={onSubmitAvatar}>CHANGE</button>
           </Modal>
         </div>
 

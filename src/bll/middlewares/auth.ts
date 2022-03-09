@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { setUser, setLoggingIn, setAuthError } from 'bll/actions';
+import { updateProfileData } from 'bll/actions/profile';
 import { AppThunkType } from 'bll/Store';
 import { handleCatchError } from 'const';
 import { authAPI } from 'dal/api';
@@ -48,8 +49,8 @@ export const editProfileData =
   (data: EditProfileData): AppThunkType =>
   async dispatch => {
     try {
-      const res = await authAPI.editProfile({ ...data });
-      dispatch(setUser(res.data.updatedUser));
+      const res = await authAPI.editProfile(data);
+      dispatch(updateProfileData(res.data.updatedUser));
     } catch (error) {
       handleCatchError(error, dispatch);
     }
