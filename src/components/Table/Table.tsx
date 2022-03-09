@@ -1,27 +1,21 @@
 import { FC, memo } from 'react';
 
-import { useSelector } from 'react-redux';
-
 import style from './style/table.module.scss';
 
 import { CardPackType } from 'bll/types';
-import { Preloader } from 'components';
 import { CardPack } from 'components/CardPack';
 import { Sorting } from 'components/common/Sorting';
-import { selectIsFetching } from 'selectors/authSelectors';
 
 interface TableProps {
+  id?: string;
   cardPacks: CardPackType[];
   onDeleteClick: (id: string) => void;
   onEditClick: (id: string, name: string) => void;
-  id?: string;
 }
 
 export const Table: FC<TableProps> = memo(
-  ({ cardPacks, onDeleteClick, onEditClick, id }) => {
-    const isFetching = useSelector(selectIsFetching);
-
-    return (
+  ({ cardPacks, id, onDeleteClick, onEditClick }) => (
+    <div className={style.tableWrapper}>
       <table className={style.table}>
         <thead>
           <tr>
@@ -39,22 +33,16 @@ export const Table: FC<TableProps> = memo(
           </tr>
         </thead>
         <tbody>
-          {isFetching ? (
-            <div className={style.preloaderContainer}>
-              <Preloader />
-            </div>
-          ) : (
-            cardPacks.map(cardPack => (
-              <CardPack
-                key={cardPack._id}
-                cardPack={cardPack}
-                deleteCardPack={onDeleteClick}
-                editCardPack={onEditClick}
-              />
-            ))
-          )}
+          {cardPacks.map(cardPack => (
+            <CardPack
+              key={cardPack._id}
+              cardPack={cardPack}
+              deleteCardPack={onDeleteClick}
+              editCardPack={onEditClick}
+            />
+          ))}
         </tbody>
       </table>
-    );
-  },
+    </div>
+  ),
 );
