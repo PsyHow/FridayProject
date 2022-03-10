@@ -1,16 +1,16 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { setMode, setPacksCurrentPage, setPacksPageCount } from 'bll/actions';
 import {
   createCardPack,
   deleteCardPack,
   fetchCardPacks,
-  logout,
   updateCardPack,
 } from 'bll/middlewares';
+import { editProfileData } from 'bll/middlewares/auth';
 import { Button } from 'components/common/Button';
 import { Input } from 'components/common/Input';
 import { Modal } from 'components/common/Modal';
@@ -18,7 +18,6 @@ import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
 import style from 'components/Profile/style/profile.module.scss';
 import { Table } from 'components/Table';
-import { avatar } from 'const';
 import { PATH } from 'enums';
 import { useSearch } from 'hooks/useSearch';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
@@ -28,7 +27,11 @@ import {
   selectPackPage,
   selectPackPageCount,
 } from 'selectors/cardPacksSelectors';
-import { selectCurrentUserId, selectUser } from 'selectors/profileSelectors';
+import {
+  selectAvatar,
+  selectCurrentUserId,
+  selectUser,
+} from 'selectors/profileSelectors';
 
 export const Profile = (): ReactElement => {
   const dispatch = useDispatch();
@@ -37,9 +40,13 @@ export const Profile = (): ReactElement => {
   const { debouncingValue, handleChangeSearch, search } = useSearch();
 
   const [activeModal, setActiveModal] = useState<boolean>(false);
+  const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
   const [newPackName, setNewPackName] = useState<string>('');
+  const [newName, setNewName] = useState<string>('');
+  const [newAvatar, setAvatar] = useState<string>('');
 
   const user = useSelector(selectUser);
+  const avatar = useSelector(selectAvatar);
   const userId = useSelector(selectCurrentUserId);
   const cardPacksTotalCount = useSelector(selectCardPackTotalCount);
   const page = useSelector(selectPackPage);
@@ -80,6 +87,12 @@ export const Profile = (): ReactElement => {
     setActiveModal(!activeModal);
     setNewPackName('');
   };
+
+  const handleOpenEditModalClick = (): void => {
+    setEditProfileModal(!editProfileModal);
+    setNewName('');
+  };
+
   const handleDeleteClick = useCallback(
     (id: string): void => {
       dispatch(deleteCardPack(id, userId));
@@ -94,27 +107,57 @@ export const Profile = (): ReactElement => {
     [userId],
   );
 
-  const handleClickLogout = (): void => {
-    dispatch(logout());
+  const handleEditNameClick = (): void => {
+    dispatch(editProfileData({ name: newName }));
+    setEditProfileModal(!editProfileModal);
+  };
+
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setNewName(event.currentTarget.value);
+  };
+
+  const handleAvatarClick = (): void => {
+    if (newAvatar && /\.(gif|jpg|jpeg|webp|png)$/i.test(avatar as string)) {
+      dispatch(editProfileData({ avatar: newAvatar }));
+      setEditProfileModal(!editProfileModal);
+    }
+  };
+  const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setAvatar(e.currentTarget.value.trim());
   };
 
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
         <div className={style.profileEdit}>
-          <img src={user.avatar || avatar} alt="user avatar" />
+          <img src={user.avatar} alt="user avatar" />
 
           <span className={style.userName}>{user.name}</span>
 
           <span className={style.specialization}>Front-end developer</span>
 
-          <button className={style.editButton} type="button">
+          <button
+            className={style.editButton}
+            type="button"
+            onClick={handleOpenEditModalClick}
+          >
             Edit profile
           </button>
 
-          <NavLink to={PATH.LOGIN} className={style.login} onClick={handleClickLogout}>
-            logout
-          </NavLink>
+          <Modal active={editProfileModal} setActive={setEditProfileModal}>
+            <h1>Personal Information</h1>
+
+            <input type="text" value={newName} onChange={handleNameChange} />
+
+            <button type="button" onClick={handleEditNameClick}>
+              Save
+            </button>
+
+            <input type="text" onChange={handleAvatarChange} />
+            <button type="button" onClick={handleAvatarClick}>
+              OK
+            </button>
+          </Modal>
         </div>
 
         <span className={style.description}>Number of cards</span>

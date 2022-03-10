@@ -1,4 +1,4 @@
-import { CardPackType, CardsType } from 'bll/types';
+import { CardPackType, CardsType, UserType } from 'bll/types';
 
 export type LoginData = {
   email: string;
@@ -66,5 +66,15 @@ export type CardsPackResponseType = {
 
 export type AuthResponseType = {
   info: string;
+  error: string;
+};
+
+export type EditProfileData = {
+  name?: string;
+  avatar?: string;
+};
+
+export type EditProfileResponse = {
+  updatedUser: UserType;
   error: string;
 };

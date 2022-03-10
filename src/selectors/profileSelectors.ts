@@ -6,3 +6,6 @@ export const selectCurrentUserId = (state: AppRootStoreType): string =>
 
 export const selectUser = (state: AppRootStoreType): UserType =>
   state.profileReducer.user;
+
+export const selectAvatar = (state: AppRootStoreType): string | undefined =>
+  state.profileReducer.user.avatar;

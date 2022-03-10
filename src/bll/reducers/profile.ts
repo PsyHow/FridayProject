@@ -16,6 +16,12 @@ export const profileReducer = (
     case 'SET_USER': {
       return { ...state, user: { ...action.userData } };
     }
+    case 'UPDATE_PROFILE_DATA': {
+      return {
+        ...state,
+        user: { ...state.user, name: action.data.name, avatar: action.data.avatar },
+      };
+    }
     default: {
       return state;
     }
