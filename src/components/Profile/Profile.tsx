@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import { ChangeEvent, ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +18,6 @@ import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
 import style from 'components/Profile/style/profile.module.scss';
 import { Table } from 'components/Table';
-import { avatar } from 'const';
 import { PATH } from 'enums';
 import { useSearch } from 'hooks/useSearch';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
@@ -45,7 +43,7 @@ export const Profile = (): ReactElement => {
   const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
   const [newPackName, setNewPackName] = useState<string>('');
   const [newName, setNewName] = useState<string>('');
-  const [newAvatar, setNewAvatar] = useState('');
+  const [newAvatar, setAvatar] = useState<string>('');
 
   const user = useSelector(selectUser);
   const avatar = useSelector(selectAvatar);
@@ -118,22 +116,21 @@ export const Profile = (): ReactElement => {
     setNewName(event.currentTarget.value);
   };
 
-  const changeAvatarHandler = (e: ChangeEvent<HTMLInputElement>): void => {
-    setNewAvatar(e.currentTarget.value.trim());
-  };
-
-  const onSubmitAvatar = () => {
-    if (newAvatar && /\.(gif|jpg|jpeg|webp|png)$/i.test(avatar)) {
-      dispatch(editProfileData({ avatar }));
-      setNewAvatar('');
+  const handleAvatarClick = (): void => {
+    if (newAvatar && /\.(gif|jpg|jpeg|webp|png)$/i.test(avatar as string)) {
+      dispatch(editProfileData({ avatar: newAvatar }));
+      setEditProfileModal(!editProfileModal);
     }
+  };
+  const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setAvatar(e.currentTarget.value.trim());
   };
 
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
         <div className={style.profileEdit}>
-          <img src={avatar} alt="user avatar" />
+          <img src={user.avatar} alt="user avatar" />
 
           <span className={style.userName}>{user.name}</span>
 
@@ -156,15 +153,12 @@ export const Profile = (): ReactElement => {
               Save
             </button>
 
-            <input type="text" onChange={changeAvatarHandler} />
-
-            <button onClick={onSubmitAvatar}>CHANGE</button>
+            <input type="text" onChange={handleAvatarChange} />
+            <button type="button" onClick={handleAvatarClick}>
+              OK
+            </button>
           </Modal>
         </div>
-
-        {/* <button type="button" onClick={handleEditNameClick}>
-          edit
-        </button> */}
 
         <span className={style.description}>Number of cards</span>
       </div>
