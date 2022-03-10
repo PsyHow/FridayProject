@@ -11,7 +11,7 @@ interface ModalProps {
 
 export const Modal: FC<ModalProps> = memo(({ active, setActive, children }) => {
   const handleCloseClick = (): void => {
-    setActive(!active);
+    setActive(false);
   };
 
   return (

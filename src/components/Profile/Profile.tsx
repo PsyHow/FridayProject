@@ -1,16 +1,16 @@
 import { ChangeEvent, ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-import { setMode, setPacksCurrentPage, setPacksPageCount } from 'bll/actions';
+import { setError, setMode, setPacksCurrentPage, setPacksPageCount } from 'bll/actions';
 import {
   createCardPack,
   deleteCardPack,
   fetchCardPacks,
   updateCardPack,
 } from 'bll/middlewares';
-import { editProfileData } from 'bll/middlewares/auth';
+import { editProfileData, logout } from 'bll/middlewares/auth';
 import { Button } from 'components/common/Button';
 import { Input } from 'components/common/Input';
 import { Modal } from 'components/common/Modal';
@@ -20,6 +20,7 @@ import style from 'components/Profile/style/profile.module.scss';
 import { Table } from 'components/Table';
 import { PATH } from 'enums';
 import { useSearch } from 'hooks/useSearch';
+import { selectError } from 'selectors/appSelectors';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
 import {
   selectCardPacks,
@@ -27,11 +28,7 @@ import {
   selectPackPage,
   selectPackPageCount,
 } from 'selectors/cardPacksSelectors';
-import {
-  selectAvatar,
-  selectCurrentUserId,
-  selectUser,
-} from 'selectors/profileSelectors';
+import { selectCurrentUserId, selectUser } from 'selectors/profileSelectors';
 
 export const Profile = (): ReactElement => {
   const dispatch = useDispatch();
@@ -43,16 +40,16 @@ export const Profile = (): ReactElement => {
   const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
   const [newPackName, setNewPackName] = useState<string>('');
   const [newName, setNewName] = useState<string>('');
-  const [newAvatar, setAvatar] = useState<string>('');
+  const [newAvatar, setNewAvatar] = useState('');
 
   const user = useSelector(selectUser);
-  const avatar = useSelector(selectAvatar);
   const userId = useSelector(selectCurrentUserId);
   const cardPacksTotalCount = useSelector(selectCardPackTotalCount);
   const page = useSelector(selectPackPage);
   const pageCount = useSelector(selectPackPageCount);
   const cardPacks = useSelector(selectCardPacks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -89,8 +86,9 @@ export const Profile = (): ReactElement => {
   };
 
   const handleOpenEditModalClick = (): void => {
-    setEditProfileModal(!editProfileModal);
+    setEditProfileModal(true);
     setNewName('');
+    setNewAvatar('');
   };
 
   const handleDeleteClick = useCallback(
@@ -107,30 +105,36 @@ export const Profile = (): ReactElement => {
     [userId],
   );
 
-  const handleEditNameClick = (): void => {
-    dispatch(editProfileData({ name: newName }));
-    setEditProfileModal(!editProfileModal);
-  };
-
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setNewName(event.currentTarget.value);
   };
 
-  const handleAvatarClick = (): void => {
-    if (newAvatar && /\.(gif|jpg|jpeg|webp|png)$/i.test(avatar as string)) {
-      dispatch(editProfileData({ avatar: newAvatar }));
-      setEditProfileModal(!editProfileModal);
-    }
-  };
   const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setAvatar(e.currentTarget.value.trim());
+    setNewAvatar(e.currentTarget.value.trim());
+  };
+
+  const handleFormSubmit = (): void => {
+    if (newAvatar && /\.(gif|jpg|jpeg|webp|png)$/i.test(newAvatar)) {
+      dispatch(editProfileData({ avatar: newAvatar }));
+      setNewAvatar('');
+    } else {
+      dispatch(setError('Invalid url'));
+    }
+    // if (newName) {
+    //   dispatch(editProfileData({ name: newName }));
+    // }
+    setEditProfileModal(false);
+  };
+
+  const handleClickLogout = (): void => {
+    dispatch(logout());
   };
 
   return (
     <div className={style.container}>
       <div className={style.leftContent}>
         <div className={style.profileEdit}>
-          <img src={user.avatar} alt="user avatar" />
+          <img src={user.avatar ? user.avatar : ''} alt="user avatar" />
 
           <span className={style.userName}>{user.name}</span>
 
@@ -144,19 +148,22 @@ export const Profile = (): ReactElement => {
             Edit profile
           </button>
 
+          <NavLink to={PATH.LOGIN} className={style.login} onClick={handleClickLogout}>
+            logout
+          </NavLink>
+
           <Modal active={editProfileModal} setActive={setEditProfileModal}>
             <h1>Personal Information</h1>
 
-            <input type="text" value={newName} onChange={handleNameChange} />
+            <form onSubmit={handleFormSubmit}>
+              <label>{`${'Change Name'}`}</label>
+              <input value={newName} onChange={handleNameChange} />
 
-            <button type="button" onClick={handleEditNameClick}>
-              Save
-            </button>
-
-            <input type="text" onChange={handleAvatarChange} />
-            <button type="button" onClick={handleAvatarClick}>
-              OK
-            </button>
+              <label>{`${'Enter img url'}`}</label>
+              <input value={newAvatar} onChange={handleAvatarChange} />
+              <Button type="submit">Save</Button>
+              {error ? <span>{error}</span> : <span />}
+            </form>
           </Modal>
         </div>
 
