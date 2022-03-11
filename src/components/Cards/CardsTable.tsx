@@ -43,47 +43,36 @@ export const CardsTable = (): ReactElement => {
 
   const cardPackName = cardPacks.filter(pack => pack._id === token)[0];
 
-  // const handleDeleteClick = (id: string): void => {
-  //   if (token) dispatch(deleteCard(token, id));
-  // };
-
-  // const createCard = (): void => {
-  //   if (token) dispatch(createCardTC(token));
-  // };
-
-  // const handleUpdateClick = (id: string, question: string, answer: string): void => {
-  //   if (token) dispatch(updateCard(token, question, answer, id));
-  // };
   return (
     <div className={style.cardsContainer}>
       <span className={style.title}>
         {(cardPackName && cardPackName.name) || 'Card Name'}
       </span>
       <Search search={search} handleChangeSearch={handleChangeSearch} />
-      <table className={style.table}>
-        <thead>
-          <tr>
-            <td>Question</td>
-            <td>Answer</td>
-            <td>Last Updated</td>
-            <td>Grade</td>
-          </tr>
-        </thead>
-        {isFetching ? (
-          <Preloader />
-        ) : (
-          <tbody>
-            {cards.map((card: CardsType) => (
-              <Card key={card._id} card={card} />
-            ))}
-          </tbody>
-        )}
-      </table>
+      <div className={style.tableWrapper}>
+        <table className={style.table}>
+          <thead>
+            <tr>
+              <td>Question</td>
+              <td>Answer</td>
+              <td>Last Updated</td>
+              <td>Grade</td>
+            </tr>
+          </thead>
+          {isFetching ? (
+            <Preloader />
+          ) : (
+            <tbody>
+              {cards.map((card: CardsType) => (
+                <Card key={card._id} card={card} />
+              ))}
+            </tbody>
+          )}
+        </table>
+      </div>
       <div className={style.pagination}>
         <Paginator page={page} pageCount={pageCount} totalItemsCount={cardsTotalCount} />
       </div>
-
-      {/* {error && <span className={style.error}>{error}</span>} */}
     </div>
   );
 };

@@ -89,6 +89,7 @@ export const Profile = (): ReactElement => {
     setEditProfileModal(true);
     setNewName('');
     setNewAvatar('');
+    dispatch(setError(''));
   };
 
   const handleDeleteClick = useCallback(
@@ -113,16 +114,19 @@ export const Profile = (): ReactElement => {
     setNewAvatar(e.currentTarget.value.trim());
   };
 
-  const handleFormSubmit = (): void => {
+  const handlePostAvatarClick = (): void => {
     if (newAvatar && /\.(gif|jpg|jpeg|webp|png)$/i.test(newAvatar)) {
       dispatch(editProfileData({ avatar: newAvatar }));
       setNewAvatar('');
     } else {
       dispatch(setError('Invalid url'));
     }
-    // if (newName) {
-    //   dispatch(editProfileData({ name: newName }));
-    // }
+  };
+
+  const handleEditProfileClick = (): void => {
+    if (newName) {
+      dispatch(editProfileData({ name: newName }));
+    }
     setEditProfileModal(false);
   };
 
@@ -154,16 +158,21 @@ export const Profile = (): ReactElement => {
 
           <Modal active={editProfileModal} setActive={setEditProfileModal}>
             <h1>Personal Information</h1>
+            <label>{`${'Change Name'}`}</label>
+            <input value={newName} onChange={handleNameChange} />
 
-            <form onSubmit={handleFormSubmit}>
-              <label>{`${'Change Name'}`}</label>
-              <input value={newName} onChange={handleNameChange} />
+            <label>{`${'Enter img url'}`}</label>
+            <input value={newAvatar} onChange={handleAvatarChange} />
+            {error ? <span>{error}</span> : <span />}
 
-              <label>{`${'Enter img url'}`}</label>
-              <input value={newAvatar} onChange={handleAvatarChange} />
-              <Button type="submit">Save</Button>
-              {error ? <span>{error}</span> : <span />}
-            </form>
+            <div>
+              <Button onClick={handlePostAvatarClick} type="submit">
+                Change Avatar
+              </Button>
+              <Button onClick={handleEditProfileClick} type="submit">
+                Edit Profile
+              </Button>
+            </div>
           </Modal>
         </div>
 

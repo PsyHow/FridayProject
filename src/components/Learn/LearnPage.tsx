@@ -2,7 +2,7 @@
 import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 import style from './style/learnPage.module.scss';
 
@@ -10,6 +10,7 @@ import { fetchCards, updateCardGrade } from 'bll/middlewares';
 import { CardsType } from 'bll/types';
 import { Button } from 'components/common/Button';
 import { grades } from 'const';
+import { PATH } from 'enums';
 import { selectCardPacks } from 'selectors/cardPacksSelectors';
 import { selectCardId, selectCards } from 'selectors/cardsReducer';
 
@@ -70,6 +71,8 @@ export const LearnPage = (): ReactElement => {
   const handleShowAnswerClick = (): void => setIsShowAnswer(true);
   const handleCloseAnswerClick = (): void => setIsShowAnswer(false);
 
+  // const handleBackNavigateClick = (): void => navigate(PATH.CARD_PACKS);
+
   const handleGetNextCardClick = (): void => {
     dispatch(updateCardGrade(learningCard._id, gradeValue));
     setLearningCard(getCard(cards));
@@ -120,18 +123,27 @@ export const LearnPage = (): ReactElement => {
         )}
 
         <div className={style.buttonsContainer}>
-          <Button id="cancel" type="button" onClick={handleCloseAnswerClick}>
-            Cancel
-          </Button>
-
           {!isShowAnswer ? (
-            <Button type="button" onClick={handleShowAnswerClick}>
-              Show answer
-            </Button>
+            <>
+              <NavLink to={PATH.CARD_PACKS}>
+                <Button id="cancel" type="button">
+                  Back
+                </Button>
+              </NavLink>
+
+              <Button type="button" onClick={handleShowAnswerClick}>
+                Show answer
+              </Button>
+            </>
           ) : (
-            <Button onClick={handleGetNextCardClick} type="button">
-              Next
-            </Button>
+            <>
+              <Button id="cancel" type="button" onClick={handleCloseAnswerClick}>
+                Cancel
+              </Button>
+              <Button onClick={handleGetNextCardClick} type="button">
+                Next
+              </Button>
+            </>
           )}
         </div>
       </div>

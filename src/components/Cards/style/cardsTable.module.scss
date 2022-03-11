@@ -1,14 +1,16 @@
 .cardsContainer {
-  width: 1008px;
-  height: 636px;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-self: center;
   margin-top: 25px;
-
   background: #fefeff;
   border-radius: 8px;
   padding: 24px;
+
+  @media screen and (max-width: 1135px) {
+    width: 80%;
+  }
 
   .title {
     display: flex;
@@ -44,51 +46,57 @@
     display: none;
   }
 
-  .table {
-    width: 100%;
-    table-layout: fixed;
+  .tableWrapper {
+    width: 90%;
+    overflow-x: auto;
 
-    border-collapse: collapse;
-    margin-top: 25px;
-
-    font-family: "SF UI Display" Thin;
-    font-style: normal;
-    font-size: 13px;
-    line-height: 16px;
-
-    color: #2d2e46;
-
-    & thead tr td {
-      height: 42px;
-
-      background: #ececf9;
-      font-weight: bold;
-    }
-
-    & tr td {
-      height: 42px;
-
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    & td {
-      padding-left: 20px;
-      font-weight: normal;
-    }
-
-    & tr td:nth-child(-n + 2) {
-      padding-right: 20px;
-      width: 30%;
+    @media screen and (max-width: 1135px) {
+      width: 100%;
     }
     
-    & tr td:nth-child(3) {
-      width: 10%;
-    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 25px;
+      font-family: "SF UI Display" Thin;
+      font-style: normal;
+      font-size: 13px;
+      line-height: 16px;
 
-    & tbody tr:nth-child(even) {
-      background-color: #f8f7fd;
+      color: #2d2e46;
+
+      & thead tr td {
+        height: 42px;
+
+        background: #ececf9;
+        font-weight: bold;
+      }
+
+      & tr td {
+        height: 42px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      & td {
+        padding-left: 20px;
+        font-weight: normal;
+      }
+
+      & tr td:nth-child(-n + 2) {
+        padding-right: 20px;
+        width: 30%;
+      }
+
+      & tr td:nth-child(3) {
+        width: 10%;
+      }
+
+      & tbody tr:nth-child(even) {
+        background-color: #f8f7fd;
+      }
     }
   }
 
