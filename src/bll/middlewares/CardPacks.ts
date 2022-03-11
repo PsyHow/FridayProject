@@ -11,12 +11,12 @@ export const fetchCardPacks =
 
     try {
       const res = await cardPacksAPI.getCardPacks({ ...data });
-      dispatch(setFetching(false));
       dispatch(setCardPacks(res.data.cardPacks));
       dispatch(setTotalPacksCount(res.data.cardPacksTotalCount));
     } catch (error) {
-      dispatch(setFetching(false));
       handleCatchError(error, dispatch);
+    } finally {
+      dispatch(setFetching(false));
     }
   };
 
@@ -27,11 +27,11 @@ export const deleteCardPack =
 
     try {
       await cardPacksAPI.deleteCardPack(id);
-      dispatch(setFetching(false));
       dispatch(fetchCardPacks({ user_id: userId }));
     } catch (error) {
-      dispatch(setFetching(false));
       handleCatchError(error, dispatch);
+    } finally {
+      dispatch(setFetching(false));
     }
   };
 
@@ -42,11 +42,11 @@ export const createCardPack =
 
     try {
       await cardPacksAPI.createCardPack(name);
-      dispatch(setFetching(false));
       dispatch(fetchCardPacks({ user_id: userId }));
     } catch (error) {
-      dispatch(setFetching(false));
       handleCatchError(error, dispatch);
+    } finally {
+      dispatch(setFetching(false));
     }
   };
 
@@ -57,10 +57,10 @@ export const updateCardPack =
 
     try {
       await cardPacksAPI.updateCardPack(id, name);
-      dispatch(setFetching(false));
       dispatch(fetchCardPacks({ user_id: userId }));
     } catch (error) {
-      dispatch(setFetching(false));
       handleCatchError(error, dispatch);
+    } finally {
+      dispatch(setFetching(false));
     }
   };

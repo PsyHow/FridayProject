@@ -16,11 +16,11 @@ export const recoverPassword =
 
     try {
       await authAPI.forgot(email);
-      dispatch(setFetching(false));
       dispatch(sendEmail(true));
     } catch (error) {
-      dispatch(setFetching(false));
       handleCatchError(error, dispatch);
+    } finally {
+      dispatch(setFetching(false));
     }
   };
 
@@ -31,12 +31,12 @@ export const fetchNewPassword =
 
     try {
       await authAPI.newPassword({ password, resetPasswordToken: token });
-      dispatch(setFetching(false));
       dispatch(setNewPassword(true));
       dispatch(setError(''));
     } catch (error) {
-      dispatch(setFetching(false));
       handleCatchError(error, dispatch);
+    } finally {
+      dispatch(setFetching(false));
     }
   };
 
@@ -47,10 +47,10 @@ export const setSignUp =
 
     try {
       await authAPI.signUp(email, password);
-      dispatch(setFetching(false));
       dispatch(confirmRegistrationData(true));
     } catch (error) {
-      dispatch(setFetching(false));
       handleCatchError(error, dispatch);
+    } finally {
+      dispatch(setFetching(false));
     }
   };
