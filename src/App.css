@@ -5,3 +5,7 @@
     height: 100vh;
     background: linear-gradient(180deg, #e6d4de 0%, #9890c7 100%);
 }
+
+.preloader {
+    height: 4px;
+}
