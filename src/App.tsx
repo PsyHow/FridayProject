@@ -8,10 +8,12 @@ import { initializeApp } from 'bll/middlewares';
 import { Header, Preloader } from 'components';
 import { Routing } from 'components/Routes';
 import { selectInitialized } from 'selectors/appSelectors';
+import { selectIsLoggedIn } from 'selectors/authSelectors';
 
 export const App = (): ReactElement => {
   const dispatch = useDispatch();
   const isInitialized = useSelector(selectInitialized);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
     dispatch(initializeApp());
@@ -23,7 +25,7 @@ export const App = (): ReactElement => {
 
   return (
     <div className="App">
-      <Header />
+      {isLoggedIn && <Header />}
       <Routing />
     </div>
   );

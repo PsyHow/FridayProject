@@ -35,7 +35,7 @@ export const Login = (): ReactElement => {
       if (!values.password) {
         errors.password = 'Required';
       } else if (values.password.length <= 5) {
-        errors.password = 'must be more than five characters';
+        errors.password = 'must be more than 7 characters';
       }
       return errors;
     },

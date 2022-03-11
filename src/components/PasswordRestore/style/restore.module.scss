@@ -8,8 +8,8 @@
     background: #f9f9fe;
     border-radius: 8px;
 
-    @media screen and (max-width: 750px) {
-        width: 80%;
+    @media screen and (max-width: 880px) {
+        width: 80vw;
     }
 
     & form {
@@ -61,6 +61,7 @@
             line-height: 24px;
             color: #2d2e46;
             opacity: 0.5;
+            padding: 0 10px;
         }
 
         .error {
