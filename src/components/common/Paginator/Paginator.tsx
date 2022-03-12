@@ -21,9 +21,8 @@ const pageItems = [3, 5, 10];
 const portionSize = 5;
 
 export const Paginator: FC<Pagination> = memo(
-  ({ page, pageCount, totalItemsCount, userId }) => {
+  ({ page, pageCount, totalItemsCount, userId, min, max }) => {
     const dispatch = useDispatch();
-
     const { token } = useParams();
 
     const mode = useSelector(selectMode);
@@ -44,16 +43,18 @@ export const Paginator: FC<Pagination> = memo(
     const onPageChanged = (pageC: number): void => {
       if (token) {
         dispatch(setCardsCurrentPage(pageC));
-        dispatch(fetchCards({ cardsPack_id: token, page: pageC, pageCount }));
+        dispatch(fetchCards({ cardsPack_id: token, page: pageC, pageCount, min, max }));
       } else if (mode === 'OWNER') {
         dispatch(setPacksCurrentPage(pageC));
-        dispatch(fetchCardPacks({ user_id: userId, page: pageC, pageCount }));
+        dispatch(fetchCardPacks({ user_id: userId, page: pageC, pageCount, min, max }));
       } else if (mode === 'ALL') {
         dispatch(setPacksCurrentPage(pageC));
         dispatch(
           fetchCardPacks({
             page: pageC,
             pageCount,
+            min,
+            max,
           }),
         );
       }
@@ -64,7 +65,7 @@ export const Paginator: FC<Pagination> = memo(
         if (token) {
           setValue(items);
           dispatch(setCardsPageCount(items));
-          dispatch(fetchCards({ cardsPack_id: token, pageCount: items, page }));
+          dispatch(fetchCards({ cardsPack_id: token, pageCount: items, page, min, max }));
         } else if (mode === 'OWNER') {
           setValue(items);
           dispatch(setPacksPageCount(items));
@@ -76,6 +77,8 @@ export const Paginator: FC<Pagination> = memo(
             fetchCardPacks({
               pageCount: items,
               page,
+              min,
+              max,
             }),
           );
         }

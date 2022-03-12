@@ -45,17 +45,21 @@ export const PackList = (): ReactElement => {
 
   useEffect(() => {
     dispatch(setMode('ALL'));
-    dispatch(setPacksCurrentPage(1));
-    dispatch(setPacksPageCount(5));
+
     dispatch(
       fetchCardPacks({
         min: debounceMinCount,
         max: debounceMaxCount,
         packName: debouncingValue,
-        page,
+        page: 1,
         pageCount,
       }),
     );
+
+    return () => {
+      dispatch(setPacksCurrentPage(1));
+      dispatch(setPacksPageCount(5));
+    };
   }, [debouncingValue, debounceMinCount, debounceMaxCount]);
 
   useEffect(() => {
@@ -133,6 +137,8 @@ export const PackList = (): ReactElement => {
           page={page}
           pageCount={pageCount}
           totalItemsCount={cardPacksTotalCount}
+          min={debounceMinCount}
+          max={debounceMaxCount}
         />
       </div>
     </div>

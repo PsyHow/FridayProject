@@ -71,19 +71,19 @@ export const Profile = (): ReactElement => {
     );
   }, [userId, debouncingValue]);
 
-  const handleTextChange = (value: string): void => {
+  const handleTextChange = useCallback((value: string): void => {
     setNewPackName(value);
-  };
+  }, []);
 
-  const handleCreatePackClick = (): void => {
+  const handleCreatePackClick = useCallback(() => {
     dispatch(createCardPack(userId, newPackName));
     setActiveModal(!activeModal);
-  };
+  }, [userId, newPackName]);
 
-  const handleToggleModalClick = (): void => {
+  const handleToggleModalClick = useCallback((): void => {
     setActiveModal(!activeModal);
     setNewPackName('');
-  };
+  }, [activeModal]);
 
   const handleOpenEditModalClick = (): void => {
     setEditProfileModal(true);
