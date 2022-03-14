@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import style from './style/packList.module.scss';
 
-import { setMode, setPacksPageCount, setPacksCurrentPage } from 'bll/actions';
+import { setPacksPageCount, setPacksCurrentPage, setPackId, setUser } from 'bll/actions';
 import { deleteCardPack, fetchCardPacks, updateCardPack } from 'bll/middlewares';
 import { DoubleRange } from 'components/common/DoubleRange';
 import { Paginator } from 'components/common/Paginator';
@@ -20,7 +20,7 @@ import {
   selectCardMinValue,
   selectCardPacks,
   selectCardPackTotalCount,
-  selectMode,
+  selectPackId,
   selectPackPage,
   selectPackPageCount,
 } from 'selectors/cardPacksSelectors';
@@ -37,7 +37,7 @@ export const PackList = (): ReactElement => {
   const pageCount = useSelector(selectPackPageCount);
   const min = useSelector(selectCardMinValue);
   const max = useSelector(selectCardMaxValue);
-  const mode = useSelector(selectMode);
+  const packId = useSelector(selectPackId);
 
   const navigate = useNavigate();
 
@@ -46,7 +46,10 @@ export const PackList = (): ReactElement => {
     useCardCountChange();
 
   useEffect(() => {
-    if (mode === 'OWNER') {
+    dispatch(setPacksCurrentPage(1));
+    dispatch(setPacksPageCount(5));
+
+    if (packId === userId && packId) {
       dispatch(
         fetchCardPacks({
           user_id: userId,
@@ -57,7 +60,9 @@ export const PackList = (): ReactElement => {
           pageCount,
         }),
       );
-    } else {
+    }
+
+    if (packId === '') {
       dispatch(
         fetchCardPacks({
           min: debounceMinCount,
@@ -68,7 +73,7 @@ export const PackList = (): ReactElement => {
         }),
       );
     }
-  }, [mode, debouncingValue, debounceMinCount, debounceMaxCount]);
+  }, [packId, debouncingValue, debounceMinCount, debounceMaxCount]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -94,9 +99,9 @@ export const PackList = (): ReactElement => {
     dispatch(setPacksCurrentPage(1));
     dispatch(setPacksPageCount(5));
     if (e.currentTarget.checked) {
-      dispatch(setMode('OWNER'));
+      dispatch(setPackId(userId));
     } else {
-      dispatch(setMode('ALL'));
+      dispatch(setPackId(''));
     }
   };
 
@@ -139,7 +144,7 @@ export const PackList = (): ReactElement => {
         />
 
         <Paginator
-          userId={userId}
+          id={packId}
           page={page}
           pageCount={pageCount}
           totalItemsCount={cardPacksTotalCount}

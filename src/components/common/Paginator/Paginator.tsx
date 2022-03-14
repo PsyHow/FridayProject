@@ -21,7 +21,7 @@ const pageItems = [3, 5, 10];
 const portionSize = 5;
 
 export const Paginator: FC<Pagination> = memo(
-  ({ page, pageCount, totalItemsCount, userId, min, max }) => {
+  ({ page, pageCount, totalItemsCount, id, min, max }) => {
     const dispatch = useDispatch();
     const { token } = useParams();
 
@@ -44,10 +44,12 @@ export const Paginator: FC<Pagination> = memo(
       if (token) {
         dispatch(setCardsCurrentPage(pageC));
         dispatch(fetchCards({ cardsPack_id: token, page: pageC, pageCount, min, max }));
-      } else if (mode === 'OWNER') {
+      }
+      if (id) {
         dispatch(setPacksCurrentPage(pageC));
-        dispatch(fetchCardPacks({ user_id: userId, page: pageC, pageCount, min, max }));
-      } else if (mode === 'ALL') {
+        dispatch(fetchCardPacks({ user_id: id, page: pageC, pageCount, min, max }));
+      }
+      if (id === '') {
         dispatch(setPacksCurrentPage(pageC));
         dispatch(
           fetchCardPacks({
@@ -62,16 +64,16 @@ export const Paginator: FC<Pagination> = memo(
 
     const onChangeSelect = useCallback(
       (items: 3 | 5 | 10): void => {
+        setValue(items);
         if (token) {
-          setValue(items);
           dispatch(setCardsPageCount(items));
           dispatch(fetchCards({ cardsPack_id: token, pageCount: items, page, min, max }));
-        } else if (mode === 'OWNER') {
-          setValue(items);
+        }
+        if (id) {
           dispatch(setPacksPageCount(items));
-          dispatch(fetchCardPacks({ user_id: userId, pageCount: items, page }));
-        } else {
-          setValue(items);
+          dispatch(fetchCardPacks({ user_id: id, pageCount: items, page, min, max }));
+        }
+        if (id === '') {
           dispatch(setPacksPageCount(items));
           dispatch(
             fetchCardPacks({
@@ -83,7 +85,7 @@ export const Paginator: FC<Pagination> = memo(
           );
         }
       },
-      [token, mode],
+      [token, id],
     );
 
     const handlePrevPortionChange = (): void => {

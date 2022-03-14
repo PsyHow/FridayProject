@@ -3,7 +3,13 @@ import { ChangeEvent, ReactElement, useCallback, useEffect, useState } from 'rea
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { setError, setMode, setPacksCurrentPage, setPacksPageCount } from 'bll/actions';
+import {
+  setError,
+  setMode,
+  setPackId,
+  setPacksCurrentPage,
+  setPacksPageCount,
+} from 'bll/actions';
 import {
   createCardPack,
   deleteCardPack,
@@ -58,7 +64,7 @@ export const Profile = (): ReactElement => {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    dispatch(setMode('OWNER'));
+    // dispatch(setMode('OWNER'));
     dispatch(setPacksCurrentPage(1));
     dispatch(setPacksPageCount(5));
     dispatch(
@@ -71,7 +77,7 @@ export const Profile = (): ReactElement => {
     );
 
     return () => {
-      dispatch(setMode('ALL'));
+      dispatch(setPackId(''));
     };
   }, [userId, debouncingValue]);
 
@@ -215,7 +221,7 @@ export const Profile = (): ReactElement => {
         />
 
         <Paginator
-          userId={userId}
+          id={userId}
           page={page}
           pageCount={pageCount}
           totalItemsCount={cardPacksTotalCount}
