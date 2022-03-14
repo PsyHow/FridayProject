@@ -3,4 +3,6 @@ export interface Pagination {
   pageCount: number;
   totalItemsCount: number;
   userId?: string;
+  min?: number;
+  max?: number;
 }
