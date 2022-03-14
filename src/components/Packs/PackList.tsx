@@ -20,6 +20,7 @@ import {
   selectCardMinValue,
   selectCardPacks,
   selectCardPackTotalCount,
+  selectMode,
   selectPackPage,
   selectPackPageCount,
 } from 'selectors/cardPacksSelectors';
@@ -36,6 +37,7 @@ export const PackList = (): ReactElement => {
   const pageCount = useSelector(selectPackPageCount);
   const min = useSelector(selectCardMinValue);
   const max = useSelector(selectCardMaxValue);
+  const mode = useSelector(selectMode);
 
   const navigate = useNavigate();
 
@@ -44,23 +46,29 @@ export const PackList = (): ReactElement => {
     useCardCountChange();
 
   useEffect(() => {
-    dispatch(setMode('ALL'));
-
-    dispatch(
-      fetchCardPacks({
-        min: debounceMinCount,
-        max: debounceMaxCount,
-        packName: debouncingValue,
-        page: 1,
-        pageCount,
-      }),
-    );
-
-    return () => {
-      dispatch(setPacksCurrentPage(1));
-      dispatch(setPacksPageCount(5));
-    };
-  }, [debouncingValue, debounceMinCount, debounceMaxCount]);
+    if (mode === 'OWNER') {
+      dispatch(
+        fetchCardPacks({
+          user_id: userId,
+          min: debounceMinCount,
+          max: debounceMaxCount,
+          packName: debouncingValue,
+          page: 1,
+          pageCount,
+        }),
+      );
+    } else {
+      dispatch(
+        fetchCardPacks({
+          min: debounceMinCount,
+          max: debounceMaxCount,
+          packName: debouncingValue,
+          page: 1,
+          pageCount,
+        }),
+      );
+    }
+  }, [mode, debouncingValue, debounceMinCount, debounceMaxCount]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -87,10 +95,8 @@ export const PackList = (): ReactElement => {
     dispatch(setPacksPageCount(5));
     if (e.currentTarget.checked) {
       dispatch(setMode('OWNER'));
-      dispatch(fetchCardPacks({ user_id: userId, page: 1, pageCount: 5 }));
     } else {
       dispatch(setMode('ALL'));
-      dispatch(fetchCardPacks({ page: 1, pageCount: 5 }));
     }
   };
 

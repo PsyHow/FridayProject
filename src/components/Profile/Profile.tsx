@@ -69,6 +69,10 @@ export const Profile = (): ReactElement => {
         page: 1,
       }),
     );
+
+    return () => {
+      dispatch(setMode('ALL'));
+    };
   }, [userId, debouncingValue]);
 
   const handleTextChange = useCallback((value: string): void => {
