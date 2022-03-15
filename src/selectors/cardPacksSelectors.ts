@@ -21,3 +21,6 @@ export const selectCardMaxValue = (state: AppRootStoreType): number =>
 
 export const selectMode = (state: AppRootStoreType): ModeType =>
   state.cardPacksReducer.mode;
+
+export const selectPackId = (state: AppRootStoreType): string =>
+  state.cardPacksReducer.user_id;

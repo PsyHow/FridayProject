@@ -12,24 +12,6 @@ export const getPackSorting = (item: any) =>
     payload: { item },
   } as const);
 
-export const getPackSearch = (value: string) =>
-  ({
-    type: 'GET_PACK_SEARCH',
-    payload: { value },
-  } as const);
-
-export const setMinMaxCardsPackCount = (min: number, max: number) =>
-  ({
-    type: 'SET_MIN_MAX_CARDS_PACK_COUNT',
-    payload: { min, max },
-  } as const);
-
-export const setPackId = (id: string) =>
-  ({
-    type: 'SET_PACK_ID',
-    payload: { id },
-  } as const);
-
 export const setPacksPageCount = (pageCount: number) =>
   ({
     type: 'SET_PACKS_PAGE_COUNT',

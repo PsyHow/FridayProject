@@ -5,12 +5,12 @@ import { useDebounce } from 'use-debounce';
 
 import { useCardCountChangeReturnType } from './types';
 
-import { AppRootStoreType } from 'bll/Store';
+import { selectCardMaxValue, selectCardMinValue } from 'selectors/cardPacksSelectors';
 
 export const useCardCountChange = (): useCardCountChangeReturnType => {
-  const { minCardsCount, maxCardsCount } = useSelector(
-    (state: AppRootStoreType) => state.cardPacksReducer,
-  );
+  const minCardsCount = useSelector(selectCardMinValue);
+  const maxCardsCount = useSelector(selectCardMaxValue);
+
   const [minCount, setMinCount] = useState(minCardsCount);
   const [maxCount, setMaxCount] = useState(maxCardsCount);
   const [debounceMinCount] = useDebounce(minCount, 2000);

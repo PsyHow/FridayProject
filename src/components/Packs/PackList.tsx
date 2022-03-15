@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import style from './style/packList.module.scss';
 
-import { setMode, setPacksPageCount, setPacksCurrentPage } from 'bll/actions';
+import { setPacksPageCount, setPacksCurrentPage, setMode } from 'bll/actions';
 import { deleteCardPack, fetchCardPacks, updateCardPack } from 'bll/middlewares';
 import { DoubleRange } from 'components/common/DoubleRange';
 import { Paginator } from 'components/common/Paginator';
@@ -46,18 +46,28 @@ export const PackList = (): ReactElement => {
     useCardCountChange();
 
   useEffect(() => {
+    dispatch(setMode('ALL'));
+
+    return () => {
+      dispatch(setMode('ALL'));
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(setPacksCurrentPage(1));
+    dispatch(setPacksPageCount(5));
+
     if (mode === 'OWNER') {
       dispatch(
         fetchCardPacks({
           user_id: userId,
-          min: debounceMinCount,
-          max: debounceMaxCount,
           packName: debouncingValue,
           page: 1,
           pageCount,
         }),
       );
-    } else {
+    }
+    if (mode === 'ALL') {
       dispatch(
         fetchCardPacks({
           min: debounceMinCount,
@@ -91,8 +101,6 @@ export const PackList = (): ReactElement => {
   );
 
   const changePacks = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(setPacksCurrentPage(1));
-    dispatch(setPacksPageCount(5));
     if (e.currentTarget.checked) {
       dispatch(setMode('OWNER'));
     } else {
@@ -112,17 +120,19 @@ export const PackList = (): ReactElement => {
             <span className={style.labels} data-on="MY" data-off="ALL" />
           </label>
         </div>
-
-        <span className={style.description}>Number of cards</span>
-
-        <div className={style.Search}>
-          <DoubleRange
-            min={min}
-            max={max}
-            value={[minCount, maxCount]}
-            onChangeRange={onChangeHandler}
-          />
-        </div>
+        {mode === 'ALL' && (
+          <>
+            <span className={style.description}>Number of cards</span>
+            <div className={style.search}>
+              <DoubleRange
+                min={min}
+                max={max}
+                value={[minCount, maxCount]}
+                onChangeRange={onChangeHandler}
+              />
+            </div>
+          </>
+        )}
       </div>
 
       <div className={style.rightContent}>
@@ -139,7 +149,7 @@ export const PackList = (): ReactElement => {
         />
 
         <Paginator
-          userId={userId}
+          id={userId}
           page={page}
           pageCount={pageCount}
           totalItemsCount={cardPacksTotalCount}

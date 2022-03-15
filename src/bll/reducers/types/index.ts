@@ -14,12 +14,9 @@ import {
   setCardsPageCount,
   setTotalCardsCount,
   updateGrade,
-  getPackSearch,
   getPackSorting,
   setCardPacks,
-  setMinMaxCardsPackCount,
   setMode,
-  setPackId,
   setPacksCurrentPage,
   setPacksPageCount,
   setTotalPacksCount,
@@ -54,10 +51,7 @@ export type ActionCardTypes =
 
 export type CardPacksActionsType =
   | ReturnType<typeof setCardPacks>
-  | ReturnType<typeof getPackSearch>
-  | ReturnType<typeof setMinMaxCardsPackCount>
   | ReturnType<typeof getPackSorting>
-  | ReturnType<typeof setPackId>
   | ReturnType<typeof setPacksPageCount>
   | ReturnType<typeof setPacksCurrentPage>
   | ReturnType<typeof setTotalPacksCount>
