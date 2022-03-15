@@ -35,14 +35,8 @@ export const cardPacksReducer = (
       return { ...state, pageCount: action.payload.pageCount };
     case 'GET_PACK_SORTING':
       return { ...state, sortPacks: action.payload.item };
-    case 'GET_PACK_SEARCH':
-      return { ...state, packName: action.payload.value };
-    case 'SET_MIN_MAX_CARDS_PACK_COUNT':
-      return { ...state, min: action.payload.min, max: action.payload.max };
     case 'SET_MODE':
       return { ...state, mode: action.payload.mode };
-    case 'SET_PACK_ID':
-      return { ...state, user_id: action.payload.id };
     default:
       return state;
   }

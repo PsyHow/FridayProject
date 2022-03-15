@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import style from './style/packList.module.scss';
 
-import { setPacksPageCount, setPacksCurrentPage, setPackId, setUser } from 'bll/actions';
+import { setPacksPageCount, setPacksCurrentPage, setMode } from 'bll/actions';
 import { deleteCardPack, fetchCardPacks, updateCardPack } from 'bll/middlewares';
 import { DoubleRange } from 'components/common/DoubleRange';
 import { Paginator } from 'components/common/Paginator';
@@ -20,7 +20,7 @@ import {
   selectCardMinValue,
   selectCardPacks,
   selectCardPackTotalCount,
-  selectPackId,
+  selectMode,
   selectPackPage,
   selectPackPageCount,
 } from 'selectors/cardPacksSelectors';
@@ -37,7 +37,7 @@ export const PackList = (): ReactElement => {
   const pageCount = useSelector(selectPackPageCount);
   const min = useSelector(selectCardMinValue);
   const max = useSelector(selectCardMaxValue);
-  const packId = useSelector(selectPackId);
+  const mode = useSelector(selectMode);
 
   const navigate = useNavigate();
 
@@ -46,23 +46,28 @@ export const PackList = (): ReactElement => {
     useCardCountChange();
 
   useEffect(() => {
+    dispatch(setMode('ALL'));
+
+    return () => {
+      dispatch(setMode('ALL'));
+    };
+  }, []);
+
+  useEffect(() => {
     dispatch(setPacksCurrentPage(1));
     dispatch(setPacksPageCount(5));
 
-    if (packId === userId && packId) {
+    if (mode === 'OWNER') {
       dispatch(
         fetchCardPacks({
           user_id: userId,
-          min: debounceMinCount,
-          max: debounceMaxCount,
           packName: debouncingValue,
           page: 1,
           pageCount,
         }),
       );
     }
-
-    if (packId === '') {
+    if (mode === 'ALL') {
       dispatch(
         fetchCardPacks({
           min: debounceMinCount,
@@ -73,7 +78,7 @@ export const PackList = (): ReactElement => {
         }),
       );
     }
-  }, [packId, debouncingValue, debounceMinCount, debounceMaxCount]);
+  }, [mode, debouncingValue, debounceMinCount, debounceMaxCount]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -96,12 +101,10 @@ export const PackList = (): ReactElement => {
   );
 
   const changePacks = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(setPacksCurrentPage(1));
-    dispatch(setPacksPageCount(5));
     if (e.currentTarget.checked) {
-      dispatch(setPackId(userId));
+      dispatch(setMode('OWNER'));
     } else {
-      dispatch(setPackId(''));
+      dispatch(setMode('ALL'));
     }
   };
 
@@ -117,17 +120,19 @@ export const PackList = (): ReactElement => {
             <span className={style.labels} data-on="MY" data-off="ALL" />
           </label>
         </div>
-
-        <span className={style.description}>Number of cards</span>
-
-        <div className={style.Search}>
-          <DoubleRange
-            min={min}
-            max={max}
-            value={[minCount, maxCount]}
-            onChangeRange={onChangeHandler}
-          />
-        </div>
+        {mode === 'ALL' && (
+          <>
+            <span className={style.description}>Number of cards</span>
+            <div className={style.search}>
+              <DoubleRange
+                min={min}
+                max={max}
+                value={[minCount, maxCount]}
+                onChangeRange={onChangeHandler}
+              />
+            </div>
+          </>
+        )}
       </div>
 
       <div className={style.rightContent}>
@@ -144,7 +149,7 @@ export const PackList = (): ReactElement => {
         />
 
         <Paginator
-          id={packId}
+          id={userId}
           page={page}
           pageCount={pageCount}
           totalItemsCount={cardPacksTotalCount}

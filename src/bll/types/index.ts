@@ -45,4 +45,4 @@ export type CardPackType = {
   _id: string;
 };
 
-export type ModeType = 'ALL' | 'OWNER';
+export type ModeType = 'ALL' | 'OWNER' | 'PROFILE';

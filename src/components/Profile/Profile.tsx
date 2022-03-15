@@ -3,13 +3,7 @@ import { ChangeEvent, ReactElement, useCallback, useEffect, useState } from 'rea
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import {
-  setError,
-  setMode,
-  setPackId,
-  setPacksCurrentPage,
-  setPacksPageCount,
-} from 'bll/actions';
+import { setError, setMode, setPacksCurrentPage, setPacksPageCount } from 'bll/actions';
 import {
   createCardPack,
   deleteCardPack,
@@ -18,6 +12,7 @@ import {
 } from 'bll/middlewares';
 import { editProfileData, logout } from 'bll/middlewares/auth';
 import { Button } from 'components/common/Button';
+import { DoubleRange } from 'components/common/DoubleRange';
 import { Input } from 'components/common/Input';
 import { Modal } from 'components/common/Modal';
 import { Paginator } from 'components/common/Paginator';
@@ -25,10 +20,13 @@ import { Search } from 'components/common/Search';
 import style from 'components/Profile/style/profile.module.scss';
 import { Table } from 'components/Table';
 import { PATH } from 'enums';
+import { useCardCountChange } from 'hooks/useCardCountChange';
 import { useSearch } from 'hooks/useSearch';
 import { selectError } from 'selectors/appSelectors';
 import { selectIsLoggedIn } from 'selectors/authSelectors';
 import {
+  selectCardMaxValue,
+  selectCardMinValue,
   selectCardPacks,
   selectCardPackTotalCount,
   selectPackPage,
@@ -40,14 +38,6 @@ export const Profile = (): ReactElement => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { debouncingValue, handleChangeSearch, search } = useSearch();
-
-  const [activeModal, setActiveModal] = useState<boolean>(false);
-  const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
-  const [newPackName, setNewPackName] = useState<string>('');
-  const [newName, setNewName] = useState<string>('');
-  const [newAvatar, setNewAvatar] = useState('');
-
   const user = useSelector(selectUser);
   const userId = useSelector(selectCurrentUserId);
   const cardPacksTotalCount = useSelector(selectCardPackTotalCount);
@@ -56,6 +46,18 @@ export const Profile = (): ReactElement => {
   const cardPacks = useSelector(selectCardPacks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const error = useSelector(selectError);
+  const min = useSelector(selectCardMinValue);
+  const max = useSelector(selectCardMaxValue);
+
+  const { debouncingValue, handleChangeSearch, search } = useSearch();
+  const { debounceMaxCount, debounceMinCount, maxCount, minCount, onChangeHandler } =
+    useCardCountChange();
+
+  const [activeModal, setActiveModal] = useState<boolean>(false);
+  const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
+  const [newPackName, setNewPackName] = useState<string>('');
+  const [newName, setNewName] = useState<string>('');
+  const [newAvatar, setNewAvatar] = useState('');
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -64,7 +66,7 @@ export const Profile = (): ReactElement => {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    // dispatch(setMode('OWNER'));
+    dispatch(setMode('PROFILE'));
     dispatch(setPacksCurrentPage(1));
     dispatch(setPacksPageCount(5));
     dispatch(
@@ -73,24 +75,22 @@ export const Profile = (): ReactElement => {
         packName: debouncingValue,
         pageCount: 5,
         page: 1,
+        min: debounceMinCount,
+        max: debounceMaxCount,
       }),
     );
+  }, [userId, debouncingValue, debounceMaxCount, debounceMinCount]);
 
-    return () => {
-      dispatch(setPackId(''));
-    };
-  }, [userId, debouncingValue]);
-
-  const handleTextChange = useCallback((value: string): void => {
+  const handleTextChange = useCallback((value: string) => {
     setNewPackName(value);
   }, []);
 
   const handleCreatePackClick = useCallback(() => {
     dispatch(createCardPack(userId, newPackName));
     setActiveModal(!activeModal);
-  }, [userId, newPackName]);
+  }, [userId, newPackName, activeModal]);
 
-  const handleToggleModalClick = useCallback((): void => {
+  const handleToggleModalClick = useCallback(() => {
     setActiveModal(!activeModal);
     setNewPackName('');
   }, [activeModal]);
@@ -187,6 +187,15 @@ export const Profile = (): ReactElement => {
         </div>
 
         <span className={style.description}>Number of cards</span>
+
+        <div className={style.search}>
+          <DoubleRange
+            min={min}
+            max={max}
+            value={[minCount, maxCount]}
+            onChangeRange={onChangeHandler}
+          />
+        </div>
       </div>
 
       <div className={style.rightContent}>

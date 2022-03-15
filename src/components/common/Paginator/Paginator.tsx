@@ -45,11 +45,10 @@ export const Paginator: FC<Pagination> = memo(
         dispatch(setCardsCurrentPage(pageC));
         dispatch(fetchCards({ cardsPack_id: token, page: pageC, pageCount, min, max }));
       }
-      if (id) {
+      if (mode === 'OWNER' || mode === 'PROFILE') {
         dispatch(setPacksCurrentPage(pageC));
         dispatch(fetchCardPacks({ user_id: id, page: pageC, pageCount, min, max }));
-      }
-      if (id === '') {
+      } else if (mode === 'ALL') {
         dispatch(setPacksCurrentPage(pageC));
         dispatch(
           fetchCardPacks({
@@ -69,11 +68,10 @@ export const Paginator: FC<Pagination> = memo(
           dispatch(setCardsPageCount(items));
           dispatch(fetchCards({ cardsPack_id: token, pageCount: items, page, min, max }));
         }
-        if (id) {
+        if (mode === 'OWNER' || mode === 'PROFILE') {
           dispatch(setPacksPageCount(items));
           dispatch(fetchCardPacks({ user_id: id, pageCount: items, page, min, max }));
-        }
-        if (id === '') {
+        } else if (mode === 'ALL') {
           dispatch(setPacksPageCount(items));
           dispatch(
             fetchCardPacks({
@@ -85,7 +83,7 @@ export const Paginator: FC<Pagination> = memo(
           );
         }
       },
-      [token, id],
+      [token, mode],
     );
 
     const handlePrevPortionChange = (): void => {
