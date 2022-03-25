@@ -1,8 +1,10 @@
+import { AxiosResponse } from 'axios';
+
 import { CardsPackResponseType, CardPackData } from 'dal/api/types';
 import { instance } from 'dal/apiConfing';
 
 export const cardPacksAPI = {
-  getCardPacks(data: CardPackData) {
+  getCardPacks(data: CardPackData): Promise<AxiosResponse<CardsPackResponseType>> {
     return instance.get<CardsPackResponseType>(`cards/pack`, {
       params: {
         ...data,

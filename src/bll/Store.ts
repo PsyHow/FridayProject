@@ -1,5 +1,9 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { all, AllEffect, ForkEffect } from 'redux-saga/effects';
 import thunk, { ThunkAction } from 'redux-thunk';
+
+import { cardPacksWatcher } from './middlewares/CardPacks';
 
 import {
   appReducer,
@@ -27,11 +31,21 @@ const reducers = combineReducers({
   appReducer,
 });
 
-export const store = createStore(reducers, applyMiddleware(thunk));
+const sagaMiddleware = createSagaMiddleware();
+
+export const store = createStore(reducers, applyMiddleware(sagaMiddleware, thunk));
+
+function* rootWatcher(): Generator<
+  AllEffect<Generator<ForkEffect<never>, void, unknown>>
+> {
+  yield all([cardPacksWatcher()]);
+}
+
+sagaMiddleware.run(rootWatcher);
 
 export type AppRootStoreType = ReturnType<typeof reducers>;
 
-type AppActionsType =
+export type AppActionsType =
   | CardPacksActionsType
   | ActionCardTypes
   | RegistrationTypes

@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 import style from './style/packList.module.scss';
 
-import { setPacksPageCount, setPacksCurrentPage, setPackId, setUser } from 'bll/actions';
-import { deleteCardPack, fetchCardPacks, updateCardPack } from 'bll/middlewares';
+import { setPacksPageCount, setPacksCurrentPage, setPackId } from 'bll/actions';
+import { deleteCardPack, updateCardPack } from 'bll/middlewares';
+import { fetchCardPacksSaga } from 'bll/middlewares/CardPacks';
 import { DoubleRange } from 'components/common/DoubleRange';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
@@ -51,7 +52,7 @@ export const PackList = (): ReactElement => {
 
     if (packId === userId && packId) {
       dispatch(
-        fetchCardPacks({
+        fetchCardPacksSaga({
           user_id: userId,
           min: debounceMinCount,
           max: debounceMaxCount,
@@ -64,7 +65,7 @@ export const PackList = (): ReactElement => {
 
     if (packId === '') {
       dispatch(
-        fetchCardPacks({
+        fetchCardPacksSaga({
           min: debounceMinCount,
           max: debounceMaxCount,
           packName: debouncingValue,
