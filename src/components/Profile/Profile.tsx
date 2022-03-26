@@ -3,16 +3,10 @@ import { ChangeEvent, ReactElement, useCallback, useEffect, useState } from 'rea
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
+import { setError, setPackId, setPacksCurrentPage, setPacksPageCount } from 'bll/actions';
 import {
-  setError,
-  setMode,
-  setPackId,
-  setPacksCurrentPage,
-  setPacksPageCount,
-} from 'bll/actions';
-import {
-  createCardPack,
-  deleteCardPack,
+  createCardPackSaga,
+  deleteCardPackSaga,
   fetchCardPacks,
   updateCardPack,
 } from 'bll/middlewares';
@@ -86,7 +80,7 @@ export const Profile = (): ReactElement => {
   }, []);
 
   const handleCreatePackClick = useCallback(() => {
-    dispatch(createCardPack(userId, newPackName));
+    dispatch(createCardPackSaga(userId, newPackName));
     setActiveModal(!activeModal);
   }, [userId, newPackName]);
 
@@ -104,7 +98,7 @@ export const Profile = (): ReactElement => {
 
   const handleDeleteClick = useCallback(
     (id: string): void => {
-      dispatch(deleteCardPack(id, userId));
+      dispatch(deleteCardPackSaga(id, userId));
     },
     [userId],
   );

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Dispatch } from 'redux';
 
 import { setUser, setLoggingIn, setAuthError, setFetching } from 'bll/actions';
 import { updateProfileData } from 'bll/actions/profile';
@@ -9,7 +10,7 @@ import { EditProfileData, LoginData } from 'dal/api/types';
 
 export const fetchLogin =
   (data: LoginData): AppThunkType =>
-  async dispatch => {
+  async (dispatch: Dispatch) => {
     dispatch(setFetching(true));
 
     try {

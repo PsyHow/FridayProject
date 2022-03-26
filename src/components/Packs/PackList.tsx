@@ -6,8 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import style from './style/packList.module.scss';
 
 import { setPacksPageCount, setPacksCurrentPage, setPackId } from 'bll/actions';
-import { deleteCardPack, updateCardPack } from 'bll/middlewares';
-import { fetchCardPacksSaga } from 'bll/middlewares/CardPacks';
+import { deleteCardPackSaga, fetchCardPacksSaga, updateCardPack } from 'bll/middlewares';
 import { DoubleRange } from 'components/common/DoubleRange';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
@@ -84,7 +83,7 @@ export const PackList = (): ReactElement => {
 
   const handleDeleteClick = useCallback(
     (id: string): void => {
-      dispatch(deleteCardPack(id, userId));
+      dispatch(deleteCardPackSaga(id, userId));
     },
     [dispatch],
   );
