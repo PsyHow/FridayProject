@@ -1,11 +1,18 @@
 export { initializeApp } from './app';
 export { fetchNewPassword, recoverPassword, setSignUp } from './registration';
-export { createCard, deleteCard, fetchCards, updateCard, updateCardGrade } from './cards';
-export { fetchCardPacks, updateCardPack } from './CardPacks';
-export { authMe, fetchLogin, logout } from './auth';
+export {
+  createCard,
+  deleteCard,
+  fetchCards,
+  updateCard,
+  updateCardGrade,
+  cardsWathcer,
+} from './cards';
+export { authMe, fetchLogin, logout, authWatcher, editProfileData } from './auth';
 export {
   cardPacksWatcher,
-  fetchCardPacksSaga,
+  fetchCardPacks,
   deleteCardPackSaga,
   createCardPackSaga,
-} from './CardPackSagas';
+  updateCardPackSaga,
+} from './CardPack';

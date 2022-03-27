@@ -8,7 +8,7 @@ import {
   createCardPackSaga,
   deleteCardPackSaga,
   fetchCardPacks,
-  updateCardPack,
+  updateCardPackSaga,
 } from 'bll/middlewares';
 import { editProfileData, logout } from 'bll/middlewares/auth';
 import { Button } from 'components/common/Button';
@@ -58,7 +58,6 @@ export const Profile = (): ReactElement => {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    // dispatch(setMode('OWNER'));
     dispatch(setPacksCurrentPage(1));
     dispatch(setPacksPageCount(5));
     dispatch(
@@ -105,7 +104,7 @@ export const Profile = (): ReactElement => {
 
   const handleEditClick = useCallback(
     (id: string, name: string): void => {
-      dispatch(updateCardPack(id, name, userId));
+      dispatch(updateCardPackSaga(id, name, userId));
     },
     [userId],
   );

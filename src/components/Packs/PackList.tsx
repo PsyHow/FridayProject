@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import style from './style/packList.module.scss';
 
 import { setPacksPageCount, setPacksCurrentPage, setPackId } from 'bll/actions';
-import { deleteCardPackSaga, fetchCardPacksSaga, updateCardPack } from 'bll/middlewares';
+import { deleteCardPackSaga, fetchCardPacks, updateCardPackSaga } from 'bll/middlewares';
 import { DoubleRange } from 'components/common/DoubleRange';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
@@ -51,7 +51,7 @@ export const PackList = (): ReactElement => {
 
     if (packId === userId && packId) {
       dispatch(
-        fetchCardPacksSaga({
+        fetchCardPacks({
           user_id: userId,
           min: debounceMinCount,
           max: debounceMaxCount,
@@ -64,7 +64,7 @@ export const PackList = (): ReactElement => {
 
     if (packId === '') {
       dispatch(
-        fetchCardPacksSaga({
+        fetchCardPacks({
           min: debounceMinCount,
           max: debounceMaxCount,
           packName: debouncingValue,
@@ -90,7 +90,7 @@ export const PackList = (): ReactElement => {
 
   const handleEditClick = useCallback(
     (id: string, name: string): void => {
-      dispatch(updateCardPack(id, name, userId));
+      dispatch(updateCardPackSaga(id, name, userId));
     },
     [dispatch],
   );

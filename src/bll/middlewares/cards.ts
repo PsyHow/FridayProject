@@ -1,83 +1,150 @@
-import { getCards, setTotalCardsCount, updateGrade, setFetching } from 'bll/actions';
-import { AppThunkType } from 'bll/Store';
-import { handleCatchError } from 'const';
+import axios from 'axios';
+import { SagaIterator } from 'redux-saga';
+import { call, put, takeEvery } from 'redux-saga/effects';
+
+import {
+  getCards,
+  setTotalCardsCount,
+  updateGrade,
+  setFetching,
+  setError,
+} from 'bll/actions';
 import { cardsAPI } from 'dal/api';
 import { CardsData } from 'dal/api/types';
 
-export const fetchCards =
-  (data?: CardsData): AppThunkType =>
-  async dispatch => {
-    dispatch(setFetching(true));
+function* fetchCardsWorker({ payload }: ReturnType<typeof fetchCards>): SagaIterator {
+  yield put(setFetching(true));
 
-    try {
-      const res = await cardsAPI.getCards({
-        ...data,
-      });
-      dispatch(getCards(res.data.cards));
-      dispatch(setTotalCardsCount(res.data.cardsTotalCount));
-    } catch (error) {
-      handleCatchError(error, dispatch);
-    } finally {
-      dispatch(setFetching(false));
+  try {
+    const res = yield call(cardsAPI.getCards, { ...payload });
+    yield put(getCards(res.data.cards));
+    yield put(setTotalCardsCount(res.data.cardsTotalCount));
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response)
+      yield put(setError(error.response.data.error));
+    else if (axios.isAxiosError(error)) {
+      yield put(setError(error.message));
     }
-  };
+  } finally {
+    yield put(setFetching(false));
+  }
+}
 
-export const deleteCard =
-  (token: string, id: string): AppThunkType =>
-  async dispatch => {
-    dispatch(setFetching(true));
+export const fetchCards = (payload: CardsData) =>
+  ({
+    type: 'SAGA/FETCH_CARDS',
+    payload,
+  } as const);
 
-    try {
-      await cardsAPI.deleteCard(id);
-      dispatch(fetchCards({ cardsPack_id: token }));
-    } catch (error) {
-      handleCatchError(error, dispatch);
-    } finally {
-      dispatch(setFetching(false));
+function* deleteCardWorker({ payload }: ReturnType<typeof deleteCard>): SagaIterator {
+  yield put(setFetching(true));
+
+  try {
+    yield call(cardsAPI.deleteCard, payload.id);
+    yield put(fetchCards({ cardsPack_id: payload.token }));
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response)
+      yield put(setError(error.response.data.error));
+    else if (axios.isAxiosError(error)) {
+      yield put(setError(error.message));
     }
-  };
+  } finally {
+    yield put(setFetching(false));
+  }
+}
 
-export const createCard =
-  (token: string): AppThunkType =>
-  async dispatch => {
-    dispatch(setFetching(true));
+export const deleteCard = (token: string, id: string) =>
+  ({
+    type: 'SAGA/DELETE_CARD',
+    payload: {
+      token,
+      id,
+    },
+  } as const);
 
-    try {
-      await cardsAPI.createCard(token);
-      dispatch(fetchCards({ cardsPack_id: token }));
-    } catch (error) {
-      handleCatchError(error, dispatch);
-    } finally {
-      dispatch(setFetching(false));
+function* createCardWorker({ payload }: ReturnType<typeof createCard>): SagaIterator {
+  yield put(setFetching(true));
+
+  try {
+    yield call(cardsAPI.createCard, payload);
+    yield put(fetchCards({ cardsPack_id: payload }));
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response)
+      yield put(setError(error.response.data.error));
+    else if (axios.isAxiosError(error)) {
+      yield put(setError(error.message));
     }
-  };
+  } finally {
+    yield put(setFetching(false));
+  }
+}
 
-export const updateCard =
-  (token: string, question: string, answer: string, id: string): AppThunkType =>
-  async dispatch => {
-    dispatch(setFetching(true));
+export const createCard = (payload: string) =>
+  ({
+    type: 'SAGA/CREATE_CARD',
+    payload,
+  } as const);
 
-    try {
-      await cardsAPI.updateCard(id, question, answer);
-      dispatch(fetchCards({ cardsPack_id: token }));
-    } catch (error) {
-      handleCatchError(error, dispatch);
-    } finally {
-      dispatch(setFetching(false));
+function* updateCardWorker({ payload }: ReturnType<typeof updateCard>): SagaIterator {
+  yield put(setFetching(true));
+
+  try {
+    yield call(cardsAPI.updateCard, payload.id, payload.question, payload.answer);
+    yield put(fetchCards({ cardsPack_id: payload.token }));
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response)
+      yield put(setError(error.response.data.error));
+    else if (axios.isAxiosError(error)) {
+      yield put(setError(error.message));
     }
-  };
+  } finally {
+    yield put(setFetching(false));
+  }
+}
 
-export const updateCardGrade =
-  (cardId: string, grade: number): AppThunkType =>
-  async dispatch => {
-    dispatch(setFetching(true));
+export const updateCard = (token: string, question: string, answer: string, id: string) =>
+  ({
+    type: 'SAGA/UPDATE_CARD',
+    payload: {
+      token,
+      question,
+      answer,
+      id,
+    },
+  } as const);
 
-    try {
-      const res = await cardsAPI.updateCardGrade(cardId, grade);
-      dispatch(updateGrade(res.data.grade, res.data.shots, res.data.card_id));
-    } catch (error) {
-      handleCatchError(error, dispatch);
-    } finally {
-      dispatch(setFetching(false));
+function* updateCardGradeWorker({
+  payload,
+}: ReturnType<typeof updateCardGrade>): SagaIterator {
+  yield put(setFetching(true));
+
+  try {
+    const res = yield call(cardsAPI.updateCardGrade, payload.cardId, payload.grade);
+    yield put(updateGrade(res.data.grade, res.data.shots, res.data.card_id));
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response)
+      yield put(setError(error.response.data.error));
+    else if (axios.isAxiosError(error)) {
+      yield put(setError(error.message));
     }
-  };
+  } finally {
+    yield put(setFetching(false));
+  }
+}
+
+export const updateCardGrade = (cardId: string, grade: number) =>
+  ({
+    type: 'SAGA/UPDATE_CARD_GRADE',
+    payload: {
+      cardId,
+      grade,
+    },
+  } as const);
+
+export function* cardsWathcer(): SagaIterator {
+  yield takeEvery('SAGA/UPDATE_CARD_GRADE', updateCardGradeWorker);
+  yield takeEvery('SAGA/UPDATE_CARD', updateCardWorker);
+  yield takeEvery('SAGA/CREATE_CARD', createCardWorker);
+  yield takeEvery('SAGA/DELETE_CARD', deleteCardWorker);
+  yield takeEvery('SAGA/FETCH_CARDS', fetchCardsWorker);
+}

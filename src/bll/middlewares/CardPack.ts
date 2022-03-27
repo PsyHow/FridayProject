@@ -6,9 +6,7 @@ import { setCardPacks, setError, setFetching, setTotalPacksCount } from 'bll/act
 import { cardPacksAPI } from 'dal/api';
 import { CardPackData, CardsPackResponseType } from 'dal/api/types';
 
-function* fetchCardPacksWorker(
-  action: ReturnType<typeof fetchCardPacksSaga>,
-): SagaIterator {
+function* fetchCardPacksWorker(action: ReturnType<typeof fetchCardPacks>): SagaIterator {
   yield put(setFetching(true));
 
   try {
@@ -29,7 +27,7 @@ function* fetchCardPacksWorker(
   }
 }
 
-export const fetchCardPacksSaga = (data: CardPackData) =>
+export const fetchCardPacks = (data: CardPackData) =>
   ({
     type: 'SAGA/FETCH_CARD_PACKS',
     data,
@@ -42,7 +40,7 @@ function* deleteCardPackWorker({
 
   try {
     yield call(cardPacksAPI.deleteCardPack, payload.id);
-    yield put(fetchCardPacksSaga({ user_id: payload.userId }));
+    yield put(fetchCardPacks({ user_id: payload.userId }));
   } catch (error) {
     if (axios.isAxiosError(error) && error.response)
       yield put(setError(error.response.data.error));
@@ -69,7 +67,7 @@ function* createCardPackWorker({
   yield put(setFetching(true));
   try {
     yield call(cardPacksAPI.createCardPack, payload.name);
-    yield put(fetchCardPacksSaga({ user_id: payload.userId }));
+    yield put(fetchCardPacks({ user_id: payload.userId }));
   } catch (error) {
     if (axios.isAxiosError(error) && error.response)
       yield put(setError(error.response.data.error));
@@ -90,8 +88,38 @@ export const createCardPackSaga = (userId: string, name: string) =>
     },
   } as const);
 
+function* updateCardPackWorker(
+  action: ReturnType<typeof updateCardPackSaga>,
+): SagaIterator {
+  yield put(setFetching(true));
+
+  try {
+    yield call(cardPacksAPI.updateCardPack, action.payload.id, action.payload.name);
+    yield put(fetchCardPacks({ user_id: action.payload.userId }));
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response)
+      yield put(setError(error.response.data.error));
+    else if (axios.isAxiosError(error)) {
+      yield put(setError(error.message));
+    }
+  } finally {
+    yield put(setFetching(false));
+  }
+}
+
+export const updateCardPackSaga = (id: string, name: string, userId: string) =>
+  ({
+    type: 'SAGA/UPDATE_TASK',
+    payload: {
+      id,
+      name,
+      userId,
+    },
+  } as const);
+
 export function* cardPacksWatcher(): SagaIterator {
   yield takeEvery('SAGA/FETCH_CARD_PACKS', fetchCardPacksWorker);
   yield takeEvery('SAGA/DELETE_CARD_PACKS', deleteCardPackWorker);
   yield takeEvery('SAGA/CREATE_CARD_PACK', createCardPackWorker);
+  yield takeEvery('SAGA/UPDATE_TASK', updateCardPackWorker);
 }

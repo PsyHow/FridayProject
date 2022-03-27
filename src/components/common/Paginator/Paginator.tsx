@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { FC, memo, useCallback, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import style from './style/paginator.module.scss';
@@ -13,9 +13,8 @@ import {
   setPacksCurrentPage,
   setPacksPageCount,
 } from 'bll/actions';
-import { fetchCards, fetchCardPacks } from 'bll/middlewares';
+import { fetchCardPacks, fetchCards } from 'bll/middlewares';
 import { SuperSelect } from 'components/common/Select';
-import { selectMode } from 'selectors/cardPacksSelectors';
 
 const pageItems = [3, 5, 10];
 const portionSize = 5;
@@ -24,8 +23,6 @@ export const Paginator: FC<Pagination> = memo(
   ({ page, pageCount, totalItemsCount, id, min, max }) => {
     const dispatch = useDispatch();
     const { token } = useParams();
-
-    const mode = useSelector(selectMode);
 
     const [portionNumber, setPortionNumber] = useState<number>(1);
     const [value, setValue] = useState(pageItems[1]);

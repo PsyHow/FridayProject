@@ -3,7 +3,7 @@ import createSagaMiddleware, { SagaIterator } from 'redux-saga';
 import { all, AllEffect } from 'redux-saga/effects';
 import thunk, { ThunkAction } from 'redux-thunk';
 
-import { cardPacksWatcher } from 'bll/middlewares';
+import { authWatcher, cardPacksWatcher, cardsWathcer } from 'bll/middlewares';
 import {
   appReducer,
   profileReducer,
@@ -36,7 +36,7 @@ export const store = createStore(reducers, applyMiddleware(sagaMiddleware, thunk
 
 // изменить эни экшен на тип всех вотчеров
 function* rootWatcher(): Iterator<AllEffect<SagaIterator<AnyAction>>, void, undefined> {
-  yield all([cardPacksWatcher()]);
+  yield all([cardPacksWatcher(), authWatcher(), cardsWathcer()]);
 }
 
 sagaMiddleware.run(rootWatcher);
