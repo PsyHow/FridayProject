@@ -2,7 +2,6 @@
 import { FC, memo, useCallback, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
 import style from './style/paginator.module.scss';
 import { Pagination } from './types';
@@ -21,9 +20,9 @@ const pageItems = [3, 5, 10];
 const portionSize = 5;
 
 export const Paginator: FC<Pagination> = memo(
-  ({ page, pageCount, totalItemsCount, id, min, max }) => {
+  ({ page, pageCount, totalItemsCount, id, min, max, token }) => {
     const dispatch = useDispatch();
-    const { token } = useParams();
+    // const { token } = useParams();
 
     const mode = useSelector(selectMode);
 
@@ -41,7 +40,7 @@ export const Paginator: FC<Pagination> = memo(
     }
 
     const onPageChanged = (pageC: number): void => {
-      if (token) {
+      if (mode === 'CARDS') {
         dispatch(setCardsCurrentPage(pageC));
         dispatch(fetchCards({ cardsPack_id: token, page: pageC, pageCount, min, max }));
       }
@@ -64,7 +63,7 @@ export const Paginator: FC<Pagination> = memo(
     const onChangeSelect = useCallback(
       (items: 3 | 5 | 10): void => {
         setValue(items);
-        if (token) {
+        if (mode === 'CARDS') {
           dispatch(setCardsPageCount(items));
           dispatch(fetchCards({ cardsPack_id: token, pageCount: items, page, min, max }));
         }

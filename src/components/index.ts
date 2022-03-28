@@ -3,7 +3,6 @@ export { Login } from './Login';
 export { Header } from './Header';
 export { NewPassword } from './NewPassword';
 export { Restore } from './PasswordRestore';
-export { Preloader } from './Preloader';
 export { Profile } from './Profile';
 export { SendEmail } from './SendEmail';
 export { SignUp } from './SignUp';

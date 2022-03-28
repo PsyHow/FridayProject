@@ -7,18 +7,15 @@ import { NavLink } from 'react-router-dom';
 import { setSignUp } from 'bll/middlewares';
 import { Button } from 'components/common/Button';
 import { TextField } from 'components/common/TextField';
-import { Preloader } from 'components/Preloader';
 import style from 'components/SignUp/style/signup.module.scss';
 import { SignUpData } from 'components/SignUp/types';
 import { validateEmail } from 'const';
 import { PATH } from 'enums';
 import { selectError } from 'selectors/appSelectors';
-import { selectIsFetching } from 'selectors/authSelectors';
 
 export const SignUp = (): ReactElement => {
   const dispatch = useDispatch();
 
-  const isFetching = useSelector(selectIsFetching);
   const error = useSelector(selectError);
 
   const formik = useFormik({
@@ -55,35 +52,31 @@ export const SignUp = (): ReactElement => {
   });
   return (
     <div className={style.container}>
-      {isFetching ? (
-        <Preloader />
-      ) : (
-        <FormikProvider value={formik}>
-          <form onSubmit={formik.handleSubmit}>
-            <h1>It-incubator</h1>
+      <FormikProvider value={formik}>
+        <form onSubmit={formik.handleSubmit}>
+          <h1>It-incubator</h1>
 
-            <h2>Sign Up</h2>
+          <h2>Sign Up</h2>
 
-            <TextField name="email" type="text" label="Email" />
-            <TextField name="password" type="password" label="Password" />
-            <TextField name="confirmPassword" type="password" label="Confirm Password" />
+          <TextField name="email" type="text" label="Email" />
+          <TextField name="password" type="password" label="Password" />
+          <TextField name="confirmPassword" type="password" label="Confirm Password" />
 
-            {error ? (
-              <span className={style.error}>{error}</span>
-            ) : (
-              <span className={style.error} />
-            )}
+          {error ? (
+            <span className={style.error}>{error}</span>
+          ) : (
+            <span className={style.error} />
+          )}
 
-            <div className={style.buttons}>
-              <NavLink to={PATH.LOGIN}>
-                <Button type="button">Cancel</Button>
-              </NavLink>
+          <div className={style.buttons}>
+            <NavLink to={PATH.LOGIN}>
+              <Button type="button">Cancel</Button>
+            </NavLink>
 
-              <Button type="submit">Register</Button>
-            </div>
-          </form>
-        </FormikProvider>
-      )}
+            <Button type="submit">Register</Button>
+          </div>
+        </form>
+      </FormikProvider>
     </div>
   );
 };

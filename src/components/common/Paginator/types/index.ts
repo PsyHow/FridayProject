@@ -5,4 +5,5 @@ export interface Pagination {
   id?: string;
   min?: number;
   max?: number;
+  token?: string;
 }

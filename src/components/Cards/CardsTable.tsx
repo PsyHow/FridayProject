@@ -1,18 +1,19 @@
 import { ReactElement, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import style from './style/cardsTable.module.scss';
 
+import { setMode } from 'bll/actions';
 import { fetchCards } from 'bll/middlewares';
 import { CardsType } from 'bll/types';
 import { Card } from 'components/Cards/Card';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
-import { Preloader } from 'components/Preloader';
+import { PATH } from 'enums';
 import { useSearch } from 'hooks/useSearch';
-import { selectIsFetching } from 'selectors/authSelectors';
+import { selectIsLoggedIn } from 'selectors/authSelectors';
 import { selectCardPacks } from 'selectors/cardPacksSelectors';
 import {
   selectCards,
@@ -24,6 +25,8 @@ import {
 export const CardsTable = (): ReactElement => {
   const dispatch = useDispatch();
   const { token } = useParams();
+  const navigate = useNavigate();
+
   const { debouncingValue, search, handleChangeSearch } = useSearch();
 
   const cards = useSelector(selectCards);
@@ -31,15 +34,22 @@ export const CardsTable = (): ReactElement => {
   const pageCount = useSelector(selectCardsPageCount);
   const page = useSelector(selectCardsCurrentPage);
   const cardPacks = useSelector(selectCardPacks);
-  const isFetching = useSelector(selectIsFetching);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
+    dispatch(setMode('CARDS'));
     if (token) {
       dispatch(
         fetchCards({ cardsPack_id: token, cardQuestion: debouncingValue, pageCount: 5 }),
       );
     }
   }, [token, debouncingValue]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate(PATH.LOGIN);
+    }
+  }, [isLoggedIn]);
 
   const cardPackName = cardPacks.filter(pack => pack._id === token)[0];
 
@@ -59,19 +69,21 @@ export const CardsTable = (): ReactElement => {
               <td>Grade</td>
             </tr>
           </thead>
-          {isFetching ? (
-            <Preloader />
-          ) : (
-            <tbody>
-              {cards.map((card: CardsType) => (
-                <Card key={card._id} card={card} />
-              ))}
-            </tbody>
-          )}
+
+          <tbody>
+            {cards.map((card: CardsType) => (
+              <Card key={card._id} card={card} />
+            ))}
+          </tbody>
         </table>
       </div>
       <div className={style.pagination}>
-        <Paginator page={page} pageCount={pageCount} totalItemsCount={cardsTotalCount} />
+        <Paginator
+          token={token}
+          page={page}
+          pageCount={pageCount}
+          totalItemsCount={cardsTotalCount}
+        />
       </div>
     </div>
   );
