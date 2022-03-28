@@ -1,5 +1,9 @@
-export { initializeApp } from './app';
-export { fetchNewPassword, recoverPassword, setSignUp } from './registration';
+export {
+  fetchNewPassword,
+  recoverPassword,
+  setSignUp,
+  registrationWatcher,
+} from './registration';
 export {
   createCard,
   deleteCard,
@@ -16,3 +20,5 @@ export {
   createCardPackSaga,
   updateCardPackSaga,
 } from './CardPack';
+
+export { initializeApp } from './app';

@@ -1,56 +1,89 @@
+import { SagaIterator } from 'redux-saga';
+import { call, put, putResolve, takeEvery } from 'redux-saga/effects';
+
 import {
   setFetching,
-  sendEmail,
   setError,
   setNewPassword,
   confirmRegistrationData,
+  sendEmail,
 } from 'bll/actions';
-import { AppThunkType } from 'bll/Store';
-import { handleCatchError } from 'const';
+import { handleCatchErrorSaga } from 'const';
 import { authAPI } from 'dal/api';
 
-export const recoverPassword =
-  (email: string): AppThunkType =>
-  async dispatch => {
-    dispatch(setFetching(true));
+function* recoverPasswordWorker({
+  payload,
+}: ReturnType<typeof recoverPassword>): SagaIterator {
+  yield put(setFetching(true));
 
-    try {
-      await authAPI.forgot(email);
-      dispatch(sendEmail(true));
-    } catch (error) {
-      handleCatchError(error, dispatch);
-    } finally {
-      dispatch(setFetching(false));
-    }
-  };
+  try {
+    yield call(authAPI.forgot, payload);
+    yield put(sendEmail(true));
+  } catch (error) {
+    handleCatchErrorSaga(error);
+  } finally {
+    yield put(setFetching(false));
+  }
+}
 
-export const fetchNewPassword =
-  (password: string, token: string): AppThunkType =>
-  async dispatch => {
-    dispatch(setFetching(true));
+export const recoverPassword = (payload: string) =>
+  ({
+    type: 'SAGA/RECOVER_PASSWORD',
+    payload,
+  } as const);
 
-    try {
-      await authAPI.newPassword({ password, resetPasswordToken: token });
-      dispatch(setNewPassword(true));
-      dispatch(setError(''));
-    } catch (error) {
-      handleCatchError(error, dispatch);
-    } finally {
-      dispatch(setFetching(false));
-    }
-  };
+function* fetchNewPasswordWorker({
+  payload,
+}: ReturnType<typeof fetchNewPassword>): SagaIterator {
+  yield put(setFetching(true));
 
-export const setSignUp =
-  (email: string, password: string): AppThunkType =>
-  async dispatch => {
-    dispatch(setFetching(true));
+  try {
+    yield call(authAPI.newPassword, {
+      password: payload.password,
+      resetPasswordToken: payload.token,
+    });
+    yield put(setNewPassword(true));
+    yield put(setError(''));
+  } catch (error) {
+    handleCatchErrorSaga(error);
+  } finally {
+    yield put(setFetching(false));
+  }
+}
 
-    try {
-      await authAPI.signUp(email, password);
-      dispatch(confirmRegistrationData(true));
-    } catch (error) {
-      handleCatchError(error, dispatch);
-    } finally {
-      dispatch(setFetching(false));
-    }
-  };
+export const fetchNewPassword = (password: string, token: string) =>
+  ({
+    type: 'SAGA/FETCH_NEW_PASSWORD',
+    payload: {
+      password,
+      token,
+    },
+  } as const);
+
+function* setSignUpWorker({ payload }: ReturnType<typeof setSignUp>): SagaIterator {
+  yield putResolve(setFetching(true));
+
+  try {
+    yield call(authAPI.signUp, payload.email, payload.password);
+    yield put(confirmRegistrationData(true));
+  } catch (error) {
+    handleCatchErrorSaga(error);
+  } finally {
+    yield put(setFetching(false));
+  }
+}
+
+export const setSignUp = (email: string, password: string) =>
+  ({
+    type: 'SAGA/SET_SIGN_UP',
+    payload: {
+      email,
+      password,
+    },
+  } as const);
+
+export function* registrationWatcher(): SagaIterator {
+  yield takeEvery('SAGA/SET_SIGN_UP', setSignUpWorker);
+  yield takeEvery('SAGA/FETCH_NEW_PASSWORD', fetchNewPasswordWorker);
+  yield takeEvery('SAGA/RECOVER_PASSWORD', recoverPasswordWorker);
+}

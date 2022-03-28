@@ -10,9 +10,7 @@ import { CardsType } from 'bll/types';
 import { Card } from 'components/Cards/Card';
 import { Paginator } from 'components/common/Paginator';
 import { Search } from 'components/common/Search';
-import { Preloader } from 'components/Preloader';
 import { useSearch } from 'hooks/useSearch';
-import { selectIsFetching } from 'selectors/authSelectors';
 import { selectCardPacks } from 'selectors/cardPacksSelectors';
 import {
   selectCards,
@@ -31,7 +29,6 @@ export const CardsTable = (): ReactElement => {
   const pageCount = useSelector(selectCardsPageCount);
   const page = useSelector(selectCardsCurrentPage);
   const cardPacks = useSelector(selectCardPacks);
-  const isFetching = useSelector(selectIsFetching);
 
   useEffect(() => {
     if (token) {
@@ -59,15 +56,11 @@ export const CardsTable = (): ReactElement => {
               <td>Grade</td>
             </tr>
           </thead>
-          {isFetching ? (
-            <Preloader />
-          ) : (
-            <tbody>
-              {cards.map((card: CardsType) => (
-                <Card key={card._id} card={card} />
-              ))}
-            </tbody>
-          )}
+          <tbody>
+            {cards.map((card: CardsType) => (
+              <Card key={card._id} card={card} />
+            ))}
+          </tbody>
         </table>
       </div>
       <div className={style.pagination}>

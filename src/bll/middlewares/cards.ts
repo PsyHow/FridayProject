@@ -1,14 +1,8 @@
-import axios from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import {
-  getCards,
-  setTotalCardsCount,
-  updateGrade,
-  setFetching,
-  setError,
-} from 'bll/actions';
+import { getCards, setTotalCardsCount, updateGrade, setFetching } from 'bll/actions';
+import { handleCatchErrorSaga } from 'const';
 import { cardsAPI } from 'dal/api';
 import { CardsData } from 'dal/api/types';
 
@@ -20,11 +14,7 @@ function* fetchCardsWorker({ payload }: ReturnType<typeof fetchCards>): SagaIter
     yield put(getCards(res.data.cards));
     yield put(setTotalCardsCount(res.data.cardsTotalCount));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }
@@ -43,11 +33,7 @@ function* deleteCardWorker({ payload }: ReturnType<typeof deleteCard>): SagaIter
     yield call(cardsAPI.deleteCard, payload.id);
     yield put(fetchCards({ cardsPack_id: payload.token }));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }
@@ -69,11 +55,7 @@ function* createCardWorker({ payload }: ReturnType<typeof createCard>): SagaIter
     yield call(cardsAPI.createCard, payload);
     yield put(fetchCards({ cardsPack_id: payload }));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }
@@ -92,11 +74,7 @@ function* updateCardWorker({ payload }: ReturnType<typeof updateCard>): SagaIter
     yield call(cardsAPI.updateCard, payload.id, payload.question, payload.answer);
     yield put(fetchCards({ cardsPack_id: payload.token }));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }
@@ -122,11 +100,7 @@ function* updateCardGradeWorker({
     const res = yield call(cardsAPI.updateCardGrade, payload.cardId, payload.grade);
     yield put(updateGrade(res.data.grade, res.data.shots, res.data.card_id));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }

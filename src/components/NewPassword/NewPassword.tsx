@@ -10,7 +10,6 @@ import { NewPasswordData } from './types';
 import { fetchNewPassword } from 'bll/middlewares';
 import { Button } from 'components/common/Button';
 import { TextField } from 'components/common/TextField';
-import { Preloader } from 'components/Preloader';
 import { PATH } from 'enums';
 import { selectIsFetching } from 'selectors/authSelectors';
 import { selectSetNewPassword } from 'selectors/registrationReducer';
@@ -59,7 +58,7 @@ export const NewPassword = (): ReactElement => {
   return (
     <div className={style.newPasswordPage}>
       {isFetching ? (
-        <Preloader />
+        <div />
       ) : (
         <FormikProvider value={formik}>
           <form onSubmit={formik.handleSubmit}>

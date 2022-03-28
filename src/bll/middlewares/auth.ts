@@ -2,9 +2,10 @@ import axios from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import { setUser, setLoggingIn, setFetching, setError, setAuthError } from 'bll/actions';
+import { setUser, setLoggingIn, setFetching, setError } from 'bll/actions';
 import { updateProfileData } from 'bll/actions/profile';
 import { AppThunkType } from 'bll/Store';
+import { handleCatchError, handleCatchErrorSaga } from 'const';
 import { authAPI } from 'dal/api';
 import { EditProfileData, LoginData } from 'dal/api/types';
 
@@ -14,6 +15,7 @@ function* fetchLoginWorker(action: ReturnType<typeof fetchLogin>): SagaIterator 
   try {
     const res = yield call(authAPI.login, action.payload);
     yield put(setUser(res.data));
+    yield put(setLoggingIn(true));
   } catch (error) {
     if (axios.isAxiosError(error) && error.response)
       yield put(setError(error.response.data.error));
@@ -39,11 +41,7 @@ export const authMe = (): AppThunkType => async dispatch => {
     dispatch(setLoggingIn(true));
     dispatch(setUser(res.data));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      dispatch(setAuthError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      dispatch(setAuthError(error.message));
-    }
+    handleCatchError(error, dispatch);
   } finally {
     dispatch(setFetching(false));
   }
@@ -53,14 +51,10 @@ function* logoutWorker(): SagaIterator {
   yield put(setFetching(true));
 
   try {
-    yield call(authAPI.logout);
     yield put(setLoggingIn(false));
+    yield call(authAPI.logout);
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }
@@ -80,11 +74,7 @@ function* editProfileDataWorker(
     const res = yield call(authAPI.editProfile, action.payload);
     yield put(updateProfileData(res.data.updatedUser));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }

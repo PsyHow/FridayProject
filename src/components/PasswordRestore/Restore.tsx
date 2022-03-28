@@ -8,7 +8,6 @@ import { recoverPassword } from 'bll/middlewares';
 import { Button } from 'components/common/Button';
 import { TextField } from 'components/common/TextField';
 import style from 'components/PasswordRestore/style/restore.module.scss';
-import { Preloader } from 'components/Preloader';
 import { validateEmail } from 'const';
 import { PATH } from 'enums';
 import { selectError } from 'selectors/appSelectors';
@@ -50,7 +49,7 @@ export const Restore = (): ReactElement => {
   return (
     <div className={style.restorePage}>
       {isFetching ? (
-        <Preloader />
+        <div />
       ) : (
         <FormikProvider value={formik}>
           <form onSubmit={formik.handleSubmit}>

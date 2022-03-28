@@ -7,7 +7,6 @@ import { NavLink } from 'react-router-dom';
 import { setSignUp } from 'bll/middlewares';
 import { Button } from 'components/common/Button';
 import { TextField } from 'components/common/TextField';
-import { Preloader } from 'components/Preloader';
 import style from 'components/SignUp/style/signup.module.scss';
 import { SignUpData } from 'components/SignUp/types';
 import { validateEmail } from 'const';
@@ -56,7 +55,7 @@ export const SignUp = (): ReactElement => {
   return (
     <div className={style.container}>
       {isFetching ? (
-        <Preloader />
+        <div />
       ) : (
         <FormikProvider value={formik}>
           <form onSubmit={formik.handleSubmit}>

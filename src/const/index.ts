@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
+import { SagaIterator } from 'redux-saga';
+import { put } from 'redux-saga/effects';
 
 import { setError } from 'bll/actions';
 
@@ -12,6 +14,14 @@ export const handleCatchError = (error: unknown, dispatch: Dispatch): void => {
     dispatch(setError(error.message));
   }
 };
+
+export function* handleCatchErrorSaga(error: unknown): SagaIterator {
+  if (axios.isAxiosError(error) && error.response)
+    yield put(setError(error.response.data.error));
+  else if (axios.isAxiosError(error)) {
+    yield put(setError(error.message));
+  }
+}
 
 export const lastUpdateDate = (value: string): string =>
   new Date(value).toLocaleString('ru', {

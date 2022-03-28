@@ -1,36 +1,31 @@
-import axios, { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import { setCardPacks, setError, setFetching, setTotalPacksCount } from 'bll/actions';
+import { setCardPacks, setFetching, setTotalPacksCount } from 'bll/actions';
+import { handleCatchErrorSaga } from 'const';
 import { cardPacksAPI } from 'dal/api';
-import { CardPackData, CardsPackResponseType } from 'dal/api/types';
+import { CardPackData } from 'dal/api/types';
 
-function* fetchCardPacksWorker(action: ReturnType<typeof fetchCardPacks>): SagaIterator {
+function* fetchCardPacksWorker({
+  payload,
+}: ReturnType<typeof fetchCardPacks>): SagaIterator {
   yield put(setFetching(true));
 
   try {
-    const res: AxiosResponse<CardsPackResponseType> = yield call(
-      cardPacksAPI.getCardPacks,
-      action.data,
-    );
+    const res = yield call(cardPacksAPI.getCardPacks, payload);
     yield put(setCardPacks(res.data.cardPacks));
     yield put(setTotalPacksCount(res.data.cardPacksTotalCount));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }
 }
 
-export const fetchCardPacks = (data: CardPackData) =>
+export const fetchCardPacks = (payload: CardPackData) =>
   ({
     type: 'SAGA/FETCH_CARD_PACKS',
-    data,
+    payload,
   } as const);
 
 function* deleteCardPackWorker({
@@ -42,11 +37,7 @@ function* deleteCardPackWorker({
     yield call(cardPacksAPI.deleteCardPack, payload.id);
     yield put(fetchCardPacks({ user_id: payload.userId }));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }
@@ -69,11 +60,7 @@ function* createCardPackWorker({
     yield call(cardPacksAPI.createCardPack, payload.name);
     yield put(fetchCardPacks({ user_id: payload.userId }));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     put(setFetching(false));
   }
@@ -97,11 +84,7 @@ function* updateCardPackWorker(
     yield call(cardPacksAPI.updateCardPack, action.payload.id, action.payload.name);
     yield put(fetchCardPacks({ user_id: action.payload.userId }));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response)
-      yield put(setError(error.response.data.error));
-    else if (axios.isAxiosError(error)) {
-      yield put(setError(error.message));
-    }
+    handleCatchErrorSaga(error);
   } finally {
     yield put(setFetching(false));
   }
